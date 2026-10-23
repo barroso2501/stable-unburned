@@ -1,0 +1,17 @@
+# Scripts Google Earth Engine
+
+- Numerados na ordem de execução (`00_`, `01_`, ...).
+- Cada script tem um bloco `PARÂMETROS` no topo. Só ali se muda algo entre rodadas.
+- O GitHub é a fonte. Para rodar, copie o script para o Code Editor; se alterar algo lá, traga a alteração de volta antes de exportar.
+- Toda exportação grava propriedades de proveniência (assets de entrada, parâmetros, `RUN_TAG`, data).
+
+## Pendente
+
+- **`00_stable_unburned_lulc.js`**: adicionar o script original (`stable_unburned_lulc.js`) que gerou os assets estáveis, com o mesmo conteúdo usado na rodada.
+
+## Antes de rodar `01_zonal_4A_cerrado.js`
+
+1. Ajustar `BIOMES`, `BIOME_FIELD` e `BIOME_VALUE` para um asset de biomas IBGE disponível na sua conta.
+2. Conferir `ANTHROPIC` e `NATURAL_VEG` contra a legenda oficial da Col. 11.
+3. No console, conferir que a projeção do asset é ~30 m e que o Cerrado tem ≥ 1 feição.
+4. Validação: a soma de `area_ha` deve ser menor que 49,2 Mha (4-A no Brasil inteiro, ver `outputs/area_stable_...csv`).

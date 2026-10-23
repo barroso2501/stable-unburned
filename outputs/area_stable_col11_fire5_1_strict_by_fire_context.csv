@@ -1,0 +1,11 @@
+class,fire_context,area_ha
+3.0,never_burned,3.120302378066533E8
+3.0,burned_at_least_once,2.2643128832720503E7
+4.0,never_burned,4.923744920355637E7
+4.0,burned_at_least_once,3.519149443370029E7
+11.0,never_burned,3441698.1930459063
+11.0,burned_at_least_once,8015118.056596067
+12.0,never_burned,6826193.568827598
+12.0,burned_at_least_once,9302483.407468554
+15.0,never_burned,4.1161297677059166E7
+15.0,burned_at_least_once,7953753.698684862
