@@ -19,7 +19,7 @@ Classe 4 estável 1985–2025 (Col. 11, `strict`), nunca queimada (Fogo 5.1), de
 | 02e | `gee/02e_ciclos_ano_hidrologico.js` | asset de pureza 463 m, MCD12Q2 | ciclos por ano hidrológico 2016/17–2023/24; histograma de QA | executada |
 | 03 | `gee/03_amostra.js` | assets 02a e 02c | asset e CSV `pilot_4A_sample_v0.1`: até 300 pontos por faixa, 1 por pixel MODIS de 463 m puro (≥ 90%) em grade par (~926 m), semente 42 | executada |
 | 04 | a escrever | amostra, GEDI L2B | footprints de boa qualidade nos núcleos | — |
-| 05 | a escrever | amostra, MODIS, HLS | séries temporais e contagem de observações válidas por mês | — |
+| 05 | `gee/05_series.js` | asset da amostra; MOD13Q1, MCD43A4, HLS L30/S30 v2.0 | CSVs `series_<produto>_band<N>[_<período>]_v0.1.csv` (formato longo) | a rodar (teste primeiro) |
 | 06 | a escrever (Python) | séries | métricas de forma da curva (data e magnitude do pico, assimetria, ombro, início do verdor vs. início das chuvas; D17); critérios de viabilidade | — |
 
 ## Critérios de viabilidade (limiares a fixar antes da etapa 03)

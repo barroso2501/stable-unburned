@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.7.0] — 2026-10-24
+
+- `gee/05_series.js`: extração das séries MOD13Q1 (2000–2025), MCD43A4 em janelas de 8 dias (2000–2025) e HLS L30/S30 (2016–2025, Fmask) nos pontos da amostra; modo teste.
+- Saída da etapa 03 em `outputs/pilot_4A_sample_v0.1.csv`.
+
 ## [0.6.0] — 2026-10-24
 
 - `gee/03_amostra.js`: sorteio estratificado da amostra do piloto (D18, proposta).
