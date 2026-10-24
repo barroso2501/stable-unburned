@@ -2,6 +2,8 @@
 
 Só arquivos pequenos (CSV de áreas, contagens, métricas resumidas). Rasters e séries grandes ficam no GEE ou no Drive.
 
+Tabelas por ponto × ano maiores que 1 MB não vão para o GitHub (ver `.gitignore`); são regeneradas rodando os scripts `python/` em ordem (06 → 07 → 07b → 08 → 09 → 10) com as séries de `data/series/`.
+
 Convenção de nome: `<produto>_<versão ou RUN_TAG>.csv`. Cada saída deve ter uma linha correspondente em `docs/execucoes.md`.
 
 | Arquivo | Etapa | Conteúdo |
@@ -23,14 +25,14 @@ Convenção de nome: `<produto>_<versão ou RUN_TAG>.csv`. Cada saída deve ter 
 | `clim_evi_by_band_month_v0.1.csv` | 05 (QC) | EVI mediano por sensor × faixa × mês, 2018/19–2024/25 |
 | `peak_month_dist_v0.1.csv` | 05 (QC) | distribuição do mês de pico (climatologia mensal) por sensor × faixa |
 | `sensor_agreement_v0.1.csv` | 05 (QC) | concordância do mês de pico, correlação, nível e amplitude entre sensores |
-| `metrics_point_year_v0.1.csv` | 06 | métricas por sensor × ponto × ano hidrológico (dias contados a partir de 1º jul) |
+| `metrics_point_year_v0.1.csv` (não versionado; gerar com a etapa 06) | 06 | métricas por sensor × ponto × ano hidrológico (dias contados a partir de 1º jul) |
 | `metrics_summary_band_v0.1.csv` | 06 | quartis das métricas por sensor × faixa (anos válidos), % válidos, % com ombro |
 | `metrics_sensor_diff_v0.1.csv` | 06 | diferenças entre sensores (vs MCD43A4) e sensibilidade ao aerossol no HLS |
 | `metrics_interannual_v0.1.csv` | 06 | variabilidade interanual do pico por ponto (MCD43A4, ≥ 15 anos) |
-| `rain_onset_point_year_v0.1.csv` | 07 | início/fim da estação chuvosa (acumulação anômala), duração e totais por ponto × ano hidrológico |
-| `rain_greenup_lag_v0.1.csv` | 07 | métricas da etapa 06 + onset/demise + defasagens (dias) |
+| `rain_onset_point_year_v0.1.csv` (não versionado; gerar com a etapa 07) | 07 | início/fim da estação chuvosa (acumulação anômala), duração e totais por ponto × ano hidrológico |
+| `rain_greenup_lag_v0.1.csv` (não versionado; gerar com a etapa 07) | 07 | métricas da etapa 06 + onset/demise + defasagens (dias) |
 | `rain_greenup_summary_v0.1.csv` | 07 | quartis das defasagens e % de sos20 antes do onset, por sensor × faixa |
-| `rain_robust_point_year_v0.1.csv` | 07b | chuva acumulada até o sos20, onsets por primeiras chuvas (25/50 mm), indicadores de verdor antecipado |
+| `rain_robust_point_year_v0.1.csv` (não versionado; gerar com a etapa 07b) | 07b | chuva acumulada até o sos20, onsets por primeiras chuvas (25/50 mm), indicadores de verdor antecipado |
 | `rain_robust_summary_v0.1.csv` | 07b | resumo dos testes T1–T3 por sensor × faixa |
 | `rain_coupling_summary_v0.1.csv` | 07b | acoplamento interanual onset × sos20/sos50 dentro do ponto (r e inclinação) |
 | `rain_early_greenup_v0.1.csv` | 07b (T5) | antecipação do sos20 > 16 d antes das primeiras 25 mm: frequência por sensor, concordância, pontos recorrentes, por faixa |
@@ -42,3 +44,13 @@ Convenção de nome: `<produto>_<versão ou RUN_TAG>.csv`. Cada saída deve ter 
 | `structure_evi_point_v0.1.csv` | 08 | estrutura + métricas de EVI (MCD43A4, mediana entre anos) + verdor antecipado, por ponto |
 | `structure_evi_spearman_v0.1.csv` | 08 | Spearman estrutura × EVI por faixa e faixas 2–4, com IC 95% por bootstrap em blocos de 0,5° |
 | `structure_evi_tercile_v0.1.csv` | 08 | medianas das métricas de EVI por tercil de cobertura dentro da faixa |
+| `threshold_point_year_v0.1.csv` (não versionado; gerar com a etapa 09) | 09 | dia em que a chuva acumulada desde 1º jul atinge 25–300 mm, e onset, por ponto × ano |
+| `threshold_skill_point_v0.1.csv` (não versionado; gerar com a etapa 09) | 09 | skill (vs data fixa), r e inclinação de cada gatilho, por sensor × ponto × métrica |
+| `threshold_skill_summary_v0.1.csv` | 09 | medianas do skill, r, inclinação e DP entre anos, por sensor × faixa × métrica × gatilho |
+| `stability_structure_v0.1.csv` | 09 | Spearman estrutura × (DP, skill, inclinação), simples e parcial na amplitude, IC por bootstrap espacial |
+| `gpw_qc_v0.1.csv` | 10 | por faixa: pontos, pixels por quadrado, altura (p10/p50/p90), variação dentro do quadrado |
+| `gpw_annual_band_v0.1.csv` | 10 | mediana anual da altura GPW por faixa, 2000–2025 |
+| `gpw_annual_common_v0.1.csv` | 10 | fração da variação anual comum aos pontos da faixa; ρ com chuva e EVI do ano |
+| `gpw_trend_point_v0.1.csv` | 10 | tendência por ponto 2000–2024 (GPW em m/década; base_pre, pico e amplitude do EVI por década) e p-valores |
+| `gpw_trend_summary_v0.1.csv` | 10 | tendências por faixa; % de pontos com alta ou queda significativa |
+| `gpw_correlations_v0.1.csv` | 10 | Spearman GPW × GEDI, GPW × EVI e acoplamento, tendência GPW × tendência EVI |

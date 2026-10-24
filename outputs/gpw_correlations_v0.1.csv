@@ -1,0 +1,16 @@
+block,x,y,n_points,n_blocks,rho,ci_lo,ci_hi
+GPW × GEDI,gpw_h_gedi_win,rh50_all,775,133,0.365,0.264,0.452
+GPW × GEDI,gpw_h_gedi_win,rh98_all,775,133,0.275,0.162,0.374
+GPW × GEDI,gpw_h_gedi_win,cover_all,790,134,0.338,0.239,0.43
+GPW × EVI e acoplamento,gpw_h_all,base_pre,847,135,0.204,0.083,0.303
+GPW × EVI e acoplamento,gpw_h_all,amplitude,847,135,0.368,0.245,0.513
+GPW × EVI e acoplamento,gpw_h_all,rel_amp,847,135,0.189,0.066,0.336
+GPW × EVI e acoplamento,gpw_h_all,peak_evi,847,135,0.581,0.491,0.683
+GPW × EVI e acoplamento,gpw_h_all,sos50,847,135,0.064,-0.06,0.189
+GPW × EVI e acoplamento,gpw_h_all,early_frac,811,134,-0.154,-0.268,-0.059
+GPW × EVI e acoplamento,gpw_h_all,skill,847,135,-0.04,-0.144,0.067
+GPW × EVI e acoplamento,gpw_h_all,rain_slope,847,135,-0.088,-0.201,0.015
+tendência GPW × tendência EVI (circularidade),gpw_slope_m_dec,base_pre_slope_dec,846,135,0.285,0.168,0.393
+tendência GPW × tendência EVI (circularidade),gpw_slope_m_dec,peak_evi_slope_dec,846,135,0.205,0.097,0.313
+tendência GPW × tendência EVI (circularidade),gpw_slope_m_dec,amplitude_slope_dec,846,135,0.008,-0.099,0.117
+tendência GPW × tendência EVI (circularidade),gpw_slope_m_dec,gpw_h_all,847,135,0.1,0.006,0.203

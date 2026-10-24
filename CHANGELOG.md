@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.16.1] — 2026-10-24
+
+- Tabelas por ponto × ano > 1 MB retiradas do versionamento (`.gitignore`); regeneráveis pelos scripts. Corrige a falha de upload por tamanho.
+
+## [0.16.0] — 2026-10-24
+
+- Etapa 04b (GPW) executada.
+- `python/10_gpw.py`: GPW em savana natural (concordância com GEDI, tendência, circularidade com EVI, relação com a curva sazonal).
+
+## [0.15.0] — 2026-10-24
+
+- `python/09_limiar_fotoperiodo.py`: testes do limiar de chuva e do fotoperíodo (premissas de Mario).
+- `gee/04b_gpw_altura.js`: altura anual do Global Pasture Watch nos pontos.
+
 ## [0.14.0] — 2026-10-24
 
 - Etapa 04 (GEDI v0.2) executada; footprints em `data/series/`.

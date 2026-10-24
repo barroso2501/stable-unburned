@@ -10,6 +10,7 @@
 | --- | --- | --- |
 | `00_stable_unburned_lulc.js` | assets de áreas estáveis A e B | executado; **arquivo a adicionar** (script original) |
 | `01_zonal_4A_cerrado.js` | área de 4-A no Cerrado por núcleo × borda × fragmento | executado (v0.2) |
+| `04b_gpw_altura.js` | altura anual de vegetação baixa (Global Pasture Watch v1, 30 m) no pixel MODIS de cada ponto, só pixels da população (1 tarefa) | executado (v0.1) |
 | `02a_populacao.js` | asset da população do piloto | executado (v0.2) |
 | `02b_area_4AB.js` | CSV de área 4-A e 4-B por faixa (4 partes) | executado (v0.3) |
 | `02c_pureza.js` | 2 assets de pureza MODIS | executado |
