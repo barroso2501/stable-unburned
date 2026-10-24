@@ -16,7 +16,7 @@
 | `02d_stats_mcd12q2.js` | CSVs de pureza e de ciclos MCD12Q2 | executado (ciclos por ano civil; ver docs/execucoes.md) |
 | `02e_ciclos_ano_hidrologico.js` | ciclos MCD12Q2 recontados por ano hidrológico (jul–jun, D16) + histograma de QA | executado |
 | `03_amostra.js` | amostra estratificada por faixa (asset + CSV) | executado |
-| `04_gedi.js` | estrutura do dossel GEDI: L2B (cover, PAI, FHD) e L2A (rh50, rh98) no pixel MODIS de cada ponto, só footprints bons dentro da população; um footprint por linha (10 tarefas) | **a rodar** v0.2 (teste primeiro) |
+| `04_gedi.js` | estrutura do dossel GEDI: L2B (cover, PAI, FHD) e L2A (rh50, rh98) no pixel MODIS de cada ponto, só footprints bons dentro da população; um footprint por linha (10 tarefas) | executado (v0.2) |
 | `05_series.js` | séries MOD13Q1, MCD43A4 (8 dias) e HLS L30/S30 nos 1215 pontos | executado (30 tarefas) |
 | `05b_chirps.js` | chuva CHIRPS v2.0 por pêntada nos 1215 pontos, 2000–2025 (5 tarefas) | executado (v0.2) |
 

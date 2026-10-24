@@ -18,13 +18,14 @@ Classe 4 estável 1985–2025 (Col. 11, `strict`), nunca queimada (Fogo 5.1), de
 | 02d | `gee/02d_stats_mcd12q2.js` | assets 02c, MCD12Q2 | CSVs de pureza por faixa e de ciclos MCD12Q2 2016–2024 (ano civil) | executada |
 | 02e | `gee/02e_ciclos_ano_hidrologico.js` | asset de pureza 463 m, MCD12Q2 | ciclos por ano hidrológico 2016/17–2023/24; histograma de QA | executada |
 | 03 | `gee/03_amostra.js` | assets 02a e 02c | asset e CSV `pilot_4A_sample_v0.1`: até 300 pontos por faixa, 1 por pixel MODIS de 463 m puro (≥ 90%) em grade par (~926 m), semente 42 | executada |
-| 04 | `gee/04_gedi.js` | amostra, população 02a, GEDI L2A e L2B (rasters por órbita) | CSVs `gedi_l2b_band<N>_v0.2.csv` (cover, PAI, FHD) e `gedi_l2a_band<N>_v0.2.csv` (rh50, rh98): um footprint bom por linha (qualidade, sem degradação, sensibilidade ≥ 0,95, dentro da população), com mês, feixe e elevação solar | a rodar |
+| 04 | `gee/04_gedi.js` | amostra, população 02a, GEDI L2A e L2B (rasters por órbita) | CSVs `gedi_l2b_band<N>_v0.2.csv` (cover, PAI, FHD) e `gedi_l2a_band<N>_v0.2.csv` (rh50, rh98): um footprint bom por linha (qualidade, sem degradação, sensibilidade ≥ 0,95, dentro da população), com mês, feixe e elevação solar | executada (v0.2) |
 | 05 | `gee/05_series.js` | asset da amostra; MOD13Q1, MCD43A4, HLS L30/S30 v2.0 | CSVs `series_<produto>_band<N>[_<período>]_v0.1.csv` (formato longo) | executada; QC em `python/05_qc_series.py` |
 | 05b | `gee/05b_chirps.js` | asset da amostra; CHIRPS v2.0 pêntadas | CSVs `chirps_pentad_band<N>_v0.2.csv` | executada (v0.2) |
 | 06b | `python/06b_sensibilidade_suavizacao.py` | séries limpas MODIS + saída da 07b | métricas com janela SG 3/5/7 e efeito no verdor antecipado | executada (v0.1) |
 | 06 | `python/06_metricas.py` (usa `python/common.py`) | séries limpas | métricas de forma da curva por ponto × ano hidrológico (pico, amplitude, sos/eos, assimetria, integral, ombro) | executada (v0.1) |
 | 07 | `python/07_chuva_verdor.py` | CHIRPS (05b) + métricas (06) | início/fim da estação chuvosa (acumulação anômala) e defasagem para o início/fim do verdor; % de verdor antes da chuva | executada (v0.1) |
 | 07b | `python/07b_robustez_chuva_verdor.py` | CHIRPS + saída da 07 | chuva acumulada até o sos20, onset pelas primeiras chuvas, tolerância, acoplamento interanual, antecipação > 16 d (repetição por ponto, concordância entre sensores) | executada (v0.1) |
+| 08 | `python/08_estrutura_evi.py` | GEDI (04), métricas (06), chuva (07, 07b) | estrutura por ponto; correlação estrutura × EVI (bootstrap espacial); tercis de cobertura | executada (v0.1) |
 
 ## Critérios de viabilidade (limiares a fixar antes da etapa 03)
 

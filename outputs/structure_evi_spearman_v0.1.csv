@@ -1,0 +1,433 @@
+subset,structure,evi_metric,lat_band,n_points,n_blocks,rho,ci_lo,ci_hi
+all,cover,base_pre,1,240,13,-0.594,-0.656,0.105
+all,cover,base_pre,2,271,31,-0.031,-0.197,0.102
+all,cover,base_pre,3,268,56,0.143,-0.023,0.294
+all,cover,base_pre,4,251,47,-0.052,-0.187,0.183
+all,cover,base_pre,5,13,6,0.305,-0.256,0.883
+all,cover,base_pre,2-4 (postos na faixa),790,134,0.021,-0.072,0.114
+all,cover,rel_amp,1,240,13,0.597,-0.039,0.67
+all,cover,rel_amp,2,271,31,0.249,0.099,0.427
+all,cover,rel_amp,3,268,56,0.068,-0.128,0.261
+all,cover,rel_amp,4,251,47,0.42,0.2,0.526
+all,cover,rel_amp,5,13,6,0.308,-0.516,0.709
+all,cover,rel_amp,2-4 (postos na faixa),790,134,0.242,0.125,0.348
+all,cover,amplitude,1,240,13,0.565,0.033,0.644
+all,cover,amplitude,2,271,31,0.328,0.194,0.483
+all,cover,amplitude,3,268,56,0.284,0.066,0.425
+all,cover,amplitude,4,251,47,0.465,0.259,0.576
+all,cover,amplitude,5,13,6,0.473,-0.328,0.929
+all,cover,amplitude,2-4 (postos na faixa),790,134,0.357,0.241,0.448
+all,cover,peak_evi,1,240,13,0.332,-0.083,0.468
+all,cover,peak_evi,2,271,31,0.428,0.271,0.529
+all,cover,peak_evi,3,268,56,0.445,0.24,0.548
+all,cover,peak_evi,4,251,47,0.447,0.257,0.554
+all,cover,peak_evi,5,13,6,0.181,-0.552,0.812
+all,cover,peak_evi,2-4 (postos na faixa),790,134,0.44,0.354,0.502
+all,cover,sos50,1,240,13,-0.733,-0.796,-0.315
+all,cover,sos50,2,271,31,0.26,0.081,0.435
+all,cover,sos50,3,268,56,-0.265,-0.421,-0.084
+all,cover,sos50,4,251,47,-0.176,-0.377,-0.042
+all,cover,sos50,5,13,6,-0.344,-0.811,0.319
+all,cover,sos50,2-4 (postos na faixa),790,134,-0.055,-0.166,0.041
+all,cover,early_frac,1,233,13,0.179,0.079,0.239
+all,cover,early_frac,2,256,31,0.002,-0.126,0.197
+all,cover,early_frac,3,261,55,-0.225,-0.354,-0.004
+all,cover,early_frac,4,241,47,-0.13,-0.256,0.098
+all,cover,early_frac,5,10,6,,,
+all,cover,early_frac,2-4 (postos na faixa),758,133,-0.135,-0.225,-0.038
+all,rh98,base_pre,1,236,13,-0.68,-0.722,0.002
+all,rh98,base_pre,2,263,31,-0.139,-0.319,-0.003
+all,rh98,base_pre,3,269,57,-0.012,-0.206,0.172
+all,rh98,base_pre,4,232,46,-0.113,-0.291,0.122
+all,rh98,base_pre,5,12,6,0.004,-0.953,0.59
+all,rh98,base_pre,2-4 (postos na faixa),764,134,-0.086,-0.185,0.018
+all,rh98,rel_amp,1,236,13,0.654,0.04,0.713
+all,rh98,rel_amp,2,263,31,0.303,0.16,0.464
+all,rh98,rel_amp,3,269,57,0.158,-0.034,0.349
+all,rh98,rel_amp,4,232,46,0.453,0.16,0.569
+all,rh98,rel_amp,5,12,6,0.769,0.17,0.927
+all,rh98,rel_amp,2-4 (postos na faixa),764,134,0.298,0.19,0.395
+all,rh98,amplitude,1,236,13,0.6,0.029,0.689
+all,rh98,amplitude,2,263,31,0.354,0.232,0.481
+all,rh98,amplitude,3,269,57,0.317,0.099,0.497
+all,rh98,amplitude,4,232,46,0.48,0.222,0.602
+all,rh98,amplitude,5,12,6,0.671,0.12,0.95
+all,rh98,amplitude,2-4 (postos na faixa),764,134,0.379,0.265,0.468
+all,rh98,peak_evi,1,236,13,0.301,-0.175,0.453
+all,rh98,peak_evi,2,263,31,0.41,0.295,0.481
+all,rh98,peak_evi,3,269,57,0.387,0.183,0.535
+all,rh98,peak_evi,4,232,46,0.413,0.146,0.538
+all,rh98,peak_evi,5,12,6,0.371,-0.34,0.832
+all,rh98,peak_evi,2-4 (postos na faixa),764,134,0.403,0.309,0.471
+all,rh98,sos50,1,236,13,-0.759,-0.814,-0.331
+all,rh98,sos50,2,263,31,0.266,0.068,0.414
+all,rh98,sos50,3,269,57,-0.126,-0.305,0.053
+all,rh98,sos50,4,232,46,-0.176,-0.403,-0.02
+all,rh98,sos50,5,12,6,-0.72,-0.881,-0.186
+all,rh98,sos50,2-4 (postos na faixa),764,134,-0.005,-0.125,0.1
+all,rh98,early_frac,1,230,13,0.178,0.069,0.29
+all,rh98,early_frac,2,248,31,-0.017,-0.123,0.146
+all,rh98,early_frac,3,262,56,-0.109,-0.295,0.129
+all,rh98,early_frac,4,223,46,-0.213,-0.37,0.034
+all,rh98,early_frac,5,9,0,,,
+all,rh98,early_frac,2-4 (postos na faixa),733,133,-0.113,-0.22,0.002
+all,pai,base_pre,1,240,13,-0.595,-0.655,0.075
+all,pai,base_pre,2,271,31,-0.03,-0.212,0.101
+all,pai,base_pre,3,268,56,0.143,-0.026,0.288
+all,pai,base_pre,4,251,47,-0.052,-0.189,0.164
+all,pai,base_pre,5,13,6,0.305,-0.297,0.889
+all,pai,base_pre,2-4 (postos na faixa),790,134,0.022,-0.078,0.112
+all,pai,rel_amp,1,240,13,0.598,-0.007,0.673
+all,pai,rel_amp,2,271,31,0.248,0.088,0.428
+all,pai,rel_amp,3,268,56,0.068,-0.129,0.281
+all,pai,rel_amp,4,251,47,0.42,0.16,0.523
+all,pai,rel_amp,5,13,6,0.308,-0.518,0.691
+all,pai,rel_amp,2-4 (postos na faixa),790,134,0.242,0.129,0.342
+all,pai,amplitude,1,240,13,0.566,0.031,0.646
+all,pai,amplitude,2,271,31,0.328,0.183,0.478
+all,pai,amplitude,3,268,56,0.284,0.045,0.45
+all,pai,amplitude,4,251,47,0.465,0.262,0.585
+all,pai,amplitude,5,13,6,0.473,-0.387,0.929
+all,pai,amplitude,2-4 (postos na faixa),790,134,0.357,0.248,0.452
+all,pai,peak_evi,1,240,13,0.332,-0.066,0.452
+all,pai,peak_evi,2,271,31,0.428,0.274,0.531
+all,pai,peak_evi,3,268,56,0.445,0.236,0.537
+all,pai,peak_evi,4,251,47,0.447,0.252,0.558
+all,pai,peak_evi,5,13,6,0.181,-0.519,0.833
+all,pai,peak_evi,2-4 (postos na faixa),790,134,0.44,0.353,0.502
+all,pai,sos50,1,240,13,-0.733,-0.792,-0.298
+all,pai,sos50,2,271,31,0.26,0.072,0.417
+all,pai,sos50,3,268,56,-0.265,-0.413,-0.084
+all,pai,sos50,4,251,47,-0.175,-0.382,-0.048
+all,pai,sos50,5,13,6,-0.344,-0.834,0.196
+all,pai,sos50,2-4 (postos na faixa),790,134,-0.055,-0.178,0.035
+all,pai,early_frac,1,233,13,0.179,0.078,0.239
+all,pai,early_frac,2,256,31,0.003,-0.123,0.198
+all,pai,early_frac,3,261,55,-0.224,-0.352,-0.006
+all,pai,early_frac,4,241,47,-0.131,-0.264,0.109
+all,pai,early_frac,5,10,6,,,
+all,pai,early_frac,2-4 (postos na faixa),758,133,-0.135,-0.212,-0.037
+all,fhd_normal,base_pre,1,240,13,-0.654,-0.709,-0.024
+all,fhd_normal,base_pre,2,271,31,-0.147,-0.288,-0.018
+all,fhd_normal,base_pre,3,268,56,-0.163,-0.324,0.019
+all,fhd_normal,base_pre,4,251,47,-0.169,-0.322,0.064
+all,fhd_normal,base_pre,5,13,6,-0.239,-0.919,0.513
+all,fhd_normal,base_pre,2-4 (postos na faixa),790,134,-0.159,-0.251,-0.071
+all,fhd_normal,rel_amp,1,240,13,0.621,-0.007,0.696
+all,fhd_normal,rel_amp,2,271,31,0.257,0.128,0.364
+all,fhd_normal,rel_amp,3,268,56,0.261,0.072,0.441
+all,fhd_normal,rel_amp,4,251,47,0.45,0.127,0.591
+all,fhd_normal,rel_amp,5,13,6,0.857,0.079,1.0
+all,fhd_normal,rel_amp,2-4 (postos na faixa),790,134,0.32,0.2,0.424
+all,fhd_normal,amplitude,1,240,13,0.563,-0.02,0.659
+all,fhd_normal,amplitude,2,271,31,0.289,0.173,0.401
+all,fhd_normal,amplitude,3,268,56,0.318,0.078,0.507
+all,fhd_normal,amplitude,4,251,47,0.459,0.111,0.613
+all,fhd_normal,amplitude,5,13,6,0.571,-0.094,1.0
+all,fhd_normal,amplitude,2-4 (postos na faixa),790,134,0.353,0.227,0.458
+all,fhd_normal,peak_evi,1,240,13,0.271,-0.218,0.436
+all,fhd_normal,peak_evi,2,271,31,0.313,0.136,0.395
+all,fhd_normal,peak_evi,3,268,56,0.259,0.019,0.449
+all,fhd_normal,peak_evi,4,251,47,0.37,0.034,0.511
+all,fhd_normal,peak_evi,5,13,6,0.275,-0.484,0.94
+all,fhd_normal,peak_evi,2-4 (postos na faixa),790,134,0.313,0.195,0.411
+all,fhd_normal,sos50,1,240,13,-0.712,-0.783,-0.228
+all,fhd_normal,sos50,2,271,31,0.208,0.032,0.338
+all,fhd_normal,sos50,3,268,56,0.004,-0.178,0.2
+all,fhd_normal,sos50,4,251,47,-0.16,-0.356,-0.029
+all,fhd_normal,sos50,5,13,6,-0.478,-0.739,0.353
+all,fhd_normal,sos50,2-4 (postos na faixa),790,134,0.024,-0.08,0.111
+all,fhd_normal,early_frac,1,233,13,0.176,0.087,0.267
+all,fhd_normal,early_frac,2,256,31,0.059,-0.035,0.222
+all,fhd_normal,early_frac,3,261,55,-0.029,-0.279,0.245
+all,fhd_normal,early_frac,4,241,47,-0.193,-0.349,0.069
+all,fhd_normal,early_frac,5,10,6,,,
+all,fhd_normal,early_frac,2-4 (postos na faixa),758,133,-0.052,-0.172,0.082
+wet,cover,base_pre,1,64,8,-0.271,-0.558,0.147
+wet,cover,base_pre,2,114,25,-0.118,-0.322,0.085
+wet,cover,base_pre,3,119,45,0.131,-0.062,0.322
+wet,cover,base_pre,4,92,27,-0.108,-0.34,0.284
+wet,cover,base_pre,5,5,0,,,
+wet,cover,base_pre,2-4 (postos na faixa),325,97,-0.024,-0.155,0.103
+wet,cover,rel_amp,1,64,8,0.298,-0.145,0.557
+wet,cover,rel_amp,2,114,25,0.195,0.029,0.385
+wet,cover,rel_amp,3,119,45,0.036,-0.225,0.285
+wet,cover,rel_amp,4,92,27,0.466,0.021,0.659
+wet,cover,rel_amp,5,5,0,,,
+wet,cover,rel_amp,2-4 (postos na faixa),325,97,0.213,0.04,0.364
+wet,cover,amplitude,1,64,8,0.315,-0.053,0.548
+wet,cover,amplitude,2,114,25,0.221,0.065,0.422
+wet,cover,amplitude,3,119,45,0.156,-0.174,0.427
+wet,cover,amplitude,4,92,27,0.5,0.071,0.662
+wet,cover,amplitude,5,5,0,,,
+wet,cover,amplitude,2-4 (postos na faixa),325,97,0.276,0.105,0.431
+wet,cover,peak_evi,1,64,8,0.196,-0.145,0.444
+wet,cover,peak_evi,2,114,25,0.246,0.117,0.427
+wet,cover,peak_evi,3,119,45,0.255,-0.068,0.494
+wet,cover,peak_evi,4,92,27,0.504,0.127,0.63
+wet,cover,peak_evi,5,5,0,,,
+wet,cover,peak_evi,2-4 (postos na faixa),325,97,0.322,0.167,0.46
+wet,cover,sos50,1,64,8,-0.477,-0.74,-0.154
+wet,cover,sos50,2,114,25,0.21,-0.013,0.412
+wet,cover,sos50,3,119,45,-0.291,-0.459,-0.094
+wet,cover,sos50,4,92,27,-0.265,-0.446,-0.078
+wet,cover,sos50,5,5,0,,,
+wet,cover,sos50,2-4 (postos na faixa),325,97,-0.108,-0.222,-0.003
+wet,cover,early_frac,1,63,8,,,
+wet,cover,early_frac,2,104,25,-0.094,-0.321,0.117
+wet,cover,early_frac,3,115,43,-0.144,-0.327,0.143
+wet,cover,early_frac,4,90,27,-0.098,-0.33,0.279
+wet,cover,early_frac,5,4,0,,,
+wet,cover,early_frac,2-4 (postos na faixa),309,95,-0.112,-0.236,0.034
+wet,rh98,base_pre,1,67,7,-0.426,-0.711,0.1
+wet,rh98,base_pre,2,115,25,-0.094,-0.253,0.056
+wet,rh98,base_pre,3,113,44,-0.137,-0.324,0.079
+wet,rh98,base_pre,4,86,26,-0.073,-0.292,0.306
+wet,rh98,base_pre,5,3,0,,,
+wet,rh98,base_pre,2-4 (postos na faixa),314,95,-0.104,-0.212,0.028
+wet,rh98,rel_amp,1,67,7,0.483,0.008,0.751
+wet,rh98,rel_amp,2,115,25,0.141,0.004,0.305
+wet,rh98,rel_amp,3,113,44,0.263,0.018,0.448
+wet,rh98,rel_amp,4,86,26,0.402,-0.009,0.585
+wet,rh98,rel_amp,5,3,0,,,
+wet,rh98,rel_amp,2-4 (postos na faixa),314,95,0.257,0.116,0.388
+wet,rh98,amplitude,1,67,7,0.5,0.072,0.706
+wet,rh98,amplitude,2,115,25,0.16,0.005,0.278
+wet,rh98,amplitude,3,113,44,0.337,0.073,0.554
+wet,rh98,amplitude,4,86,26,0.442,0.051,0.592
+wet,rh98,amplitude,5,3,0,,,
+wet,rh98,amplitude,2-4 (postos na faixa),314,95,0.302,0.153,0.439
+wet,rh98,peak_evi,1,67,7,0.362,-0.192,0.547
+wet,rh98,peak_evi,2,115,25,0.184,-0.022,0.337
+wet,rh98,peak_evi,3,113,44,0.311,0.012,0.601
+wet,rh98,peak_evi,4,86,26,0.41,0.046,0.537
+wet,rh98,peak_evi,5,3,0,,,
+wet,rh98,peak_evi,2-4 (postos na faixa),314,95,0.292,0.138,0.423
+wet,rh98,sos50,1,67,7,-0.56,-0.75,-0.177
+wet,rh98,sos50,2,115,25,0.061,-0.159,0.334
+wet,rh98,sos50,3,113,44,-0.039,-0.275,0.173
+wet,rh98,sos50,4,86,26,-0.201,-0.422,0.004
+wet,rh98,sos50,5,3,0,,,
+wet,rh98,sos50,2-4 (postos na faixa),314,95,-0.046,-0.147,0.068
+wet,rh98,early_frac,1,64,7,,,
+wet,rh98,early_frac,2,105,25,0.075,-0.165,0.349
+wet,rh98,early_frac,3,109,42,-0.078,-0.316,0.209
+wet,rh98,early_frac,4,84,26,-0.059,-0.292,0.246
+wet,rh98,early_frac,5,2,0,,,
+wet,rh98,early_frac,2-4 (postos na faixa),298,93,-0.03,-0.166,0.123
+wet,pai,base_pre,1,64,8,-0.271,-0.577,0.16
+wet,pai,base_pre,2,114,25,-0.119,-0.32,0.07
+wet,pai,base_pre,3,119,45,0.131,-0.078,0.33
+wet,pai,base_pre,4,92,27,-0.108,-0.339,0.274
+wet,pai,base_pre,5,5,0,,,
+wet,pai,base_pre,2-4 (postos na faixa),325,97,-0.024,-0.157,0.112
+wet,pai,rel_amp,1,64,8,0.299,-0.145,0.558
+wet,pai,rel_amp,2,114,25,0.196,0.025,0.375
+wet,pai,rel_amp,3,119,45,0.035,-0.246,0.274
+wet,pai,rel_amp,4,92,27,0.466,-0.004,0.647
+wet,pai,rel_amp,5,5,0,,,
+wet,pai,rel_amp,2-4 (postos na faixa),325,97,0.213,0.052,0.37
+wet,pai,amplitude,1,64,8,0.316,-0.034,0.534
+wet,pai,amplitude,2,114,25,0.222,0.066,0.411
+wet,pai,amplitude,3,119,45,0.155,-0.158,0.404
+wet,pai,amplitude,4,92,27,0.5,0.037,0.67
+wet,pai,amplitude,5,5,0,,,
+wet,pai,amplitude,2-4 (postos na faixa),325,97,0.277,0.099,0.436
+wet,pai,peak_evi,1,64,8,0.197,-0.135,0.43
+wet,pai,peak_evi,2,114,25,0.247,0.109,0.442
+wet,pai,peak_evi,3,119,45,0.255,-0.051,0.513
+wet,pai,peak_evi,4,92,27,0.505,0.129,0.642
+wet,pai,peak_evi,5,5,0,,,
+wet,pai,peak_evi,2-4 (postos na faixa),325,97,0.323,0.185,0.452
+wet,pai,sos50,1,64,8,-0.476,-0.771,-0.14
+wet,pai,sos50,2,114,25,0.212,-0.017,0.426
+wet,pai,sos50,3,119,45,-0.291,-0.46,-0.097
+wet,pai,sos50,4,92,27,-0.265,-0.439,-0.11
+wet,pai,sos50,5,5,0,,,
+wet,pai,sos50,2-4 (postos na faixa),325,97,-0.107,-0.226,-0.0
+wet,pai,early_frac,1,63,8,,,
+wet,pai,early_frac,2,104,25,-0.096,-0.332,0.129
+wet,pai,early_frac,3,115,43,-0.144,-0.335,0.148
+wet,pai,early_frac,4,90,27,-0.098,-0.332,0.309
+wet,pai,early_frac,5,4,0,,,
+wet,pai,early_frac,2-4 (postos na faixa),309,95,-0.112,-0.233,0.047
+wet,fhd_normal,base_pre,1,64,8,-0.285,-0.629,0.142
+wet,fhd_normal,base_pre,2,114,25,-0.148,-0.35,0.018
+wet,fhd_normal,base_pre,3,119,45,-0.193,-0.373,0.065
+wet,fhd_normal,base_pre,4,92,27,-0.164,-0.398,0.227
+wet,fhd_normal,base_pre,5,5,0,,,
+wet,fhd_normal,base_pre,2-4 (postos na faixa),325,97,-0.169,-0.286,-0.041
+wet,fhd_normal,rel_amp,1,64,8,0.331,-0.104,0.676
+wet,fhd_normal,rel_amp,2,114,25,0.142,-0.021,0.34
+wet,fhd_normal,rel_amp,3,119,45,0.33,0.069,0.485
+wet,fhd_normal,rel_amp,4,92,27,0.471,0.093,0.607
+wet,fhd_normal,rel_amp,5,5,0,,,
+wet,fhd_normal,rel_amp,2-4 (postos na faixa),325,97,0.303,0.146,0.43
+wet,fhd_normal,amplitude,1,64,8,0.347,-0.055,0.68
+wet,fhd_normal,amplitude,2,114,25,0.139,-0.028,0.303
+wet,fhd_normal,amplitude,3,119,45,0.398,0.092,0.591
+wet,fhd_normal,amplitude,4,92,27,0.507,0.093,0.64
+wet,fhd_normal,amplitude,5,5,0,,,
+wet,fhd_normal,amplitude,2-4 (postos na faixa),325,97,0.338,0.181,0.476
+wet,fhd_normal,peak_evi,1,64,8,0.204,-0.17,0.491
+wet,fhd_normal,peak_evi,2,114,25,0.113,-0.075,0.276
+wet,fhd_normal,peak_evi,3,119,45,0.348,0.009,0.594
+wet,fhd_normal,peak_evi,4,92,27,0.438,0.007,0.579
+wet,fhd_normal,peak_evi,5,5,0,,,
+wet,fhd_normal,peak_evi,2-4 (postos na faixa),325,97,0.29,0.13,0.441
+wet,fhd_normal,sos50,1,64,8,-0.469,-0.669,-0.084
+wet,fhd_normal,sos50,2,114,25,0.049,-0.17,0.312
+wet,fhd_normal,sos50,3,119,45,0.033,-0.213,0.262
+wet,fhd_normal,sos50,4,92,27,-0.247,-0.421,-0.041
+wet,fhd_normal,sos50,5,5,0,,,
+wet,fhd_normal,sos50,2-4 (postos na faixa),325,97,-0.041,-0.157,0.091
+wet,fhd_normal,early_frac,1,63,8,,,
+wet,fhd_normal,early_frac,2,104,25,0.113,-0.094,0.333
+wet,fhd_normal,early_frac,3,115,43,-0.114,-0.372,0.243
+wet,fhd_normal,early_frac,4,90,27,-0.103,-0.349,0.231
+wet,fhd_normal,early_frac,5,4,0,,,
+wet,fhd_normal,early_frac,2-4 (postos na faixa),309,95,-0.05,-0.204,0.108
+nightpow,cover,base_pre,1,139,12,-0.588,-0.666,0.095
+nightpow,cover,base_pre,2,138,24,0.186,-0.051,0.337
+nightpow,cover,base_pre,3,160,50,0.081,-0.145,0.261
+nightpow,cover,base_pre,4,145,33,-0.128,-0.361,0.211
+nightpow,cover,base_pre,5,11,6,0.542,0.054,0.8
+nightpow,cover,base_pre,2-4 (postos na faixa),443,107,0.045,-0.105,0.195
+nightpow,cover,rel_amp,1,139,12,0.574,0.059,0.628
+nightpow,cover,rel_amp,2,138,24,0.097,-0.122,0.445
+nightpow,cover,rel_amp,3,160,50,0.036,-0.163,0.26
+nightpow,cover,rel_amp,4,145,33,0.42,0.054,0.566
+nightpow,cover,rel_amp,5,11,6,0.464,-0.351,0.848
+nightpow,cover,rel_amp,2-4 (postos na faixa),443,107,0.18,0.029,0.341
+nightpow,cover,amplitude,1,139,12,0.53,0.081,0.611
+nightpow,cover,amplitude,2,138,24,0.201,-0.036,0.536
+nightpow,cover,amplitude,3,160,50,0.21,-0.013,0.38
+nightpow,cover,amplitude,4,145,33,0.446,0.144,0.581
+nightpow,cover,amplitude,5,11,6,0.864,0.143,0.983
+nightpow,cover,amplitude,2-4 (postos na faixa),443,107,0.285,0.138,0.416
+nightpow,cover,peak_evi,1,139,12,0.275,-0.161,0.402
+nightpow,cover,peak_evi,2,138,24,0.332,0.136,0.613
+nightpow,cover,peak_evi,3,160,50,0.357,0.157,0.503
+nightpow,cover,peak_evi,4,145,33,0.373,0.138,0.506
+nightpow,cover,peak_evi,5,11,6,0.709,0.216,0.939
+nightpow,cover,peak_evi,2-4 (postos na faixa),443,107,0.355,0.242,0.451
+nightpow,cover,sos50,1,139,12,-0.735,-0.773,-0.319
+nightpow,cover,sos50,2,138,24,0.074,-0.164,0.37
+nightpow,cover,sos50,3,160,50,-0.219,-0.381,0.011
+nightpow,cover,sos50,4,145,33,-0.168,-0.457,0.044
+nightpow,cover,sos50,5,11,6,-0.562,-0.938,0.369
+nightpow,cover,sos50,2-4 (postos na faixa),443,107,-0.111,-0.228,0.012
+nightpow,cover,early_frac,1,134,12,0.1,-0.037,0.173
+nightpow,cover,early_frac,2,130,23,0.048,-0.186,0.24
+nightpow,cover,early_frac,3,157,48,-0.243,-0.379,-0.033
+nightpow,cover,early_frac,4,139,32,-0.168,-0.369,0.157
+nightpow,cover,early_frac,5,9,0,,,
+nightpow,cover,early_frac,2-4 (postos na faixa),426,103,-0.153,-0.272,-0.016
+nightpow,rh98,base_pre,1,129,11,-0.715,-0.756,0.007
+nightpow,rh98,base_pre,2,135,24,-0.036,-0.172,0.117
+nightpow,rh98,base_pre,3,147,48,-0.172,-0.362,0.036
+nightpow,rh98,base_pre,4,136,32,-0.223,-0.442,0.109
+nightpow,rh98,base_pre,5,11,6,0.132,-0.823,0.667
+nightpow,rh98,base_pre,2-4 (postos na faixa),418,104,-0.145,-0.278,-0.011
+nightpow,rh98,rel_amp,1,129,11,0.674,0.079,0.714
+nightpow,rh98,rel_amp,2,135,24,0.237,0.064,0.413
+nightpow,rh98,rel_amp,3,147,48,0.26,0.048,0.434
+nightpow,rh98,rel_amp,4,136,32,0.459,0.074,0.61
+nightpow,rh98,rel_amp,5,11,6,0.809,0.061,1.0
+nightpow,rh98,rel_amp,2-4 (postos na faixa),418,104,0.318,0.181,0.429
+nightpow,rh98,amplitude,1,129,11,0.617,0.136,0.693
+nightpow,rh98,amplitude,2,135,24,0.312,0.119,0.486
+nightpow,rh98,amplitude,3,147,48,0.376,0.18,0.493
+nightpow,rh98,amplitude,4,136,32,0.478,0.072,0.609
+nightpow,rh98,amplitude,5,11,6,0.809,0.16,0.964
+nightpow,rh98,amplitude,2-4 (postos na faixa),418,104,0.389,0.252,0.492
+nightpow,rh98,peak_evi,1,129,11,0.296,-0.196,0.425
+nightpow,rh98,peak_evi,2,135,24,0.361,0.137,0.522
+nightpow,rh98,peak_evi,3,147,48,0.387,0.191,0.5
+nightpow,rh98,peak_evi,4,136,32,0.377,0.027,0.506
+nightpow,rh98,peak_evi,5,11,6,0.527,-0.391,0.889
+nightpow,rh98,peak_evi,2-4 (postos na faixa),418,104,0.375,0.257,0.457
+nightpow,rh98,sos50,1,129,11,-0.783,-0.801,-0.354
+nightpow,rh98,sos50,2,135,24,0.223,0.005,0.406
+nightpow,rh98,sos50,3,147,48,0.016,-0.178,0.197
+nightpow,rh98,sos50,4,136,32,-0.087,-0.345,0.112
+nightpow,rh98,sos50,5,11,6,-0.711,-0.83,0.128
+nightpow,rh98,sos50,2-4 (postos na faixa),418,104,0.049,-0.051,0.141
+nightpow,rh98,early_frac,1,125,11,0.142,0.033,0.216
+nightpow,rh98,early_frac,2,127,23,0.065,-0.1,0.236
+nightpow,rh98,early_frac,3,144,46,-0.212,-0.408,0.049
+nightpow,rh98,early_frac,4,130,31,-0.183,-0.38,0.14
+nightpow,rh98,early_frac,5,8,0,,,
+nightpow,rh98,early_frac,2-4 (postos na faixa),401,100,-0.129,-0.265,0.017
+nightpow,pai,base_pre,1,139,12,-0.588,-0.667,0.077
+nightpow,pai,base_pre,2,138,24,0.185,-0.06,0.343
+nightpow,pai,base_pre,3,160,50,0.081,-0.126,0.264
+nightpow,pai,base_pre,4,145,33,-0.128,-0.373,0.216
+nightpow,pai,base_pre,5,11,6,0.542,0.09,0.949
+nightpow,pai,base_pre,2-4 (postos na faixa),443,107,0.045,-0.105,0.187
+nightpow,pai,rel_amp,1,139,12,0.574,0.04,0.626
+nightpow,pai,rel_amp,2,138,24,0.099,-0.123,0.468
+nightpow,pai,rel_amp,3,160,50,0.036,-0.172,0.258
+nightpow,pai,rel_amp,4,145,33,0.421,0.045,0.579
+nightpow,pai,rel_amp,5,11,6,0.464,-0.412,0.81
+nightpow,pai,rel_amp,2-4 (postos na faixa),443,107,0.182,0.021,0.336
+nightpow,pai,amplitude,1,139,12,0.53,0.075,0.618
+nightpow,pai,amplitude,2,138,24,0.205,-0.043,0.549
+nightpow,pai,amplitude,3,160,50,0.211,-0.017,0.385
+nightpow,pai,amplitude,4,145,33,0.447,0.145,0.586
+nightpow,pai,amplitude,5,11,6,0.864,0.21,1.0
+nightpow,pai,amplitude,2-4 (postos na faixa),443,107,0.286,0.145,0.423
+nightpow,pai,peak_evi,1,139,12,0.275,-0.162,0.396
+nightpow,pai,peak_evi,2,138,24,0.337,0.135,0.61
+nightpow,pai,peak_evi,3,160,50,0.358,0.163,0.49
+nightpow,pai,peak_evi,4,145,33,0.373,0.112,0.493
+nightpow,pai,peak_evi,5,11,6,0.709,0.216,0.925
+nightpow,pai,peak_evi,2-4 (postos na faixa),443,107,0.356,0.244,0.452
+nightpow,pai,sos50,1,139,12,-0.735,-0.764,-0.343
+nightpow,pai,sos50,2,138,24,0.075,-0.152,0.379
+nightpow,pai,sos50,3,160,50,-0.22,-0.388,-0.005
+nightpow,pai,sos50,4,145,33,-0.167,-0.471,0.049
+nightpow,pai,sos50,5,11,6,-0.562,-0.936,0.452
+nightpow,pai,sos50,2-4 (postos na faixa),443,107,-0.111,-0.231,0.015
+nightpow,pai,early_frac,1,134,12,0.1,-0.038,0.17
+nightpow,pai,early_frac,2,130,23,0.046,-0.19,0.258
+nightpow,pai,early_frac,3,157,48,-0.243,-0.374,-0.021
+nightpow,pai,early_frac,4,139,32,-0.168,-0.365,0.163
+nightpow,pai,early_frac,5,9,0,,,
+nightpow,pai,early_frac,2-4 (postos na faixa),426,103,-0.154,-0.269,-0.023
+nightpow,fhd_normal,base_pre,1,139,12,-0.683,-0.749,-0.058
+nightpow,fhd_normal,base_pre,2,138,24,-0.016,-0.213,0.117
+nightpow,fhd_normal,base_pre,3,160,50,-0.338,-0.49,-0.11
+nightpow,fhd_normal,base_pre,4,145,33,-0.187,-0.439,0.166
+nightpow,fhd_normal,base_pre,5,11,6,-0.182,-0.85,0.518
+nightpow,fhd_normal,base_pre,2-4 (postos na faixa),443,107,-0.189,-0.311,-0.054
+nightpow,fhd_normal,rel_amp,1,139,12,0.63,0.138,0.685
+nightpow,fhd_normal,rel_amp,2,138,24,0.091,-0.064,0.297
+nightpow,fhd_normal,rel_amp,3,160,50,0.408,0.217,0.537
+nightpow,fhd_normal,rel_amp,4,145,33,0.379,-0.022,0.577
+nightpow,fhd_normal,rel_amp,5,11,6,0.773,-0.219,1.0
+nightpow,fhd_normal,rel_amp,2-4 (postos na faixa),443,107,0.3,0.161,0.438
+nightpow,fhd_normal,amplitude,1,139,12,0.558,0.108,0.651
+nightpow,fhd_normal,amplitude,2,138,24,0.132,-0.055,0.347
+nightpow,fhd_normal,amplitude,3,160,50,0.424,0.244,0.581
+nightpow,fhd_normal,amplitude,4,145,33,0.395,0.007,0.582
+nightpow,fhd_normal,amplitude,5,11,6,0.609,-0.271,0.963
+nightpow,fhd_normal,amplitude,2-4 (postos na faixa),443,107,0.324,0.169,0.452
+nightpow,fhd_normal,peak_evi,1,139,12,0.231,-0.26,0.362
+nightpow,fhd_normal,peak_evi,2,138,24,0.15,-0.054,0.345
+nightpow,fhd_normal,peak_evi,3,160,50,0.273,0.047,0.45
+nightpow,fhd_normal,peak_evi,4,145,33,0.298,-0.027,0.444
+nightpow,fhd_normal,peak_evi,5,11,6,0.327,-0.6,0.885
+nightpow,fhd_normal,peak_evi,2-4 (postos na faixa),443,107,0.243,0.104,0.366
+nightpow,fhd_normal,sos50,1,139,12,-0.718,-0.768,-0.237
+nightpow,fhd_normal,sos50,2,138,24,0.124,-0.073,0.362
+nightpow,fhd_normal,sos50,3,160,50,0.171,-0.047,0.358
+nightpow,fhd_normal,sos50,4,145,33,-0.155,-0.417,0.029
+nightpow,fhd_normal,sos50,5,11,6,-0.401,-0.719,0.578
+nightpow,fhd_normal,sos50,2-4 (postos na faixa),443,107,0.049,-0.056,0.156
+nightpow,fhd_normal,early_frac,1,134,12,0.169,0.087,0.259
+nightpow,fhd_normal,early_frac,2,130,23,0.117,-0.043,0.25
+nightpow,fhd_normal,early_frac,3,157,48,-0.072,-0.349,0.245
+nightpow,fhd_normal,early_frac,4,139,32,-0.135,-0.354,0.237
+nightpow,fhd_normal,early_frac,5,9,0,,,
+nightpow,fhd_normal,early_frac,2-4 (postos na faixa),426,103,-0.039,-0.183,0.129

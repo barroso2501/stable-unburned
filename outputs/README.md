@@ -37,3 +37,8 @@ Convenção de nome: `<produto>_<versão ou RUN_TAG>.csv`. Cada saída deve ter 
 | `rain_early_greenup_points_v0.1.csv` | 07b (T5) | fração de anos com antecipação > 16 d nos dois sensores, por ponto |
 | `smoothing_sensitivity_summary_v0.1.csv` | 06b | indicadores de verdor × chuva por janela SG (3/5/7) × sensor × faixa |
 | `smoothing_sensitivity_paired_v0.1.csv` | 06b | deslocamento pareado do sos20/sos50 com janelas 3 e 5 em relação à 7 |
+| `gedi_qc_v0.1.csv` | 08 | footprints e pontos por faixa e produto; % chuva, noite, alta potência; cover seca − chuva pareado |
+| `gedi_point_v0.1.csv` | 08 | estrutura GEDI por ponto (medianas) para todos, só chuva, só noite + alta potência |
+| `structure_evi_point_v0.1.csv` | 08 | estrutura + métricas de EVI (MCD43A4, mediana entre anos) + verdor antecipado, por ponto |
+| `structure_evi_spearman_v0.1.csv` | 08 | Spearman estrutura × EVI por faixa e faixas 2–4, com IC 95% por bootstrap em blocos de 0,5° |
+| `structure_evi_tercile_v0.1.csv` | 08 | medianas das métricas de EVI por tercil de cobertura dentro da faixa |

@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.14.0] — 2026-10-24
+
+- Etapa 04 (GEDI v0.2) executada; footprints em `data/series/`.
+- `python/08_estrutura_evi.py`: estrutura do dossel × curva do EVI (pergunta 2).
+
 ## [0.13.0] — 2026-10-24
 
 - `gee/04_gedi.js`: extração GEDI L2B por ponto × mês, com modo teste.
