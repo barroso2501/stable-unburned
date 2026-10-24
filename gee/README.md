@@ -18,6 +18,7 @@
 
 ## Rodar `02_populacao_mcd12q2.js`
 
-1. `RUN_PART: 'assets'` → 4 tarefas (3 assets + 1 CSV). Confirmar antes o caminho de `STABLE_B`.
-2. Quando os assets `pilot_4A_purity_mcd500` e `pilot_4A_purity_mod13q1` terminarem, `RUN_PART: 'stats'` → 2 CSVs.
-3. Validação: a soma de 4-A no CSV de área deve dar ~11,43 Mha (etapa 01).
+1. `RUN_PART: 'assets'` → 2 tarefas (asset da população + CSV de área 4-A/4-B). Confirmar antes o caminho de `STABLE_B`.
+2. Quando `pilot_4A_cerrado_core_edge250` terminar, `RUN_PART: 'purity'` → 2 assets de pureza.
+3. Quando os assets de pureza terminarem, `RUN_PART: 'stats'` → 2 CSVs.
+4. Validação: a soma de 4-A no CSV de área deve dar ~11,43 Mha (etapa 01).

@@ -1,22 +1,29 @@
 // =====================================================================
-// 02_populacao_mcd12q2.js  —  v0.1
+// 02_populacao_mcd12q2.js  —  v0.2
 // Projeto: stable-unburned — piloto savana estável sem fogo no Cerrado
 // Etapa 02 (ver docs/piloto_especificacao.md e KB D12–D14)
 //
-// O QUE FAZ — em duas fases, escolhidas em RUN_PART:
+// O QUE FAZ — em três fases, escolhidas em RUN_PART:
+//   ordem 'assets' → 'purity' → 'stats' (cada fase lê o asset da anterior)
 //
 //  RUN_PART = 'assets'  (rodar primeiro)
 //   A1. Asset da POPULAÇÃO do piloto (30 m): 4-A no Cerrado que passa no
 //       núcleo 3×3 (D04) e está a ≥ 250 m da borda antrópica (D12).
 //       Banda única 'lat_band' (1–5, faixas de 5°, D14); fora da
 //       população o pixel é mascarado.
-//   A2. Asset de PUREZA no grid de 500 m do MODIS (MCD12Q2/MCD43A4):
-//       % de pixels de 30 m da população dentro de cada pixel de 500 m.
-//   A3. Asset de PUREZA no grid de ~232 m do MOD13Q1 (mesma lógica).
 //   A4. CSV com a área de 4-A e de 4-B no Cerrado por faixa de latitude
 //       (sem núcleo nem borda), para a fração sem fogo da savana estável.
 //
-//  RUN_PART = 'stats'  (rodar depois que A2 e A3 terminarem)
+//  RUN_PART = 'purity'  (depois que A1 terminar; lê o asset A1)
+//   A2. Asset de PUREZA no grid de 500 m do MODIS (MCD12Q2/MCD43A4):
+//       % de pixels de 30 m da população dentro de cada pixel de 500 m.
+//   A3. Asset de PUREZA no grid de ~232 m do MOD13Q1 (mesma lógica).
+//
+// MUDANÇA v0.1 → v0.2: a pureza saiu da fase 'assets' (falhava com
+// "reduceResolution ... valid default projection") e passou a ler o
+// asset da população, com a projeção de 30 m fixada explicitamente.
+//
+//  RUN_PART = 'stats'   (depois que A2 e A3 terminarem)
 //   S1. CSV de viabilidade de pureza: nº de pixels MODIS puros
 //       (≥ PURITY_MIN) por faixa e por grid (500 m e 232 m).
 //   S2. CSV do MCD12Q2 2016–2024: nº de pixels puros de 500 m com
@@ -32,7 +39,7 @@
 // 1. PARÂMETROS
 // ---------------------------------------------------------------------
 var P = {
-  RUN_PART: 'assets',          // 'assets' ou 'stats'
+  RUN_PART: 'assets',          // 'assets' → 'purity' → 'stats'
 
   STABLE_A: 'projects/ee-barroso2501/assets/stable/stable_col11_fire5_1_strict_never_burned',
   STABLE_B: 'projects/ee-barroso2501/assets/stable/stable_col11_fire5_1_strict_burned',  // CONFIRMAR caminho
@@ -64,7 +71,7 @@ var P = {
 
   ASSET_ROOT: 'projects/ee-barroso2501/assets/stable/',
   EXPORT_FOLDER: 'GEE_exports',
-  RUN_TAG: 'v0.1'
+  RUN_TAG: 'v0.1'   // mantido: a fase 'assets' já rodou com esta tag
 };
 
 var created = ee.Date(Date.now()).format('YYYY-MM-dd');
@@ -135,53 +142,11 @@ if (P.RUN_PART === 'assets') {
     pyramidingPolicy: {'.default': 'mode'}
   });
 
-  // --- A2/A3. Pureza nos grids MODIS: média de "é população" (0/1)
-  // dentro de cada pixel MODIS. reduceResolution exige reproject no
-  // grid de destino; ~280 px de 30 m por pixel de 500 m (< 1024).
-  var popBinary = popMask.unmask(0).toFloat().rename('purity');
-
-  function purityOnGrid(gridProj) {
-    return popBinary
-      .reduceResolution({reducer: ee.Reducer.mean(), maxPixels: 1024})
-      .reproject({crs: gridProj})
-      .multiply(100).round().toByte()            // 0–100 (%)
-      .updateMask(cerradoMask.reduceResolution({reducer: ee.Reducer.max(), maxPixels: 1024})
-                              .reproject({crs: gridProj}));
-  }
-
-  var mcdProj = ee.ImageCollection(P.MCD12Q2).first().projection();
-  var modProj = ee.ImageCollection(P.MOD13Q1).first().select('EVI').projection();
-  print('Grid MCD12Q2 (~463 m):', mcdProj.nominalScale());
-  print('Grid MOD13Q1 (~232 m):', modProj.nominalScale());
-
-  var propsPurity = {pop_asset: POP_ID, run_tag: P.RUN_TAG, created: created, units: 'percent'};
-
-  Export.image.toAsset({
-    image: purityOnGrid(mcdProj).set(propsPurity).set({grid: 'MCD12Q2'}),
-    description: 'pilot_4A_purity_mcd500',
-    assetId: PUR500_ID,
-    region: bbox,
-    crs: mcdProj.getInfo().crs,
-    crsTransform: mcdProj.getInfo().transform,
-    maxPixels: 1e13,
-    pyramidingPolicy: {'.default': 'mean'}
-  });
-
-  Export.image.toAsset({
-    image: purityOnGrid(modProj).set(propsPurity).set({grid: 'MOD13Q1'}),
-    description: 'pilot_4A_purity_mod13q1',
-    assetId: PUR250_ID,
-    region: bbox,
-    crs: modProj.getInfo().crs,
-    crsTransform: modProj.getInfo().transform,
-    maxPixels: 1e13,
-    pyramidingPolicy: {'.default': 'mean'}
-  });
-
   // --- A4. Área de 4-A e 4-B no Cerrado por faixa (para a fração sem fogo)
   // code = contexto*10 + lat_band   (contexto 1 = A, 2 = B)
   var stableB = ee.Image(P.STABLE_B).select('stable_class');
-  var ctx = ee.Image(0)
+  // ee.Image(0) não tem projeção própria: fixa-se a do asset de 30 m.
+  var ctx = ee.Image(0).setDefaultProjection(proj)
     .where(stableA.eq(P.TARGET_CLASS), 1)
     .where(stableB.eq(P.TARGET_CLASS), 2);
   var codeAB = ctx.multiply(10).add(latBandImage())
@@ -234,12 +199,71 @@ if (P.RUN_PART === 'assets') {
                 'stable_a_asset', 'stable_b_asset', 'biome_asset', 'target_class', 'run_tag', 'created']
   });
 
-  print('FASE assets: 3 exportações de asset + 1 CSV. Quando os assets de pureza ' +
-        'terminarem, mude RUN_PART para "stats".');
+  print('FASE assets: 1 asset (população) + 1 CSV. Quando o asset da população ' +
+        'terminar, mude RUN_PART para "purity".');
 
   Map.centerObject(bbox, 5);
   Map.addLayer(pop, {min: 1, max: 5, palette: ['440154', '3b528b', '21918c', '5ec962', 'fde725']},
                'população por faixa (prévia)', false);
+}
+
+
+// =====================================================================
+// FASE 'purity'  (lê o asset da população já exportado)
+// =====================================================================
+if (P.RUN_PART === 'purity') {
+
+  var popAsset = ee.Image(POP_ID);
+  var popProj = popAsset.projection();
+  var cerradoMaskP = cerradoMaskImage();
+
+  // 1 onde é população, 0 no resto, com a projeção de 30 m explícita:
+  // reduceResolution precisa de uma projeção de entrada válida.
+  var popBinary = popAsset.gt(0).unmask(0).toFloat()
+    .setDefaultProjection(popProj).rename('purity');
+
+  // Média de "é população" dentro de cada pixel MODIS (~280 px de 30 m
+  // por pixel de 500 m, < 1024). A máscara do Cerrado é avaliada
+  // direto no grid de destino (sem reduceResolution).
+  function purityOnGrid(gridProj) {
+    return popBinary
+      .reduceResolution({reducer: ee.Reducer.mean(), maxPixels: 1024})
+      .reproject({crs: gridProj})
+      .multiply(100).round().toByte()            // 0–100 (%)
+      .updateMask(cerradoMaskP);
+  }
+
+  var mcdProj = ee.ImageCollection(P.MCD12Q2).first().projection();
+  var modProj = ee.ImageCollection(P.MOD13Q1).first().select('EVI').projection();
+  var mcdPI = mcdProj.getInfo(), modPI = modProj.getInfo();
+  print('Grid MCD12Q2 (~463 m):', mcdProj.nominalScale());
+  print('Grid MOD13Q1 (~232 m):', modProj.nominalScale());
+
+  var propsPurity = {pop_asset: POP_ID, run_tag: P.RUN_TAG, created: created, units: 'percent'};
+
+  Export.image.toAsset({
+    image: purityOnGrid(mcdProj).set(propsPurity).set({grid: 'MCD12Q2'}),
+    description: 'pilot_4A_purity_mcd500',
+    assetId: PUR500_ID,
+    region: bbox,
+    crs: mcdPI.crs,
+    crsTransform: mcdPI.transform,
+    maxPixels: 1e13,
+    pyramidingPolicy: {'.default': 'mean'}
+  });
+
+  Export.image.toAsset({
+    image: purityOnGrid(modProj).set(propsPurity).set({grid: 'MOD13Q1'}),
+    description: 'pilot_4A_purity_mod13q1',
+    assetId: PUR250_ID,
+    region: bbox,
+    crs: modPI.crs,
+    crsTransform: modPI.transform,
+    maxPixels: 1e13,
+    pyramidingPolicy: {'.default': 'mean'}
+  });
+
+  print('FASE purity: 2 assets de pureza. Quando terminarem, mude RUN_PART para "stats".');
 }
 
 
