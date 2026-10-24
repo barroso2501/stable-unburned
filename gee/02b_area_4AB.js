@@ -18,12 +18,16 @@
 //   mascarando tudo. Aqui o código é feito só com aritmética sobre
 //   imagens desmascaradas (unmask(0)), como na etapa 01, que funcionou.
 //
+// v0.3 (2026-10-24): campo do bioma corrigido para NM_BIOMA (a causa real
+//   do CSV vazio era o filtro do Cerrado não encontrar nenhum polígono) e
+//   exportação dividida em 4 partes (a rodada única reiniciou 3 vezes).
+//
 // ANTES DE EXPORTAR: rode e olhe o console. A "Checagem" deve mostrar
 //   uma lista de códigos com área em ha. Se vier lista vazia, NÃO
 //   envie a tarefa — mande o console.
 //
 // SAÍDA
-//   Drive/GEE_exports/area_4AB_cerrado_by_latband_v0.2.csv
+//   Drive/GEE_exports/area_4AB_cerrado_by_latband_v0.3_part01..04.csv
 //   colunas: tile_id, fire_context, lat_band, area_ha + proveniência
 //   lat_band: 1 = 0–5° S · 2 = 5–10° S · 3 = 10–15° S · 4 = 15–20° S · 5 = 20–25° S
 // =====================================================================
@@ -32,16 +36,19 @@ var P = {
   STABLE_A: 'projects/ee-barroso2501/assets/stable/stable_col11_fire5_1_strict_never_burned',
   STABLE_B: 'projects/ee-barroso2501/assets/stable/stable_col11_fire5_1_strict_burned',
   BIOMES: 'projects/ee-barroso2501/assets/biomas_IBGE',
-  BIOME_FIELD: 'Bioma',
+  BIOME_FIELD: 'NM_BIOMA',
   BIOME_VALUE: 'Cerrado',
   TARGET_CLASS: 4,
   LAT_BAND_DEG: 5,
   BBOX: [-61, -25, -41, -2],
   TILE_DEG: 1,
+  // Nº de tarefas de exportação (a rodada única com 232 blocos falhou e
+  // reiniciou 3 vezes; a etapa 01 funcionou dividida em 4 partes)
+  N_PARTS: 4,
   // Quadrado de checagem (0,2°) — mover para uma área de cerrado conhecida se vier vazio
   PROBE: [-47.9, -15.9, -47.7, -15.7],
   EXPORT_FOLDER: 'GEE_exports',
-  RUN_TAG: 'v0.2'
+  RUN_TAG: 'v0.3'
 };
 
 var created = ee.Date(Date.now()).format('YYYY-MM-dd');
@@ -92,32 +99,45 @@ var grid = ee.FeatureCollection(lons.map(function (x) {
 }).flatten()).filterBounds(cerrado.geometry());
 print('Nº de blocos (esperado ~232):', grid.size());
 
-var res = img.reduceRegions({
-  collection: grid, reducer: groupReducer,
-  crs: projInfo.crs, crsTransform: projInfo.transform, tileScale: 16
-});
+var nTiles = grid.size().getInfo();
+var gridList = grid.toList(nTiles);
 
-var rows = res.map(function (f) {
-  return ee.FeatureCollection(ee.List(f.get('groups')).map(function (g) {
-    g = ee.Dictionary(g);
-    var c = ee.Number(g.get('code'));
-    return ee.Feature(null, {
-      tile_id: f.get('tile_id'),
-      fire_context: ee.String(ee.Algorithms.If(c.lt(20), 'A_never_burned', 'B_burned')),
-      lat_band: c.mod(10),
-      area_ha: g.get('sum'),
-      stable_a_asset: P.STABLE_A, stable_b_asset: P.STABLE_B, biome_asset: P.BIOMES,
-      target_class: P.TARGET_CLASS, run_tag: P.RUN_TAG, created: created
-    });
-  }));
-}).flatten();
+// Reduz um conjunto de blocos: uma linha por bloco × código
+function reduceTiles(tiles) {
+  var res = img.reduceRegions({
+    collection: tiles, reducer: groupReducer,
+    crs: projInfo.crs, crsTransform: projInfo.transform, tileScale: 16
+  });
+  return res.map(function (f) {
+    return ee.FeatureCollection(ee.List(f.get('groups')).map(function (g) {
+      g = ee.Dictionary(g);
+      var c = ee.Number(g.get('code'));
+      return ee.Feature(null, {
+        tile_id: f.get('tile_id'),
+        fire_context: ee.String(ee.Algorithms.If(c.lt(20), 'A_never_burned', 'B_burned')),
+        lat_band: c.mod(10),
+        area_ha: g.get('sum'),
+        stable_a_asset: P.STABLE_A, stable_b_asset: P.STABLE_B, biome_asset: P.BIOMES,
+        target_class: P.TARGET_CLASS, run_tag: P.RUN_TAG, created: created
+      });
+    }));
+  }).flatten();
+}
 
-Export.table.toDrive({
-  collection: rows,
-  description: 'area_4AB_cerrado_by_latband_v0_2',
-  folder: P.EXPORT_FOLDER,
-  fileNamePrefix: 'area_4AB_cerrado_by_latband_v0.2',
-  fileFormat: 'CSV',
-  selectors: ['tile_id', 'fire_context', 'lat_band', 'area_ha',
-              'stable_a_asset', 'stable_b_asset', 'biome_asset', 'target_class', 'run_tag', 'created']
-});
+// Exporta em N_PARTS tarefas independentes (como na etapa 01)
+var perPart = Math.ceil(nTiles / P.N_PARTS);
+for (var i = 0; i < P.N_PARTS; i++) {
+  var start = i * perPart;
+  var end = Math.min(start + perPart, nTiles);
+  if (start >= end) { break; }
+  var suffix = 'part0' + (i + 1);
+  Export.table.toDrive({
+    collection: reduceTiles(ee.FeatureCollection(gridList.slice(start, end))),
+    description: 'area_4AB_cerrado_by_latband_' + P.RUN_TAG.replace('.', '_') + '_' + suffix,
+    folder: P.EXPORT_FOLDER,
+    fileNamePrefix: 'area_4AB_cerrado_by_latband_' + P.RUN_TAG + '_' + suffix,
+    fileFormat: 'CSV',
+    selectors: ['tile_id', 'fire_context', 'lat_band', 'area_ha',
+                'stable_a_asset', 'stable_b_asset', 'biome_asset', 'target_class', 'run_tag', 'created']
+  });
+}

@@ -2,11 +2,10 @@
 // 02a_populacao.js
 // Projeto: stable-unburned — piloto savana estável sem fogo no Cerrado
 //
-// STATUS: JÁ EXECUTADO em 2026-10-24 (26 min, 22.732 EECU-s).
-//   O asset abaixo existe. NÃO é preciso rodar de novo. Este arquivo
-//   fica no repositório para registrar exatamente como ele foi feito.
-//   (Foi gerado pela fase 'assets' do antigo 02_populacao_mcd12q2.js;
-//   a lógica é idêntica à deste arquivo.)
+// STATUS: A REFAZER. A rodada de 2026-10-24 usou o campo 'Bioma' (errado);
+//   o filtro do Cerrado não achou polígonos e o asset saiu provavelmente
+//   vazio. Antes de rodar: APAGAR o asset antigo no painel Assets.
+//   Campo correto: NM_BIOMA.
 //
 // O QUE FAZ
 //   Gera o asset da POPULAÇÃO do piloto, a 30 m:
@@ -28,7 +27,7 @@ var P = {
   LULC: 'projects/mapbiomas-public/assets/brazil/lulc/collection11/mapbiomas_brazil_collection11_coverage_v3',
   LULC_REF_YEAR: 2025,
   BIOMES: 'projects/ee-barroso2501/assets/biomas_IBGE',
-  BIOME_FIELD: 'Bioma',
+  BIOME_FIELD: 'NM_BIOMA',
   BIOME_VALUE: 'Cerrado',
   TARGET_CLASS: 4,
   // Classes antrópicas (borda) — mesmas da etapa 01; CONFERIR na legenda Col. 11
@@ -38,7 +37,7 @@ var P = {
   LAT_BAND_DEG: 5,
   BBOX: [-61, -25, -41, -2],
   ASSET_ID: 'projects/ee-barroso2501/assets/stable/pilot_4A_cerrado_core_edge250',
-  RUN_TAG: 'v0.1'
+  RUN_TAG: 'v0.2'
 };
 
 var created = ee.Date(Date.now()).format('YYYY-MM-dd');

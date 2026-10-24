@@ -44,7 +44,7 @@ var P = {
   // Limite do bioma Cerrado: biomas IBGE (asset do projeto).
   // BIOME_FIELD = nome do campo com o nome do bioma (conferir no console).
   BIOMES: 'projects/ee-barroso2501/assets/biomas_IBGE',
-  BIOME_FIELD: 'Bioma',
+  BIOME_FIELD: 'NM_BIOMA',
   BIOME_VALUE: 'Cerrado',
 
   TARGET_CLASS: 4,       // Formação Savânica

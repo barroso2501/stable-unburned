@@ -40,8 +40,8 @@ stable-unburned/
 | LULC Col. 11 | `projects/mapbiomas-public/assets/brazil/lulc/collection11/mapbiomas_brazil_collection11_coverage_v3` |
 | Fogo Col. 5.1 acumulado | `projects/mapbiomas-public/assets/brazil/fire/collection5_1/mapbiomas_fire_collection51_accumulated_burned_v1` |
 | Estável, nunca queimado (A) | `projects/ee-barroso2501/assets/stable/stable_col11_fire5_1_strict_never_burned` |
-| Estável, queimado ≥ 1 vez (B) | `projects/ee-barroso2501/assets/stable/stable_col11_fire5_1_strict_burned` (confirmar) |
-| Limite do Cerrado (biomas IBGE) | `projects/ee-barroso2501/assets/biomas_IBGE` |
+| Estável, queimado ≥ 1 vez (B) | `projects/ee-barroso2501/assets/stable/stable_col11_fire5_1_strict_burned` |
+| Limite do Cerrado (biomas IBGE) | `projects/ee-barroso2501/assets/biomas_IBGE` (campo `NM_BIOMA`) |
 
 ## Como reproduzir
 

@@ -2,7 +2,7 @@
 // 02c_pureza.js
 // Projeto: stable-unburned — piloto savana estável sem fogo no Cerrado
 //
-// STATUS: A RODAR. Pré-requisito: asset da população (02a) — já existe.
+// STATUS: A RODAR DEPOIS de 02a (refeito com NM_BIOMA).
 //
 // O QUE FAZ
 //   Para cada pixel MODIS, calcula a % da área ocupada pela população
@@ -25,7 +25,7 @@
 var P = {
   POP_ID: 'projects/ee-barroso2501/assets/stable/pilot_4A_cerrado_core_edge250',
   BIOMES: 'projects/ee-barroso2501/assets/biomas_IBGE',
-  BIOME_FIELD: 'Bioma',
+  BIOME_FIELD: 'NM_BIOMA',
   BIOME_VALUE: 'Cerrado',
   MCD12Q2: 'MODIS/061/MCD12Q2',
   MOD13Q1: 'MODIS/061/MOD13Q1',

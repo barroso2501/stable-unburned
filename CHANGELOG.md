@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1] — 2026-10-24
+
+- Campo do limite do bioma corrigido para `NM_BIOMA` em todos os scripts (causa real dos CSVs vazios da etapa 02).
+- `02a_populacao.js`: marcado para refazer (asset anterior gerado com o campo errado).
+- `02b_area_4AB.js` v0.3: exportação dividida em 4 partes.
+- `02b_diagnostico.js`: checagem só no console.
+
 ## [0.4.0] — 2026-10-24
 
 - Etapa 02 reorganizada em quatro scripts de propósito único, substituindo `02_populacao_mcd12q2.js` (removido):
