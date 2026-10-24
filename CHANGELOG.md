@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.10.0] — 2026-10-24
+
+- `gee/05b_chirps.js`: chuva CHIRPS por pêntada nos pontos da amostra.
+- `python/07_chuva_verdor.py`: início e fim da estação chuvosa (acumulação anômala) e defasagem para o verdor (pergunta 2); testado com dados sintéticos.
+
 ## [0.9.0] — 2026-10-24
 
 - `python/common.py`: leitura e limpeza compartilhadas (D19–D22).

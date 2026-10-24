@@ -17,6 +17,7 @@
 | `02e_ciclos_ano_hidrologico.js` | ciclos MCD12Q2 recontados por ano hidrológico (jul–jun, D16) + histograma de QA | executado |
 | `03_amostra.js` | amostra estratificada por faixa (asset + CSV) | executado |
 | `05_series.js` | séries MOD13Q1, MCD43A4 (8 dias) e HLS L30/S30 nos 1215 pontos | executado (30 tarefas) |
+| `05b_chirps.js` | chuva CHIRPS v2.0 por pêntada nos 1215 pontos, 2000–2025 (5 tarefas) | **a rodar** |
 
 Ordem: `02a` e `02b` juntos → `02c` → `02d` → `02e` → `03` → `05` (a etapa 04, GEDI, vem depois). `02b_diagnostico.js` só imprime no console (não exporta).
 
