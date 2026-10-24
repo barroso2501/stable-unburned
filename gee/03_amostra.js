@@ -2,7 +2,7 @@
 // 03_amostra.js
 // Projeto: stable-unburned — piloto savana estável sem fogo no Cerrado
 //
-// STATUS: A RODAR (parâmetros de amostragem = proposta D18, confirmar).
+// STATUS: A RODAR. Console conferido em 2026-10-24: 300/300/300/300/15 pontos.
 //
 // O QUE FAZ
 //   Sorteia a amostra de pontos do piloto, estratificada por faixa de
@@ -103,8 +103,10 @@ sample = sample.map(function (f) {
   var c = f.geometry().coordinates();
   return f.set({
     lon: c.get(0), lat: c.get(1),
+    // id único: faixa + índice interno da feição (o índice derivado de
+    // 'rand' da v0.1 podia repetir dentro da faixa)
     point_id: ee.String('P').cat(ee.Number(f.get('lat_band')).format('%d'))
-      .cat('_').cat(ee.Number(f.get('rand')).multiply(1e6).round().format('%06d')),
+      .cat('_').cat(ee.String(f.get('system:index'))),
     seed: P.SEED, purity_min_pct: P.PURITY_MIN, n_per_band: P.N_PER_BAND,
     pop_asset: P.POP_ID, run_tag: P.RUN_TAG, created: created
   });
@@ -112,6 +114,8 @@ sample = sample.map(function (f) {
 
 print('Pontos finais por faixa:', sample.aggregate_histogram('lat_band'));
 print('Prévia:', sample.limit(5));
+// Checagem: ids devem ser todos distintos (os dois números iguais)
+print('Nº de pontos / nº de ids distintos:', sample.size(), sample.aggregate_count_distinct('point_id'));
 
 Export.table.toAsset({
   collection: sample,
