@@ -41,7 +41,7 @@ stable-unburned/
 | Fogo Col. 5.1 acumulado | `projects/mapbiomas-public/assets/brazil/fire/collection5_1/mapbiomas_fire_collection51_accumulated_burned_v1` |
 | Estável, nunca queimado (A) | `projects/ee-barroso2501/assets/stable/stable_col11_fire5_1_strict_never_burned` |
 | Estável, queimado ≥ 1 vez (B) | `projects/ee-barroso2501/assets/stable/stable_col11_fire5_1_strict_burned` (confirmar) |
-| Limite do Cerrado | a definir (biomas IBGE 1:250.000 como asset próprio) |
+| Limite do Cerrado (biomas IBGE) | `projects/ee-barroso2501/assets/biomas_IBGE` |
 
 ## Como reproduzir
 

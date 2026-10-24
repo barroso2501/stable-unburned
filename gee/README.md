@@ -11,7 +11,7 @@
 
 ## Antes de rodar `01_zonal_4A_cerrado.js`
 
-1. Ajustar `BIOMES`, `BIOME_FIELD` e `BIOME_VALUE` para um asset de biomas IBGE disponível na sua conta.
+1. Limite do Cerrado: `projects/ee-barroso2501/assets/biomas_IBGE`. Conferir no console o nome do campo (`BIOME_FIELD`, padrão `Bioma`) e a grafia "Cerrado".
 2. Conferir `ANTHROPIC` e `NATURAL_VEG` contra a legenda oficial da Col. 11.
 3. No console, conferir que a projeção do asset é ~30 m e que o Cerrado tem ≥ 1 feição.
 4. Validação: a soma de `area_ha` deve ser menor que 49,2 Mha (4-A no Brasil inteiro, ver `outputs/area_stable_...csv`).
