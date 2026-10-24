@@ -23,3 +23,7 @@ Convenção de nome: `<produto>_<versão ou RUN_TAG>.csv`. Cada saída deve ter 
 | `clim_evi_by_band_month_v0.1.csv` | 05 (QC) | EVI mediano por sensor × faixa × mês, 2018/19–2024/25 |
 | `peak_month_dist_v0.1.csv` | 05 (QC) | distribuição do mês de pico (climatologia mensal) por sensor × faixa |
 | `sensor_agreement_v0.1.csv` | 05 (QC) | concordância do mês de pico, correlação, nível e amplitude entre sensores |
+| `metrics_point_year_v0.1.csv` | 06 | métricas por sensor × ponto × ano hidrológico (dias contados a partir de 1º jul) |
+| `metrics_summary_band_v0.1.csv` | 06 | quartis das métricas por sensor × faixa (anos válidos), % válidos, % com ombro |
+| `metrics_sensor_diff_v0.1.csv` | 06 | diferenças entre sensores (vs MCD43A4) e sensibilidade ao aerossol no HLS |
+| `metrics_interannual_v0.1.csv` | 06 | variabilidade interanual do pico por ponto (MCD43A4, ≥ 15 anos) |

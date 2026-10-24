@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.0] — 2026-10-24
+
+- `python/common.py`: leitura e limpeza compartilhadas (D19–D22).
+- `python/06_metricas.py`: métricas de forma da curva por sensor × ponto × ano hidrológico; diferenças entre sensores; sensibilidade ao aerossol; variabilidade interanual.
+- `python/05_qc_series.py` passa a usar `common.py` (resultados idênticos).
+- `env/requirements.txt` inclui scipy.
+
 ## [0.8.0] — 2026-10-24
 
 - Etapa 05 concluída (30 tarefas). Séries brutas em `data/series/` (fora do git).

@@ -28,66 +28,21 @@ COMO RODAR
   Requer: pandas, numpy (versões em env/requirements.txt)
 """
 
-from pathlib import Path
-import glob
-
 import numpy as np
 import pandas as pd
+
+from common import OUT, read_all, clean_hls, clean_mcd43a4, clean_mod13q1
 
 # ---------------------------------------------------------------------------
 # Parâmetros
 # ---------------------------------------------------------------------------
-ROOT = Path(__file__).resolve().parents[1]
-DATA = ROOT / "data" / "series"
-OUT = ROOT / "outputs"
 TAG = "v0.1"
-
 PERIOD_START = pd.Timestamp("2018-07-01")   # início do período comum (ano hidrológico 2018/19)
 PERIOD_END = pd.Timestamp("2025-07-01")     # fim exclusivo (último ano 2024/25)
 WET_MONTHS = [11, 12, 1, 2, 3]
 
-
-def read_all(pattern):
-    """Lê e concatena todos os CSVs que casam com o padrão; para se não achar nenhum."""
-    files = sorted(glob.glob(str(DATA / pattern)))
-    if not files:
-        raise FileNotFoundError(f"Nenhum arquivo {pattern} em {DATA}")
-    df = pd.concat([pd.read_csv(f) for f in files], ignore_index=True)
-    df["date"] = pd.to_datetime(df["date"])
-    return df
-
-
-# ---------------------------------------------------------------------------
-# 1–2. Leitura e limpeza
-# ---------------------------------------------------------------------------
-def clean_hls(h):
-    # Reflectâncias negativas são artefato de correção atmosférica: fora
-    h = h[(h[["blue", "red", "nir"]] >= 0).all(axis=1)]
-    # Mesma passagem aparece em 2+ tiles sobrepostos com valores quase iguais
-    h = h.groupby(["point_id", "lat_band", "date"], as_index=False)[["blue", "red", "nir"]].median()
-    h["EVI"] = 2.5 * (h.nir - h.red) / (h.nir + 6 * h.red - 7.5 * h.blue + 1)
-    # EVI fora de (0, 1) = nuvem residual, sombra ou erro
-    h = h[(h.EVI > 0) & (h.EVI < 1)]
-    return h.rename(columns={"date": "d"})[["point_id", "lat_band", "d", "EVI"]]
-
-
-def clean_mod13q1(m):
-    m = m[m.SummaryQA <= 1].copy()
-    m["EVI"] = m.EVI * 1e-4
-    # Data real = 1º de janeiro do ano + DayOfYear − 1. Compostos que começam em
-    # dezembro podem ter observação em janeiro do ano seguinte (DOY menor que o
-    # DOY da data de início).
-    yr = m.date.dt.year
-    nxt = m.DayOfYear < m.date.dt.dayofyear
-    base = pd.to_datetime((yr + nxt.astype(int)).astype(str) + "-01-01")
-    m["d"] = base + pd.to_timedelta(m.DayOfYear - 1, unit="D")
-    return m[["point_id", "lat_band", "d", "EVI"]]
-
-
-def clean_mcd43a4(n):
-    n = n[(n.EVI_median > -0.2) & (n.EVI_median < 1)].copy()
-    n["d"] = n.date + pd.Timedelta(days=4)     # meio da janela de 8 dias
-    return n.rename(columns={"EVI_median": "EVI"})[["point_id", "lat_band", "d", "EVI"]]
+# Funções de leitura e limpeza: ver common.py (as mesmas usadas na etapa 06).
+# Aqui o MOD13Q1 entra SEM o filtro de pureza de 232 m, para o QC cobrir todos os pontos.
 
 
 # ---------------------------------------------------------------------------
@@ -145,7 +100,7 @@ def main():
         pct_windows_with_full=lambda s: round((s > 0).mean() * 100, 1)).reset_index()
     full.to_csv(OUT / f"qc_mcd43a4_full_by_month_{TAG}.csv", index=False)
 
-    series = {"HLS": clean_hls(h_raw), "MOD13Q1": clean_mod13q1(m_raw), "MCD43A4": clean_mcd43a4(n_raw)}
+    series = {"HLS": clean_hls(h_raw), "MOD13Q1": clean_mod13q1(m_raw, apply_purity_filter=False), "MCD43A4": clean_mcd43a4(n_raw)}
     hls_wet_season_gaps(series["HLS"]).to_csv(OUT / f"qc_hls_obs_wet_season_{TAG}.csv", index=False)
 
     clim = {k: monthly_climatology(v) for k, v in series.items()}
