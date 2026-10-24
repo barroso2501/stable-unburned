@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.4.0] — 2026-10-24
+
+- Etapa 02 reorganizada em quatro scripts de propósito único, substituindo `02_populacao_mcd12q2.js` (removido):
+  - `02a_populacao.js` — asset da população (já executado; arquivo registra como foi feito);
+  - `02b_area_4AB.js` — área 4-A/4-B por faixa, refeita só com aritmética e com checagem no console (as versões anteriores davam CSV vazio);
+  - `02c_pureza.js` — pureza MODIS lendo o asset da população (corrige o erro de projeção do `reduceResolution`);
+  - `02d_stats_mcd12q2.js` — contagens de pureza e ciclos MCD12Q2.
+- `gee/README.md` com tabela de estado; `docs/execucoes.md` com as rodadas da etapa 02 reescritas.
+
 ## [0.3.0] — 2026-10-24
 
 - `gee/02_populacao_mcd12q2.js`: asset da população do piloto (núcleo 3×3, borda ≥ 250 m, faixas de 5°), assets de pureza MODIS (500 m e 232 m), área 4-A/4-B por faixa e ciclos MCD12Q2 2016–2024.

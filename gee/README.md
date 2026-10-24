@@ -1,24 +1,26 @@
 # Scripts Google Earth Engine
 
-- Numerados na ordem de execução (`00_`, `01_`, ...).
-- Cada script tem um bloco `PARÂMETROS` no topo. Só ali se muda algo entre rodadas.
-- O GitHub é a fonte. Para rodar, copie o script para o Code Editor; se alterar algo lá, traga a alteração de volta antes de exportar.
-- Toda exportação grava propriedades de proveniência (assets de entrada, parâmetros, `RUN_TAG`, data).
+- Numerados na ordem de execução. Cada script faz **uma** coisa e tem os parâmetros no topo.
+- O GitHub é a fonte. Para rodar, copie o script para o Code Editor; se alterar algo lá, traga a alteração de volta.
+- Toda exportação grava proveniência (assets de entrada, parâmetros, `RUN_TAG`, data).
 
-## Pendente
+## Estado (2026-10-24)
 
-- **`00_stable_unburned_lulc.js`**: adicionar o script original (`stable_unburned_lulc.js`) que gerou os assets estáveis, com o mesmo conteúdo usado na rodada.
+| Script | Faz | Estado |
+| --- | --- | --- |
+| `00_stable_unburned_lulc.js` | assets de áreas estáveis A e B | executado; **arquivo a adicionar** (script original) |
+| `01_zonal_4A_cerrado.js` | área de 4-A no Cerrado por núcleo × borda × fragmento | executado (v0.2) |
+| `02a_populacao.js` | asset da população do piloto | **executado** — não rodar de novo |
+| `02b_area_4AB.js` | CSV de área 4-A e 4-B por faixa | **a rodar** (independente) |
+| `02c_pureza.js` | 2 assets de pureza MODIS | **a rodar** (depende de 02a, já pronto) |
+| `02d_stats_mcd12q2.js` | CSVs de pureza e de ciclos MCD12Q2 | a rodar **depois** de 02c |
 
-## Antes de rodar `01_zonal_4A_cerrado.js`
+`02b` e `02c` podem rodar ao mesmo tempo.
 
-1. Limite do Cerrado: `projects/ee-barroso2501/assets/biomas_IBGE`. Conferir no console o nome do campo (`BIOME_FIELD`, padrão `Bioma`) e a grafia "Cerrado".
-2. Conferir `ANTHROPIC` e `NATURAL_VEG` contra a legenda oficial da Col. 11.
-3. No console, conferir que a projeção do asset é ~30 m e que o Cerrado tem ≥ 1 feição.
-4. Validação: a soma de `area_ha` deve ser menor que 49,2 Mha (4-A no Brasil inteiro, ver `outputs/area_stable_...csv`).
+## Checagens
 
-## Rodar `02_populacao_mcd12q2.js`
-
-1. `RUN_PART: 'assets'` → 2 tarefas (asset da população + CSV de área 4-A/4-B). Confirmar antes o caminho de `STABLE_B`.
-2. Quando `pilot_4A_cerrado_core_edge250` terminar, `RUN_PART: 'purity'` → 2 assets de pureza.
-3. Quando os assets de pureza terminarem, `RUN_PART: 'stats'` → 2 CSVs.
-4. Validação: a soma de 4-A no CSV de área deve dar ~11,43 Mha (etapa 01).
+- `01`, `02b`: limite do Cerrado = `projects/ee-barroso2501/assets/biomas_IBGE`, campo `Bioma`, valor `Cerrado`.
+- `02b`: antes de exportar, o console deve mostrar a "Checagem" com códigos e áreas (ex.: 14, 24). Lista vazia → não exportar.
+- `02b`: soma de A deve dar ~11,43 Mha (igual à etapa 01).
+- `02d`: as prévias S1 e S2 no console devem trazer linhas.
+- Listas `ANTHROPIC` e `NATURAL_VEG`: conferir na legenda oficial da Col. 11.

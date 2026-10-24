@@ -1,6 +1,6 @@
 # Piloto — especificação de implementação
 
-Versão 2026-10-23. Fundamentação científica: KB `kb/02_piloto_savana_cerrado.md`.
+Versão 2026-10-24. Fundamentação científica: KB `kb/02_piloto_savana_cerrado.md`.
 
 ## População
 
@@ -12,7 +12,10 @@ Classe 4 estável 1985–2025 (Col. 11, `strict`), nunca queimada (Fogo 5.1), de
 | --- | --- | --- | --- | --- |
 | 00 | `gee/00_stable_unburned_lulc.js` | LULC Col. 11, Fogo 5.1 | assets estável A e B; CSV de áreas por classe × contexto | executada (data a registrar) |
 | 01 | `gee/01_zonal_4A_cerrado.js` | asset A, LULC 2025, limite do Cerrado | `outputs/zonal_4A_cerrado_v0.2_*.csv` (área por núcleo × borda × fragmento) | executada (v0.2); definiu D12, D13 |
-| 02 | `gee/02_populacao_mcd12q2.js` | assets A e B, LULC 2025, MCD12Q2, MOD13Q1 | fase `assets`: asset da população (`pilot_4A_cerrado_core_edge250`), assets de pureza 500 m e 232 m, CSV de área 4-A/4-B por faixa; fase `stats`: CSV de pureza por faixa e CSV de ciclos MCD12Q2 2016–2024 | pronto para rodar |
+| 02a | `gee/02a_populacao.js` | asset A, LULC 2025, Cerrado | asset `pilot_4A_cerrado_core_edge250` | executada |
+| 02b | `gee/02b_area_4AB.js` | assets A e B, Cerrado | CSV de área 4-A/4-B por faixa | a rodar |
+| 02c | `gee/02c_pureza.js` | asset 02a, grades MODIS | assets `pilot_4A_purity_mcd500` e `pilot_4A_purity_mod13q1` | a rodar |
+| 02d | `gee/02d_stats_mcd12q2.js` | assets 02c, MCD12Q2 | CSVs de pureza por faixa e de ciclos MCD12Q2 2016–2024 | a rodar após 02c |
 | 03 | a escrever | população filtrada | amostra de pontos (semente fixa), distância mínima 500 m | — |
 | 04 | a escrever | amostra, GEDI L2B | footprints de boa qualidade nos núcleos | — |
 | 05 | a escrever | amostra, MODIS, HLS | séries temporais e contagem de observações válidas por mês | — |
