@@ -17,3 +17,9 @@ Convenção de nome: `<produto>_<versão ou RUN_TAG>.csv`. Cada saída deve ter 
 | `pilot_4A_mcd12q2_cycles_hydro_v0.1.csv` | 02e | nº de pixels puros por nº de ciclos MCD12Q2, ano hidrológico e faixa |
 | `pilot_4A_mcd12q2_qa_hist_v0.1.csv` | 02e | histograma de QA_Overall_1 por ano civil |
 | `pilot_4A_sample_v0.1.csv` | 03 | amostra do piloto: 1215 pontos, faixa, lon/lat, pureza 463 m e 232 m |
+| `qc_hls_obs_wet_season_v0.1.csv` | 05 (QC) | % de meses chuvosos sem observação HLS, por faixa e período |
+| `qc_mod13q1_qa_by_month_v0.1.csv` | 05 (QC) | % de compostos MOD13Q1 com QA 0 e ≤ 1, por faixa e mês |
+| `qc_mcd43a4_full_by_month_v0.1.csv` | 05 (QC) | % de janelas MCD43A4 com inversão completa, por faixa e mês |
+| `clim_evi_by_band_month_v0.1.csv` | 05 (QC) | EVI mediano por sensor × faixa × mês, 2018/19–2024/25 |
+| `peak_month_dist_v0.1.csv` | 05 (QC) | distribuição do mês de pico (climatologia mensal) por sensor × faixa |
+| `sensor_agreement_v0.1.csv` | 05 (QC) | concordância do mês de pico, correlação, nível e amplitude entre sensores |

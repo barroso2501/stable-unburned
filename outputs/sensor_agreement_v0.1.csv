@@ -1,0 +1,4 @@
+pair,n_points,pct_same_peak_month,pct_within_1_month,corr_monthly_clim,mean_evi_HLS,mean_evi_MOD13Q1,median_amplitude_HLS,median_amplitude_MOD13Q1,mean_evi_MCD43A4,median_amplitude_MCD43A4
+HLS vs MOD13Q1,1215,29.8,70.7,0.924,0.412,0.396,0.183,0.185,,
+HLS vs MCD43A4,1215,30.1,73.7,0.931,0.412,,0.183,,0.413,0.194
+MOD13Q1 vs MCD43A4,1215,33.1,73.7,0.962,,0.396,,0.185,0.413,0.194

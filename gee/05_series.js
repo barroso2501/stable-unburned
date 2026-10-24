@@ -2,7 +2,7 @@
 // 05_series.js
 // Projeto: stable-unburned — piloto savana estável sem fogo no Cerrado
 //
-// STATUS: A RODAR. Rodar PRIMEIRO em modo teste (TEST_POINTS > 0).
+// STATUS: EXECUTADO em 2026-10-24 (30 tarefas; ver docs/execucoes.md).
 //
 // O QUE FAZ
 //   Extrai as séries temporais dos 1215 pontos da amostra (etapa 03)

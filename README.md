@@ -29,6 +29,8 @@ stable-unburned/
 │   ├── README.md
 │   ├── 00_stable_unburned_lulc.js    # A ADICIONAR (script original da etapa 00)
 │   └── 01_zonal_4A_cerrado.js
+├── python/                       # scripts Python (QC e métricas)
+├── data/series/                  # séries brutas da etapa 05 (fora do git; ver data/README.md)
 ├── outputs/                          # CSVs pequenos, nome com versão; ver outputs/README.md
 └── env/                              # ambiente Python (quando houver)
 ```

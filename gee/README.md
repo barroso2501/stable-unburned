@@ -16,7 +16,7 @@
 | `02d_stats_mcd12q2.js` | CSVs de pureza e de ciclos MCD12Q2 | executado (ciclos por ano civil; ver docs/execucoes.md) |
 | `02e_ciclos_ano_hidrologico.js` | ciclos MCD12Q2 recontados por ano hidrológico (jul–jun, D16) + histograma de QA | executado |
 | `03_amostra.js` | amostra estratificada por faixa (asset + CSV) | executado |
-| `05_series.js` | séries MOD13Q1, MCD43A4 (8 dias) e HLS L30/S30 nos 1215 pontos | **a rodar — primeiro em modo teste** |
+| `05_series.js` | séries MOD13Q1, MCD43A4 (8 dias) e HLS L30/S30 nos 1215 pontos | executado (30 tarefas) |
 
 Ordem: `02a` e `02b` juntos → `02c` → `02d` → `02e` → `03` → `05` (a etapa 04, GEDI, vem depois). `02b_diagnostico.js` só imprime no console (não exporta).
 

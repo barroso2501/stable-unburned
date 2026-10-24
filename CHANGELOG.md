@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.8.0] — 2026-10-24
+
+- Etapa 05 concluída (30 tarefas). Séries brutas em `data/series/` (fora do git).
+- `python/05_qc_series.py`: limpeza (duplicatas HLS, QA MOD13Q1, faixa de EVI) e comparação entre sensores; saídas em `outputs/`.
+- `env/requirements.txt` com as versões de pandas e numpy.
+
 ## [0.7.0] — 2026-10-24
 
 - `gee/05_series.js`: extração das séries MOD13Q1 (2000–2025), MCD43A4 em janelas de 8 dias (2000–2025) e HLS L30/S30 (2016–2025, Fmask) nos pontos da amostra; modo teste.
