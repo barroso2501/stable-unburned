@@ -15,3 +15,9 @@
 2. Conferir `ANTHROPIC` e `NATURAL_VEG` contra a legenda oficial da Col. 11.
 3. No console, conferir que a projeção do asset é ~30 m e que o Cerrado tem ≥ 1 feição.
 4. Validação: a soma de `area_ha` deve ser menor que 49,2 Mha (4-A no Brasil inteiro, ver `outputs/area_stable_...csv`).
+
+## Rodar `02_populacao_mcd12q2.js`
+
+1. `RUN_PART: 'assets'` → 4 tarefas (3 assets + 1 CSV). Confirmar antes o caminho de `STABLE_B`.
+2. Quando os assets `pilot_4A_purity_mcd500` e `pilot_4A_purity_mod13q1` terminarem, `RUN_PART: 'stats'` → 2 CSVs.
+3. Validação: a soma de 4-A no CSV de área deve dar ~11,43 Mha (etapa 01).
