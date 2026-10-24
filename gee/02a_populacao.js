@@ -2,10 +2,7 @@
 // 02a_populacao.js
 // Projeto: stable-unburned — piloto savana estável sem fogo no Cerrado
 //
-// STATUS: A REFAZER. A rodada de 2026-10-24 usou o campo 'Bioma' (errado);
-//   o filtro do Cerrado não achou polígonos e o asset saiu provavelmente
-//   vazio. Antes de rodar: APAGAR o asset antigo no painel Assets.
-//   Campo correto: NM_BIOMA.
+// STATUS: EXECUTADO em 2026-10-24 (ver docs/execucoes.md).
 //
 // O QUE FAZ
 //   Gera o asset da POPULAÇÃO do piloto, a 30 m:

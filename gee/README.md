@@ -10,12 +10,13 @@
 | --- | --- | --- |
 | `00_stable_unburned_lulc.js` | assets de áreas estáveis A e B | executado; **arquivo a adicionar** (script original) |
 | `01_zonal_4A_cerrado.js` | área de 4-A no Cerrado por núcleo × borda × fragmento | executado (v0.2) |
-| `02a_populacao.js` | asset da população do piloto | **refazer** (rodada anterior com campo errado; apagar o asset antigo antes) |
-| `02b_area_4AB.js` | CSV de área 4-A e 4-B por faixa (4 partes) | **a rodar** (independente) |
-| `02c_pureza.js` | 2 assets de pureza MODIS | a rodar **depois** de 02a |
-| `02d_stats_mcd12q2.js` | CSVs de pureza e de ciclos MCD12Q2 | a rodar **depois** de 02c |
+| `02a_populacao.js` | asset da população do piloto | executado (v0.2) |
+| `02b_area_4AB.js` | CSV de área 4-A e 4-B por faixa (4 partes) | executado (v0.3) |
+| `02c_pureza.js` | 2 assets de pureza MODIS | executado |
+| `02d_stats_mcd12q2.js` | CSVs de pureza e de ciclos MCD12Q2 | executado (ciclos por ano civil; ver docs/execucoes.md) |
+| `02e_ciclos_ano_hidrologico.js` | ciclos MCD12Q2 recontados por ano hidrológico (jul–jun, D16) + histograma de QA | **a rodar** |
 
-Ordem: `02a` e `02b` juntos → `02c` → `02d`. `02b_diagnostico.js` só imprime no console (não exporta).
+Ordem: `02a` e `02b` juntos → `02c` → `02d` → `02e`. `02b_diagnostico.js` só imprime no console (não exporta).
 
 ## Checagens
 

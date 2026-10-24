@@ -2,7 +2,7 @@
 // 02d_stats_mcd12q2.js
 // Projeto: stable-unburned — piloto savana estável sem fogo no Cerrado
 //
-// STATUS: A RODAR DEPOIS de 02c (precisa dos dois assets de pureza).
+// STATUS: EXECUTADO em 2026-10-24 (ver docs/execucoes.md).
 //
 // O QUE FAZ
 //   S1. Pureza: quantos pixels MODIS (463 m e 232 m) são ocupados pela

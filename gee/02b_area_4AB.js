@@ -2,7 +2,7 @@
 // 02b_area_4AB.js
 // Projeto: stable-unburned — piloto savana estável sem fogo no Cerrado
 //
-// STATUS: A RODAR. Independente das etapas 02a, 02c e 02d.
+// STATUS: EXECUTADO em 2026-10-24 (ver docs/execucoes.md).
 //
 // O QUE FAZ
 //   Soma a área de savana (classe 4) estável no Cerrado, separada em

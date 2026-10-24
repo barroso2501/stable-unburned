@@ -2,7 +2,7 @@
 // 02c_pureza.js
 // Projeto: stable-unburned — piloto savana estável sem fogo no Cerrado
 //
-// STATUS: A RODAR DEPOIS de 02a (refeito com NM_BIOMA).
+// STATUS: EXECUTADO em 2026-10-24 (ver docs/execucoes.md).
 //
 // O QUE FAZ
 //   Para cada pixel MODIS, calcula a % da área ocupada pela população

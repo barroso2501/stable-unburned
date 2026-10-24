@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.5.0] — 2026-10-24
+
+- `gee/02e_ciclos_ano_hidrologico.js`: recontagem dos ciclos MCD12Q2 por ano hidrológico (D16) e histograma de QA_Overall_1.
+- Decisões D15 (faixa 20–25° S exploratória) e D16 (ano hidrológico) registradas na KB.
+
+## [0.4.2] — 2026-10-24
+
+- Etapa 02 concluída: saídas de 02b e 02d em `outputs/`; status dos scripts atualizado.
+
 ## [0.4.1] — 2026-10-24
 
 - Campo do limite do bioma corrigido para `NM_BIOMA` em todos os scripts (causa real dos CSVs vazios da etapa 02).
