@@ -17,10 +17,10 @@ Classe 4 estável 1985–2025 (Col. 11, `strict`), nunca queimada (Fogo 5.1), de
 | 02c | `gee/02c_pureza.js` | asset 02a, grades MODIS | assets `pilot_4A_purity_mcd500` e `pilot_4A_purity_mod13q1` | executada |
 | 02d | `gee/02d_stats_mcd12q2.js` | assets 02c, MCD12Q2 | CSVs de pureza por faixa e de ciclos MCD12Q2 2016–2024 (ano civil) | executada |
 | 02e | `gee/02e_ciclos_ano_hidrologico.js` | asset de pureza 463 m, MCD12Q2 | ciclos por ano hidrológico 2016/17–2023/24; histograma de QA | executada |
-| 03 | a escrever | população filtrada | amostra de pontos (semente fixa), distância mínima 500 m | — |
+| 03 | `gee/03_amostra.js` | assets 02a e 02c | asset e CSV `pilot_4A_sample_v0.1`: até 300 pontos por faixa, 1 por pixel MODIS de 463 m puro (≥ 90%) em grade par (~926 m), semente 42 | a rodar |
 | 04 | a escrever | amostra, GEDI L2B | footprints de boa qualidade nos núcleos | — |
 | 05 | a escrever | amostra, MODIS, HLS | séries temporais e contagem de observações válidas por mês | — |
-| 06 | a escrever (Python) | séries | métricas de pico; critérios de viabilidade | — |
+| 06 | a escrever (Python) | séries | métricas de forma da curva (data e magnitude do pico, assimetria, ombro, início do verdor vs. início das chuvas; D17); critérios de viabilidade | — |
 
 ## Critérios de viabilidade (limiares a fixar antes da etapa 03)
 

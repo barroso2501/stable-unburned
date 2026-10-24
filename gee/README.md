@@ -15,8 +15,9 @@
 | `02c_pureza.js` | 2 assets de pureza MODIS | executado |
 | `02d_stats_mcd12q2.js` | CSVs de pureza e de ciclos MCD12Q2 | executado (ciclos por ano civil; ver docs/execucoes.md) |
 | `02e_ciclos_ano_hidrologico.js` | ciclos MCD12Q2 recontados por ano hidrológico (jul–jun, D16) + histograma de QA | executado |
+| `03_amostra.js` | amostra estratificada por faixa (asset + CSV) | **a rodar** |
 
-Ordem: `02a` e `02b` juntos → `02c` → `02d` → `02e`. `02b_diagnostico.js` só imprime no console (não exporta).
+Ordem: `02a` e `02b` juntos → `02c` → `02d` → `02e` → `03`. `02b_diagnostico.js` só imprime no console (não exporta).
 
 ## Checagens
 

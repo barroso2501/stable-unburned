@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.6.0] — 2026-10-24
+
+- `gee/03_amostra.js`: sorteio estratificado da amostra do piloto (D18, proposta).
+- Métrica "número de picos" do MCD12Q2 rebaixada; pergunta 2 passa a usar a forma da curva (D17).
+
 ## [0.5.1] — 2026-10-24
 
 - Saídas do 02e em `outputs/`; status atualizado.
