@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.12.0] — 2026-10-24
+
+- `python/06b_sensibilidade_suavizacao.py`: sensibilidade das métricas de início do verdor à janela do Savitzky–Golay (3/5/7).
+- `python/07b_robustez_chuva_verdor.py`: teste T5 (antecipação > 16 d, repetição por ponto, concordância entre sensores).
+
 ## [0.11.0] — 2026-10-24
 
 - `gee/05b_chirps.js` v0.2 executado (1215 pontos × 1872 pêntadas).

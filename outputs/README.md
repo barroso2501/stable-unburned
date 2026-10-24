@@ -33,3 +33,7 @@ Convenção de nome: `<produto>_<versão ou RUN_TAG>.csv`. Cada saída deve ter 
 | `rain_robust_point_year_v0.1.csv` | 07b | chuva acumulada até o sos20, onsets por primeiras chuvas (25/50 mm), indicadores de verdor antecipado |
 | `rain_robust_summary_v0.1.csv` | 07b | resumo dos testes T1–T3 por sensor × faixa |
 | `rain_coupling_summary_v0.1.csv` | 07b | acoplamento interanual onset × sos20/sos50 dentro do ponto (r e inclinação) |
+| `rain_early_greenup_v0.1.csv` | 07b (T5) | antecipação do sos20 > 16 d antes das primeiras 25 mm: frequência por sensor, concordância, pontos recorrentes, por faixa |
+| `rain_early_greenup_points_v0.1.csv` | 07b (T5) | fração de anos com antecipação > 16 d nos dois sensores, por ponto |
+| `smoothing_sensitivity_summary_v0.1.csv` | 06b | indicadores de verdor × chuva por janela SG (3/5/7) × sensor × faixa |
+| `smoothing_sensitivity_paired_v0.1.csv` | 06b | deslocamento pareado do sos20/sos50 com janelas 3 e 5 em relação à 7 |

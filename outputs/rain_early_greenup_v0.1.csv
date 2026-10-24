@@ -1,0 +1,6 @@
+lat_band,n_paired,pct_early16_MCD43A4,pct_early16_MOD13Q1,pct_early16_both,pct_MCD_events_confirmed,points_with_both_ge25pct_years,n_points
+1,5212,0.3,0.7,0.1,35.3,0,291
+2,6528,2.7,3.1,1.6,59.8,3,283
+3,6383,9.9,9.6,5.7,57.7,7,293
+4,7114,7.1,7.5,4.0,56.1,10,287
+5,300,0.0,0.0,0.0,0.0,0,12

@@ -21,9 +21,10 @@ Classe 4 estável 1985–2025 (Col. 11, `strict`), nunca queimada (Fogo 5.1), de
 | 04 | a escrever | amostra, GEDI L2B | footprints de boa qualidade nos núcleos | — |
 | 05 | `gee/05_series.js` | asset da amostra; MOD13Q1, MCD43A4, HLS L30/S30 v2.0 | CSVs `series_<produto>_band<N>[_<período>]_v0.1.csv` (formato longo) | executada; QC em `python/05_qc_series.py` |
 | 05b | `gee/05b_chirps.js` | asset da amostra; CHIRPS v2.0 pêntadas | CSVs `chirps_pentad_band<N>_v0.2.csv` | executada (v0.2) |
+| 06b | `python/06b_sensibilidade_suavizacao.py` | séries limpas MODIS + saída da 07b | métricas com janela SG 3/5/7 e efeito no verdor antecipado | executada (v0.1) |
 | 06 | `python/06_metricas.py` (usa `python/common.py`) | séries limpas | métricas de forma da curva por ponto × ano hidrológico (pico, amplitude, sos/eos, assimetria, integral, ombro) | executada (v0.1) |
 | 07 | `python/07_chuva_verdor.py` | CHIRPS (05b) + métricas (06) | início/fim da estação chuvosa (acumulação anômala) e defasagem para o início/fim do verdor; % de verdor antes da chuva | executada (v0.1) |
-| 07b | `python/07b_robustez_chuva_verdor.py` | CHIRPS + saída da 07 | chuva acumulada até o sos20, onset pelas primeiras chuvas, tolerância, acoplamento interanual | executada (v0.1) |
+| 07b | `python/07b_robustez_chuva_verdor.py` | CHIRPS + saída da 07 | chuva acumulada até o sos20, onset pelas primeiras chuvas, tolerância, acoplamento interanual, antecipação > 16 d (repetição por ponto, concordância entre sensores) | executada (v0.1) |
 
 ## Critérios de viabilidade (limiares a fixar antes da etapa 03)
 

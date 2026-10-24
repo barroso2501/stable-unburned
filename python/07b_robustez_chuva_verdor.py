@@ -19,6 +19,10 @@ TESTES
   T4. Acoplamento interanual: dentro de cada ponto, correlação entre a anomalia do onset e a
       anomalia do sos20/sos50 (anos com ambos válidos; ≥ 8 anos por ponto). Se o verdor fosse
       disparado pela chuva, os anos de chuva tardia teriam verdor tardio (r > 0, inclinação ~1).
+  T5. Antecipação maior que o borramento temporal dos produtos: sos20 > 16 dias antes das
+      primeiras 25 mm (16 d ≈ janela de composição do MOD13Q1 e de recuperação do MCD43A4).
+      Mede (a) a frequência, (b) a repetição por ponto (fração de anos com o evento) e
+      (c) a concordância MCD43A4 × MOD13Q1 no mesmo ponto-ano.
 
 ENTRADAS
   data/series/chirps_pentad_band*_v0*2.csv; outputs/rain_greenup_lag_v0.1.csv (etapa 07)
@@ -26,6 +30,8 @@ SAÍDAS (outputs/)
   rain_robust_point_year_v0.1.csv   chuva antes do sos20 e onsets alternativos por sensor × ponto × ano
   rain_robust_summary_v0.1.csv      resumo T1–T3 por sensor × faixa
   rain_coupling_summary_v0.1.csv    resumo T4 por sensor × faixa
+  rain_early_greenup_v0.1.csv       T5 por faixa: frequência por sensor, concordância entre sensores, repetição por ponto
+  rain_early_greenup_points_v0.1.csv  T5 por ponto: fração de anos com antecipação > 16 d em ambos os sensores
 """
 
 import importlib.util
@@ -120,6 +126,27 @@ def main():
         "slope_sos50_p50": g.slope_sos50.median(),
     }).round(2).reset_index()
     coup.to_csv(OUT / f"rain_coupling_summary_{TAG}.csv", index=False)
+
+    # T5: antecipação > 16 d em relação às primeiras 25 mm (só MODIS: série longa)
+    m = j[j.sensor.isin(["MCD43A4", "MOD13Q1"]) & j.first25.notna()].copy()
+    m["early16"] = ((m.first25 - m.sos20) > TOL_DAYS).astype(float)
+    w = m.pivot_table(index=["lat_band", "point_id", "hy"], columns="sensor", values="early16").dropna()
+    w["both"] = w.MCD43A4 * w.MOD13Q1
+    rows = []
+    for band, d in w.groupby(level="lat_band"):
+        per_pt = d.groupby(level="point_id").both.mean()
+        rows.append({"lat_band": band, "n_paired": len(d),
+                     "pct_early16_MCD43A4": round(d.MCD43A4.mean() * 100, 1),
+                     "pct_early16_MOD13Q1": round(d.MOD13Q1.mean() * 100, 1),
+                     "pct_early16_both": round(d.both.mean() * 100, 1),
+                     # entre os eventos do MCD43A4, % confirmados pelo MOD13Q1
+                     "pct_MCD_events_confirmed": round(d.both.sum() / max(d.MCD43A4.sum(), 1) * 100, 1),
+                     "points_with_both_ge25pct_years": int((per_pt >= 0.25).sum()),
+                     "n_points": len(per_pt)})
+    pd.DataFrame(rows).to_csv(OUT / f"rain_early_greenup_{TAG}.csv", index=False)
+    pts = (w.groupby(level=["lat_band", "point_id"])
+             .agg(n_years=("both", "size"), frac_both=("both", "mean")).round(3).reset_index())
+    pts.sort_values("frac_both", ascending=False).to_csv(OUT / f"rain_early_greenup_points_{TAG}.csv", index=False)
     print("Etapa 07b concluída; saídas em", OUT)
 
 
