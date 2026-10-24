@@ -2,7 +2,7 @@
 // 03_amostra.js
 // Projeto: stable-unburned — piloto savana estável sem fogo no Cerrado
 //
-// STATUS: A RODAR. Console conferido em 2026-10-24: 300/300/300/300/15 pontos.
+// STATUS: EXECUTADO em 2026-10-24 (1215 pontos; ver docs/execucoes.md).
 //
 // O QUE FAZ
 //   Sorteia a amostra de pontos do piloto, estratificada por faixa de
