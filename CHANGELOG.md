@@ -3,6 +3,7 @@
 ## [0.13.0] — 2026-10-24
 
 - `gee/04_gedi.js`: extração GEDI L2B por ponto × mês, com modo teste.
+- `gee/04_gedi.js` v0.2: altura pelo L2A; filterBounds (a coleção tem uma imagem por órbita); exportação por footprint; correção do tipo após copyProperties.
 
 ## [0.12.0] — 2026-10-24
 
