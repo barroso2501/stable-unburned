@@ -14,7 +14,7 @@
 | `02b_area_4AB.js` | CSV de área 4-A e 4-B por faixa (4 partes) | executado (v0.3) |
 | `02c_pureza.js` | 2 assets de pureza MODIS | executado |
 | `02d_stats_mcd12q2.js` | CSVs de pureza e de ciclos MCD12Q2 | executado (ciclos por ano civil; ver docs/execucoes.md) |
-| `02e_ciclos_ano_hidrologico.js` | ciclos MCD12Q2 recontados por ano hidrológico (jul–jun, D16) + histograma de QA | **a rodar** |
+| `02e_ciclos_ano_hidrologico.js` | ciclos MCD12Q2 recontados por ano hidrológico (jul–jun, D16) + histograma de QA | executado |
 
 Ordem: `02a` e `02b` juntos → `02c` → `02d` → `02e`. `02b_diagnostico.js` só imprime no console (não exporta).
 

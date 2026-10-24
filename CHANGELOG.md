@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.5.1] — 2026-10-24
+
+- Saídas do 02e em `outputs/`; status atualizado.
+
 ## [0.5.0] — 2026-10-24
 
 - `gee/02e_ciclos_ano_hidrologico.js`: recontagem dos ciclos MCD12Q2 por ano hidrológico (D16) e histograma de QA_Overall_1.

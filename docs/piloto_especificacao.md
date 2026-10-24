@@ -16,7 +16,7 @@ Classe 4 estável 1985–2025 (Col. 11, `strict`), nunca queimada (Fogo 5.1), de
 | 02b | `gee/02b_area_4AB.js` | assets A e B, Cerrado | CSV de área 4-A/4-B por faixa | executada (v0.3) |
 | 02c | `gee/02c_pureza.js` | asset 02a, grades MODIS | assets `pilot_4A_purity_mcd500` e `pilot_4A_purity_mod13q1` | executada |
 | 02d | `gee/02d_stats_mcd12q2.js` | assets 02c, MCD12Q2 | CSVs de pureza por faixa e de ciclos MCD12Q2 2016–2024 (ano civil) | executada |
-| 02e | `gee/02e_ciclos_ano_hidrologico.js` | asset de pureza 463 m, MCD12Q2 | ciclos por ano hidrológico 2016/17–2023/24; histograma de QA | a rodar |
+| 02e | `gee/02e_ciclos_ano_hidrologico.js` | asset de pureza 463 m, MCD12Q2 | ciclos por ano hidrológico 2016/17–2023/24; histograma de QA | executada |
 | 03 | a escrever | população filtrada | amostra de pontos (semente fixa), distância mínima 500 m | — |
 | 04 | a escrever | amostra, GEDI L2B | footprints de boa qualidade nos núcleos | — |
 | 05 | a escrever | amostra, MODIS, HLS | séries temporais e contagem de observações válidas por mês | — |

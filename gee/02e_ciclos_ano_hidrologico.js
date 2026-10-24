@@ -2,7 +2,7 @@
 // 02e_ciclos_ano_hidrologico.js
 // Projeto: stable-unburned — piloto savana estável sem fogo no Cerrado
 //
-// STATUS: A RODAR. Pré-requisito: asset de pureza 463 m (02c) — pronto.
+// STATUS: EXECUTADO em 2026-10-24 (ver docs/execucoes.md).
 //
 // O QUE FAZ
 //   Reconta os ciclos do MCD12Q2 por ANO HIDROLÓGICO (1º jul a 30 jun),
