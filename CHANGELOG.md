@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.13.0] — 2026-10-24
+
+- `gee/04_gedi.js`: extração GEDI L2B por ponto × mês, com modo teste.
+
 ## [0.12.0] — 2026-10-24
 
 - `python/06b_sensibilidade_suavizacao.py`: sensibilidade das métricas de início do verdor à janela do Savitzky–Golay (3/5/7).
