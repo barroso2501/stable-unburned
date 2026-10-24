@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.11.0] — 2026-10-24
+
+- `gee/05b_chirps.js` v0.2 executado (1215 pontos × 1872 pêntadas).
+- Etapa 07 executada; saídas em `outputs/`.
+- `python/07b_robustez_chuva_verdor.py`: testes de robustez do verdor antes da chuva (chuva acumulada até o sos20, primeiras chuvas, tolerância, acoplamento interanual).
+
 ## [0.10.0] — 2026-10-24
 
 - `gee/05b_chirps.js`: chuva CHIRPS por pêntada nos pontos da amostra.

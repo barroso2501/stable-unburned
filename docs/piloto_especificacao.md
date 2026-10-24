@@ -20,9 +20,10 @@ Classe 4 estável 1985–2025 (Col. 11, `strict`), nunca queimada (Fogo 5.1), de
 | 03 | `gee/03_amostra.js` | assets 02a e 02c | asset e CSV `pilot_4A_sample_v0.1`: até 300 pontos por faixa, 1 por pixel MODIS de 463 m puro (≥ 90%) em grade par (~926 m), semente 42 | executada |
 | 04 | a escrever | amostra, GEDI L2B | footprints de boa qualidade nos núcleos | — |
 | 05 | `gee/05_series.js` | asset da amostra; MOD13Q1, MCD43A4, HLS L30/S30 v2.0 | CSVs `series_<produto>_band<N>[_<período>]_v0.1.csv` (formato longo) | executada; QC em `python/05_qc_series.py` |
-| 05b | `gee/05b_chirps.js` | asset da amostra; CHIRPS v2.0 pêntadas | CSVs `chirps_pentad_band<N>_v0.1.csv` | a rodar |
+| 05b | `gee/05b_chirps.js` | asset da amostra; CHIRPS v2.0 pêntadas | CSVs `chirps_pentad_band<N>_v0.2.csv` | executada (v0.2) |
 | 06 | `python/06_metricas.py` (usa `python/common.py`) | séries limpas | métricas de forma da curva por ponto × ano hidrológico (pico, amplitude, sos/eos, assimetria, integral, ombro) | executada (v0.1) |
-| 07 | `python/07_chuva_verdor.py` | CHIRPS (05b) + métricas (06) | início/fim da estação chuvosa (acumulação anômala) e defasagem para o início/fim do verdor; % de verdor antes da chuva | a rodar após 05b (testado com dados sintéticos) |
+| 07 | `python/07_chuva_verdor.py` | CHIRPS (05b) + métricas (06) | início/fim da estação chuvosa (acumulação anômala) e defasagem para o início/fim do verdor; % de verdor antes da chuva | executada (v0.1) |
+| 07b | `python/07b_robustez_chuva_verdor.py` | CHIRPS + saída da 07 | chuva acumulada até o sos20, onset pelas primeiras chuvas, tolerância, acoplamento interanual | executada (v0.1) |
 
 ## Critérios de viabilidade (limiares a fixar antes da etapa 03)
 
