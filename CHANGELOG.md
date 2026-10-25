@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.22.0] — 2026-10-25
+
+- B3a executado. `python/B4b_metricas_4B.py` (métricas 4-B com contexto de fogo e referência A) e `python/B4c_trajetorias_fogo.py` (efeito do fogo por tempo de evento).
+
 ## [0.21.0] — 2026-10-25
 
 - B3b e B3d executados; B3a em andamento.

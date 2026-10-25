@@ -71,5 +71,6 @@ Decisões D23–D28 (KB). Pergunta: sob fogo espaçado após exclusão, as métr
 | B2 | `gee/B2_amostra_4B.js` + `python/B2_qc_amostra.py` | asset e CSV `pilot_4B_sample_v0.1` (MODIS + HLS); pareamento com A e unidades de fogo recalculados em Python | executada |
 | B3 | `gee/B3a_series_4B.js`, `B3b_chirps_4B.js`, `B3c_gpw_4B.js`, `B3d_fogo_mensal_4B.js` | séries, chuva, altura GPW e mês do fogo por ponto | a rodar |
 | B4a | `python/B4a_reavaliacao_fogo.py` | amostra reavaliada com ano de fogo e eventos mensais (D30) | executada |
-| B4 | a escrever | trajetórias por tempo desde o fogo; B × A | — |
+| B4b | `python/B4b_metricas_4B.py` | métricas 4-B + contexto de fogo + referência A | executada |
+| B4c | `python/B4c_trajetorias_fogo.py` | efeito do fogo por tempo de evento (diferenças em diferenças, por unidade de fogo) | executada |
 

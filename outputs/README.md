@@ -63,3 +63,7 @@ Convenção de nome: `<produto>_<versão ou RUN_TAG>.csv`. Cada saída deve ter 
 | `fire4B_rainyear_v0.1.csv` (não versionado; gerar com a etapa B4a) | B4a | início e fim das chuvas por ponto × ciclo 1984–2025 (datas; recuo pela mediana do ponto marcado em *_filled) |
 | `pilot_4B_sample_reval_v0.1.csv` | B4a | amostra 4-B reavaliada: anos de fogo, estrato novo, momentos, coerência por evento, keep e motivo |
 | `pilot_4B_reval_summary_v0.1.csv` | B4a | mantidos, mudanças de estrato e motivos de exclusão por tipo × classe |
+| `metrics4B_point_year_v0.1.csv` (não versionado; gerar com B4b) | B4b | métricas por sensor × ponto 4-B × ciclo, contexto de fogo, referência A e diferenças B − A |
+| `fire_effect_event_v0.1.csv` | B4c | efeito do 1º fogo por sensor × métrica × grupo × tempo de evento (mediana entre unidades de fogo, IC 95%) |
+| `fire_effect_preA_v0.1.csv` | B4c | B antes do 1º fogo − A, por sensor × métrica × faixa |
+| `fire_effect_regime_v0.1.csv` | B4c | estrato 2, depois do 2º fogo: efeito por ciclos desde o último fogo |
