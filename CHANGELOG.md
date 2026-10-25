@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.20.1] — 2026-10-25
+
+- D30: ano de fogo pelo ciclo de chuva e eventos pelo mês. `B3d_fogo_mensal_4B.js` v0.2 exporta o histograma de meses no quadrado MODIS; `B3b_chirps_4B.js` v0.2 começa em 1984. A amostra B2 (feita com o produto anual e o ano civil) será reavaliada ponto a ponto na etapa B4a.
+
 ## [0.20.0] — 2026-10-25
 
 - Etapa B2 executada; `python/B2_qc_amostra.py` (pareamento com A, unidades de fogo).

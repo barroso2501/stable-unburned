@@ -56,6 +56,8 @@ Decisões D23–D28 (KB). Pergunta: sob fogo espaçado após exclusão, as métr
 
 **Unidade:** MODIS 463 m com pureza e coerência do histórico de fogo (limiares fixados com B1d, antes do sorteio) e HLS 30 m em paralelo (2018/19–2024/25).
 
+**Ano de fogo e eventos (D30):** o ano de fogo de cada ponto vai do fim das chuvas de um ano ao fim das chuvas do ano seguinte (CHIRPS); eventos separados pelo mês do produto mensal (não pelo anual). Os critérios de D28 e a coerência MODIS são recalculados nesse ano, ponto a ponto, na etapa B4a; a amostra B2 é o quadro de candidatos.
+
 **Momento do fogo (proposta, a implementar na amostra):** mês do fogo (`projects/mapbiomas-public/assets/brazil/fire/collection5_1/mapbiomas_fire_collection51_monthly_burned_v1`) classificado por ponto e ano em relação ao início e fim das chuvas (CHIRPS, etapa 07): úmida; seca — início, meio, fim (terços).
 
 **Análises previstas:** (i) dentro do ponto: métricas por ano desde o fogo (antes × depois), por momento do fogo; (ii) B × A nos mesmos anos com pareamento espacial; (iii) A comparado ao fim das trajetórias de B.

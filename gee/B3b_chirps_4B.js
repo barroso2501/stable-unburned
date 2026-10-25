@@ -3,18 +3,19 @@
 // Projeto: stable-unburned — PARTE 2 do piloto: savana queimada (4-B)
 //
 // STATUS: A RODAR.
-// O QUE MUDA: amostra = pilot_4B_sample_v0_1 (1899 pontos, modis + hls);
+// O QUE MUDA: amostra = pilot_4B_sample_v0_1 (1899 pontos, modis + hls); período desde 1984 (v0.2, D30);
 //   arquivos chirps4B_pentad_band<N>_v0.1.csv. Colunas iguais às de 05b.
 // =====================================================================
 
 var P = {
   SAMPLE: 'projects/ee-barroso2501/assets/stable/pilot_4B_sample_v0_1',
   CHIRPS: 'UCSB-CHG/CHIRPS/PENTAD',
-  START: '2000-01-01',
+  START: '1984-01-01',   // desde 1984: o ano de fogo pelo ciclo de chuva (D30) precisa do CHIRPS do período 1985–2000
+
   END: '2026-01-01',
   BANDS: [1, 2, 3, 4, 5],
   EXPORT_FOLDER: 'GEE_exports',
-  RUN_TAG: 'v0.1'
+  RUN_TAG: 'v0.2'
 };
 
 var created = ee.Date(Date.now()).format('YYYY-MM-dd');
@@ -23,7 +24,7 @@ var chirps = ee.ImageCollection(P.CHIRPS).filterDate(P.START, P.END).select('pre
 var chirpsProj = chirps.first().projection();
 
 print('Pontos (esperado 1899):', sample.size());
-print('Pêntadas no período (esperado ~1870):', chirps.size());
+print('Pêntadas no período (esperado ~3000):', chirps.size());
 print('Última pêntada disponível:', ee.Date(chirps.aggregate_max('system:time_start')).format('YYYY-MM-dd'));
 
 P.BANDS.forEach(function (b) {
