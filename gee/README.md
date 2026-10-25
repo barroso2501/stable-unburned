@@ -46,8 +46,8 @@ Ordem: `02a` e `02b` juntos → `02c` → `02d` → `02e` → `03` → `05` (a e
 | `B1c_coerencia_4B.js` | pureza e coerência do histórico de fogo no pixel MODIS 463 m (asset) | executado |
 | `B1d_contagens_4B.js` | contagem de pixels MODIS candidatos por faixa × estrato × pureza × coerência, para fixar os limiares antes da amostra | executado |
 | `B2_amostra_4B.js` | amostra 4-B: MODIS (pureza e coerência ≥ 90%, grade par, até 300 por faixa × estrato) + HLS (150 por faixa × estrato em 5–20° S, grade de ~510 m na população de 30 m); histórico de fogo e ponto A mais próximo | executado |
-| `B3a_series_4B.js` | séries MOD13Q1 e MCD43A4 (pontos MODIS) e HLS L30/S30 (todos os pontos), por faixa × estrato; derivado de `05_series.js` | **a rodar** (teste primeiro) |
-| `B3b_chirps_4B.js` | CHIRPS por pêntada nos 1899 pontos, **desde 1984** (v0.2, D30); derivado de `05b_chirps.js` v0.2 | **a rodar** |
+| `B3a_series_4B.js` | séries MOD13Q1 e MCD43A4 (pontos MODIS) e HLS L30/S30 (todos os pontos), por faixa × estrato; derivado de `05_series.js` | teste ok; completo em andamento |
+| `B3b_chirps_4B.js` | CHIRPS por pêntada nos 1899 pontos, **desde 1984** (v0.2, D30); derivado de `05b_chirps.js` v0.2 | executado |
 | `B3c_gpw_4B.js` | altura GPW anual no quadrado do pixel MODIS (pixels da população 4-B); derivado de `04b_gpw_altura.js` | **a rodar** (teste primeiro) |
-| `B3d_fogo_mensal_4B.js` | v0.2: mês do fogo no pixel do ponto e histograma dos meses no quadrado MODIS, por ano 1985–2025, e status anual (D30) | **a rodar** |
+| `B3d_fogo_mensal_4B.js` | v0.2: mês do fogo no pixel do ponto e histograma dos meses no quadrado MODIS, por ano 1985–2025, e status anual (D30) | executado |
 

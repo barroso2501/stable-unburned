@@ -59,3 +59,7 @@ Convenção de nome: `<produto>_<versão ou RUN_TAG>.csv`. Cada saída deve ter 
 | `pilot_4B_candidates_mcd500_v0.1.csv` | B1d | pixels MODIS 463 m por faixa × estrato × classe de pureza × classe de coerência |
 | `pilot_4B_sample_v0.1.csv` | B2 | amostra 4-B (MODIS + HLS) com histórico de fogo, A mais próximo (km), mesma célula CHIRPS, unidade de fogo |
 | `pilot_4B_sample_qc_v0.1.csv` | B2 | resumo por tipo × classe: pontos, unidades de fogo, pares A ≤ 20 km, 1º fogo modal |
+| `fire4B_events_v0.1.csv` | B4a | um fogo por linha no pixel do ponto: data (dia 15 do mês), ano de fogo, momento na estação, fração do quadrado MODIS no mesmo mês |
+| `fire4B_rainyear_v0.1.csv` (não versionado; gerar com a etapa B4a) | B4a | início e fim das chuvas por ponto × ciclo 1984–2025 (datas; recuo pela mediana do ponto marcado em *_filled) |
+| `pilot_4B_sample_reval_v0.1.csv` | B4a | amostra 4-B reavaliada: anos de fogo, estrato novo, momentos, coerência por evento, keep e motivo |
+| `pilot_4B_reval_summary_v0.1.csv` | B4a | mantidos, mudanças de estrato e motivos de exclusão por tipo × classe |
