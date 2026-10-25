@@ -36,3 +36,13 @@ Ordem: `02a` e `02b` juntos → `02c` → `02d` → `02e` → `03` → `05` (a e
 1. Modo teste (`TEST_POINTS: 10`): 4 tarefas pequenas (faixa 3, 10 pontos, ano 2020). Conferir colunas e tempo.
 2. Rodada completa (`TEST_POINTS: 0`): 5 faixas × (MOD13Q1 + MCD43A4) + 5 faixas × 2 períodos × (L30 + S30) = **30 tarefas**. Dá para lançar por produto, ligando/desligando em `RUN`.
 3. Escalas: MOD13Q1 `EVI` bruto ×0,0001; MCD43A4 `EVI_median` já em unidades de EVI; HLS `blue/red/nir` brutos (EVI calculado em Python).
+
+## Parte 2 — savana queimada (4-B) sob regime espaçado (D23–D28)
+
+| Script | O que faz | Estado |
+| --- | --- | --- |
+| `B1a_populacao_4B.js` | asset da população 4-B: sem fogo 1985–2000; 1–5 fogos em 2001–2025 com ≥ 4 anos entre fogos; 1º fogo ≥ 2002; núcleo 3×3 com o mesmo histórico de fogo; borda ≥ 250 m; estratos 1 (um fogo) e 2 (2–5 fogos) | **a rodar** |
+| `B1b_area_4B.js` | área por faixa × estrato × nº de fogos × ano do 1º fogo (4 partes) | a rodar após B1a |
+| `B1c_coerencia_4B.js` | pureza e coerência do histórico de fogo no pixel MODIS 463 m (asset) | a rodar após B1a |
+| `B1d_contagens_4B.js` | contagem de pixels MODIS candidatos por faixa × estrato × pureza × coerência, para fixar os limiares antes da amostra | a rodar após B1c |
+

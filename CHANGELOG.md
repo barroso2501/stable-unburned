@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.18.1] — 2026-10-24
+
+- `B1a_populacao_4B.js` v0.1.1: asset anual do Fogo 5.1 preenchido; nome da banda de cada ano detectado automaticamente. Asset mensal registrado para a etapa B3.
+
+## [0.18.0] — 2026-10-24
+
+- Parte 2 do piloto (savana queimada 4-B, D23–D28): scripts `gee/B1a`–`B1d` (população, área, pureza e coerência do histórico de fogo, contagem de candidatos).
+- `docs/piloto_especificacao.md` e `gee/README.md` com a seção da parte 2.
+
 ## [0.17.0] — 2026-10-24
 
 - `docs/sintese_piloto.md`: ponteiro e conclusões da síntese do piloto (documento completo no Claude Docs).

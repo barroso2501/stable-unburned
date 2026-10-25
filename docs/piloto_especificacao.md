@@ -47,3 +47,26 @@ Classe 4 estável 1985–2025 (Col. 11, `strict`), nunca queimada (Fogo 5.1), de
 - Borda e fragmento são medidos na paisagem de 2025, não na histórica.
 - Distância em EPSG:4326 é aproximada (pixel não exatamente quadrado; erro de poucos %).
 - As listas de classes antrópicas e naturais precisam ser conferidas contra a legenda oficial da Col. 11.
+
+## Parte 2 — savana queimada (4-B) sob regime espaçado
+
+Decisões D23–D28 (KB). Pergunta: sob fogo espaçado após exclusão, as métricas da parte 1 se deslocam no tempo ou mudam de intensidade? Cada fogo é descrito pelo intervalo e pelo momento na estação (D27).
+
+**População:** savana 4 estável 1985–2025, queimada; sem fogo em 1985–2000; em 2001–2025, 1–5 fogos com ≥ 4 anos entre fogos consecutivos; primeiro fogo ≥ 2002; núcleo 3×3 com o mesmo histórico de fogo; borda antrópica ≥ 250 m. Estratos: 1 = um fogo (reintrodução única); 2 = 2–5 fogos espaçados. O universo descreve **reintrodução após ≥ 16 anos de exclusão**, não regime natural em equilíbrio.
+
+**Unidade:** MODIS 463 m com pureza e coerência do histórico de fogo (limiares fixados com B1d, antes do sorteio) e HLS 30 m em paralelo (2018/19–2024/25).
+
+**Momento do fogo (proposta, a implementar na amostra):** mês do fogo (`projects/mapbiomas-public/assets/brazil/fire/collection5_1/mapbiomas_fire_collection51_monthly_burned_v1`) classificado por ponto e ano em relação ao início e fim das chuvas (CHIRPS, etapa 07): úmida; seca — início, meio, fim (terços).
+
+**Análises previstas:** (i) dentro do ponto: métricas por ano desde o fogo (antes × depois), por momento do fogo; (ii) B × A nos mesmos anos com pareamento espacial; (iii) A comparado ao fim das trajetórias de B.
+
+| Etapa | Script | Saída | Status |
+| --- | --- | --- | --- |
+| B1a | `gee/B1a_populacao_4B.js` | asset `pilot_4B_cerrado_core_edge250` | a rodar |
+| B1b | `gee/B1b_area_4B.js` | `area_4B_pop_v0.1_part0N.csv` | a rodar |
+| B1c | `gee/B1c_coerencia_4B.js` | asset `pilot_4B_purity_coherence_mcd500` | a rodar |
+| B1d | `gee/B1d_contagens_4B.js` | `pilot_4B_candidates_mcd500_v0.1.csv` | a rodar |
+| B2 | a escrever | amostra B pareada a A | — |
+| B3 | reuso de 05, 05b, 04, 04b + mês do fogo | séries e fogo por ponto | — |
+| B4 | a escrever | trajetórias por tempo desde o fogo; B × A | — |
+
