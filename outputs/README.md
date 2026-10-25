@@ -54,3 +54,8 @@ Convenção de nome: `<produto>_<versão ou RUN_TAG>.csv`. Cada saída deve ter 
 | `gpw_trend_point_v0.1.csv` | 10 | tendência por ponto 2000–2024 (GPW em m/década; base_pre, pico e amplitude do EVI por década) e p-valores |
 | `gpw_trend_summary_v0.1.csv` | 10 | tendências por faixa; % de pontos com alta ou queda significativa |
 | `gpw_correlations_v0.1.csv` | 10 | Spearman GPW × GEDI, GPW × EVI e acoplamento, tendência GPW × tendência EVI |
+| `area_4B_pop_v0.1_tiles.csv` | B1b | área da população 4-B por bloco × faixa × estrato × nº de fogos × ano do 1º fogo |
+| `area_4B_pop_v0.1_summary.csv` | B1b | soma por faixa × estrato × nº de fogos × ano do 1º fogo |
+| `pilot_4B_candidates_mcd500_v0.1.csv` | B1d | pixels MODIS 463 m por faixa × estrato × classe de pureza × classe de coerência |
+| `pilot_4B_sample_v0.1.csv` | B2 | amostra 4-B (MODIS + HLS) com histórico de fogo, A mais próximo (km), mesma célula CHIRPS, unidade de fogo |
+| `pilot_4B_sample_qc_v0.1.csv` | B2 | resumo por tipo × classe: pontos, unidades de fogo, pares A ≤ 20 km, 1º fogo modal |

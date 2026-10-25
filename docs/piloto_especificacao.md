@@ -62,11 +62,11 @@ Decisões D23–D28 (KB). Pergunta: sob fogo espaçado após exclusão, as métr
 
 | Etapa | Script | Saída | Status |
 | --- | --- | --- | --- |
-| B1a | `gee/B1a_populacao_4B.js` | asset `pilot_4B_cerrado_core_edge250` | a rodar |
-| B1b | `gee/B1b_area_4B.js` | `area_4B_pop_v0.1_part0N.csv` | a rodar |
-| B1c | `gee/B1c_coerencia_4B.js` | asset `pilot_4B_purity_coherence_mcd500` | a rodar |
-| B1d | `gee/B1d_contagens_4B.js` | `pilot_4B_candidates_mcd500_v0.1.csv` | a rodar |
-| B2 | a escrever | amostra B pareada a A | — |
-| B3 | reuso de 05, 05b, 04, 04b + mês do fogo | séries e fogo por ponto | — |
+| B1a | `gee/B1a_populacao_4B.js` | asset `pilot_4B_cerrado_core_edge250` | executada |
+| B1b | `gee/B1b_area_4B.js` | `area_4B_pop_v0.1_part0N.csv` | executada |
+| B1c | `gee/B1c_coerencia_4B.js` | asset `pilot_4B_purity_coherence_mcd500` | executada |
+| B1d | `gee/B1d_contagens_4B.js` | `pilot_4B_candidates_mcd500_v0.1.csv` | executada |
+| B2 | `gee/B2_amostra_4B.js` + `python/B2_qc_amostra.py` | asset e CSV `pilot_4B_sample_v0.1` (MODIS + HLS); pareamento com A e unidades de fogo recalculados em Python | executada |
+| B3 | `gee/B3a_series_4B.js`, `B3b_chirps_4B.js`, `B3c_gpw_4B.js`, `B3d_fogo_mensal_4B.js` | séries, chuva, altura GPW e mês do fogo por ponto | a rodar |
 | B4 | a escrever | trajetórias por tempo desde o fogo; B × A | — |
 

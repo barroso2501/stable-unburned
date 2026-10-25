@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.20.0] — 2026-10-25
+
+- Etapa B2 executada; `python/B2_qc_amostra.py` (pareamento com A, unidades de fogo).
+- Etapa B3: `gee/B3a_series_4B.js`, `B3b_chirps_4B.js`, `B3c_gpw_4B.js` (derivados de 05, 05b, 04b) e `B3d_fogo_mensal_4B.js` (mês do fogo).
+
+## [0.19.0] — 2026-10-25
+
+- `gee/B2_amostra_4B.js`: amostra da parte 2 (D29).
+
+## [0.18.2] — 2026-10-25
+
+- Etapa B1 executada (B1a–B1d); saídas em `outputs/`.
+
 ## [0.18.1] — 2026-10-24
 
 - `B1a_populacao_4B.js` v0.1.1: asset anual do Fogo 5.1 preenchido; nome da banda de cada ano detectado automaticamente. Asset mensal registrado para a etapa B3.
