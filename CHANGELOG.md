@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.17.0] — 2026-10-24
+
+- `docs/sintese_piloto.md`: ponteiro e conclusões da síntese do piloto (documento completo no Claude Docs).
+
 ## [0.16.1] — 2026-10-24
 
 - Tabelas por ponto × ano > 1 MB retiradas do versionamento (`.gitignore`); regeneráveis pelos scripts. Corrige a falha de upload por tamanho.
