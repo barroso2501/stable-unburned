@@ -1,0 +1,67 @@
+From 79fff6eb9c0f9c3e990aaa027c3b6b0d6b393848 Mon Sep 17 00:00:00 2001
+From: "Claude (auditoria)" <noreply@anthropic.com>
+Date: Tue, 27 Oct 2026 08:16:14 -0300
+Subject: [PATCH 01/10] =?UTF-8?q?chore:=20adiciona=20.gitignore=20ao=20rep?=
+ =?UTF-8?q?osit=C3=B3rio=20(P2-2)?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+O .gitignore existia só na cópia local: o upload pela web não envia arquivos
+ocultos. Regras: séries brutas (data/series) e tabelas por ponto × ano > 1 MB
+fora do git; as quatro tabelas já rastreadas antes da regra continuam
+versionadas.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UBLZzXELGKpn9v3AA9fGru
+---
+ .gitignore | 37 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+ create mode 100644 .gitignore
+
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+index 0000000..379e716
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1,37 @@
++# Sistema
++.DS_Store
++Thumbs.db
++
++# Python
++__pycache__/
++*.pyc
++.ipynb_checkpoints/
++.venv/
++
++# Dados grandes (ficam no GEE/Drive)
++*.tif
++*.tiff
++*.zip
++data/raw/
++
++# Credenciais
++*.json.key
++.env
++
++# Séries temporais brutas (grandes; ficam no Drive; ver data/README.md e data/manifest_sha256.txt)
++data/series/
++data/series
++
++# Tabelas por ponto × ano (> 1 MB): reproduzíveis com os scripts python/ a partir de data/series/.
++# As quatro primeiras já estavam no GitHub antes desta regra (v0.16.1) e continuam versionadas
++# (o .gitignore não remove arquivos já rastreados); as demais não são versionadas.
++outputs/rain_robust_point_year_v0.1.csv
++outputs/rain_greenup_lag_v0.1.csv
++outputs/metrics_point_year_v0.1.csv
++outputs/threshold_skill_point_v0.1.csv
++outputs/threshold_point_year_v0.1.csv
++outputs/rain_onset_point_year_v0.1.csv
++outputs/fire4B_rainyear_v0.1.csv
++outputs/metrics4B_point_year_v0.1.csv
++outputs/fire4B_rainyear_v0.2.csv
++outputs/metrics4B_point_year_v0.2.csv
+-- 
+2.43.0
+

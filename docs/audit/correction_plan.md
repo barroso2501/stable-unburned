@@ -1,6 +1,6 @@
 # Plano de correção priorizado (Produto D)
 
-Rascunho de auditoria, 2026-10-27.
+Auditoria de 2026-10-27, atualizada depois do item 1 do plano de correção.
 
 **Prioridades:**
 - **P0** bloqueante: impede reconstruir a análise ou compromete um resultado central.
@@ -13,6 +13,21 @@ Rascunho de auditoria, 2026-10-27.
 - **reproc** recálculo;
 - **decisão** exige decisão científica de Mario antes de implementar.
 
+## Estado das pendências (atualizado em 2026-10-27, depois do item 1)
+
+| ID | Estado | Onde |
+| --- | --- | --- |
+| P1-3 | **resolvido**: unidades por evento na B4a v0.2; B4b e B4c v0.2 reprocessados; conclusões mantidas | commit `4462396` |
+| P1-4 | **resolvido (doc)**: avisos sobre amplitude e integral; nenhuma métrica nova | `8f21c54`, `4462396` |
+| P1-5 | **resolvido (doc)**: tabela de testes principais × exploratórios em `outputs/README.md` | `8f21c54` |
+| P1-7 | **parcial**: manifesto SHA-256 e inventário versionados; faltam os checksums do Drive e os metadados dos assets (Mario) | `590c27e` |
+| P1-8 | **resolvido**: `docs/audit/decision_log.md`; estados de D25, D27 e D28 corrigidos também na KB | `3ffeb51` |
+| P2-1 | **resolvido** | `54eedc2` |
+| P2-2 | **resolvido**: `.gitignore` no repositório; política de tabelas grandes explícita | `79fff6e`, `8f21c54` |
+| P2-3, P2-7, P2-8, P2-9, P2-11 | **resolvidos (doc)** | `4462396`, `8f21c54`, `54eedc2` |
+| testes | **versionados** em `tests/audit/` | `c9696ee` |
+| P0-1, P1-1, P1-2, P1-6, P1-9, P1-10, P2-4, P2-5, P2-6, P2-10 | **abertos** (dependem de Mario, de decisão científica ou ficam para o fim: README e sínteses) | — |
+
 ## P0
 
 | ID | Problema | Evidência | Consequência | Correção | Arquivos | Natureza | Critério de encerramento |
@@ -24,8 +39,8 @@ Rascunho de auditoria, 2026-10-27.
 | ID | Problema | Evidência | Consequência | Correção | Arquivos | Natureza | Critério de encerramento |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | P1-1 | B selecionada por estabilidade da classe 4 **depois** do fogo (viés de sobrevivência); idem A | critério de B1a (D28) e do asset 00 | o efeito do fogo vale só para fogos que não mudaram a classe; a recuperação "em 2–3 ciclos" pode estar superestimada | (a) declarar o escopo em todos os textos de resultado (doc, inequívoco); (b) **opcional, decisão:** quantificar no GEE a fração de pixels que mudou de classe após fogos que cumprem os critérios | `scientific_consistency.md`, síntese da parte 2; eventual `gee/B1e_…js` | doc + **decisão** | (a) escopo declarado; (b) se aprovado, fração reportada por faixa |
-| P1-2 | Inferência do B4c: (i) IC ignora a dependência entre unidades vizinhas no mesmo ano; (ii) a magnitude depende do tipo de referência A | §4 da validação técnica: par × faixa (pico −0,074 × −0,051) | IC estreitos demais; magnitudes apresentadas como únicas | (i) bootstrap em blocos espaciais (0,5°) × ano do 1º fogo, como sensibilidade; (ii) reportar par e faixa lado a lado | `python/B4c_trajetorias_fogo.py` | reproc (leve) + **decisão** (escolha do bloco) | tabelas com os dois IC e as duas referências; texto de resultados atualizado |
-| P1-3 | Unidades de fogo vêm do histórico **anual** | 419 → 491 unidades MODIS com os eventos mensais; 313 pontos mudam | pseudorreplicação mal delimitada; incoerente com D30 | recalcular `fire_unit` na B4a com ano de fogo + mês ± 1, ≤ 5 km (consequência direta de D30); manter a unidade antiga em outra coluna; refazer B4b/B4c | `python/B4a_reavaliacao_fogo.py`, `B4b`, `B4c`, saídas `v0.2` | código + reproc (~3 min) | unidades novas nas saídas `v0.2`; diferença v0.1 × v0.2 registrada; IC atualizados |
+| P1-2 | Inferência do B4c: (i) IC ignora a dependência entre unidades vizinhas no mesmo ano; (ii) a magnitude depende do tipo de referência A | §4 da validação técnica: par × faixa (pico −0,074 × −0,050) | IC estreitos demais; magnitudes apresentadas como únicas | (i) bootstrap em blocos espaciais (0,5°) × ano do 1º fogo, como sensibilidade; (ii) reportar par e faixa lado a lado | `python/B4c_trajetorias_fogo.py` | reproc (leve) + **decisão** (escolha do bloco) | tabelas com os dois IC e as duas referências; texto de resultados atualizado |
+| P1-3 ✔ | Unidades de fogo vêm do histórico **anual** | com mês exato: 419 → 491 unidades MODIS; com mês ± 1 (regra adotada): 419 → 423 | pseudorreplicação mal delimitada; incoerente com D30 | recalcular `fire_unit` na B4a com ano de fogo + mês ± 1, ≤ 5 km (consequência direta de D30); manter a unidade antiga em outra coluna; refazer B4b/B4c | `python/B4a_reavaliacao_fogo.py`, `B4b`, `B4c`, saídas `v0.2` | código + reproc (~3 min) | unidades novas nas saídas `v0.2`; diferença v0.1 × v0.2 registrada; IC atualizados |
 | P1-4 | Amplitude e integral infladas no ciclo do fogo (medidas a partir do piso); "ombro" sem validade ainda exportado | `fire_effect_event` t = 0: amplitude +0,074 com pico −0,066 | leitura de "mais intensidade" após o fogo seria indevida | doc: marcar amplitude e integral como dependentes do piso e o ombro como "não usar"; **sem nova métrica** (uma integral absoluta seria análise nova: decisão) | `docs/…`, `outputs/README.md`, cabeçalho de `06_metricas.py` | doc (+ decisão para métrica nova) | avisos presentes; nenhuma conclusão apoiada em amplitude ou integral no ciclo do fogo |
 | P1-5 | 432 correlações (08) e muitas na 09 e 10, sem distinção entre principal e exploratória | `structure_evi_spearman` | risco de ler um ρ isolado como achado | registrar como testes principais só (a)–(c) da 08 e o Teste 1 e 2 da 09; o resto marcado como exploratório | docs, `outputs/README.md` | doc | hierarquia explícita nos documentos de resultados |
 | P1-6 | Agregação de GEDI, GPW e B3d no quadrado geográfico, não no pixel sinusoidal | §4: mediana 7%, máx. 18% da área fora | pequena incoerência entre a escala do EVI MODIS e a do GEDI/GPW e da coerência por evento | doc (limitação) **ou** corrigir a geometria nos scripts GEE e reexportar (decisão: custo de reprocessar 04, 04b, B3d) | `gee/04_gedi.js`, `04b`, `B3d`, docs | doc ou **decisão** + reproc GEE | limitação declarada, ou geometria corrigida com diferença v0.1 × v0.2 reportada |

@@ -1,0 +1,35 @@
+From d38d7ffdc232a36de354a3a2964e34af9ac41b46 Mon Sep 17 00:00:00 2001
+From: "Claude (auditoria)" <noreply@anthropic.com>
+Date: Tue, 27 Oct 2026 08:38:20 -0300
+Subject: [PATCH 09/10] docs(audit): corrige caminho do manifesto SHA-256
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UBLZzXELGKpn9v3AA9fGru
+---
+ docs/audit/technical_validation.md | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/docs/audit/technical_validation.md b/docs/audit/technical_validation.md
+index 45f32b2..317aeba 100644
+--- a/docs/audit/technical_validation.md
++++ b/docs/audit/technical_validation.md
+@@ -9,7 +9,7 @@ Auditoria de 2026-10-27, atualizada depois do item 1 do plano de correção.
+ | Código | clone do GitHub `barroso2501/stable-unburned`, commit `8e9fc82`, sem modificações |
+ | Python | 3.13.17 |
+ | Bibliotecas | pandas 3.0.5, numpy 2.5.3, scipy 1.18.1 (= `env/requirements.txt`; a versão do Python não está registrada no repositório) |
+-| Dados brutos | 113 CSVs, 854 MB, os da sessão de trabalho (exportados do GEE por Mario); manifesto SHA-256 em `data_series_manifest_sha256.txt`, tamanhos em `data_series_sizes.txt` |
++| Dados brutos | 113 CSVs, 854 MB, os da sessão de trabalho (exportados do GEE por Mario); manifesto SHA-256 em `data/manifest_sha256.txt`, tamanhos em `docs/audit/data_series_sizes.txt` |
+ | Procedimento | cópia limpa do repositório; `outputs/` esvaziado, exceto `pilot_4A_sample_v0.1.csv` (saída do GEE, não do Python); `data/series` apontando para os dados brutos; todos os scripts Python rodados em ordem; saídas comparadas célula a célula com as do GitHub ou, quando ausentes do GitHub, com as da sessão |
+ 
+ ## 2. Reexecução completa do Python
+@@ -79,6 +79,6 @@ Os scripts estão versionados em `tests/audit/`: `test_integrity.py`, `diagnosti
+ | --- | --- | --- |
+ | Script 00 e definição dos assets A e B | base de tudo | Recuperar o script original no Code Editor (histórico do repositório GEE do usuário) e versionar como `gee/00_stable_unburned_lulc.js`; registrar `ee.data.getAsset()` dos dois assets (data de criação, propriedades) |
+ | Propriedades dos assets derivados | proveniência | No Code Editor: `print(ee.data.getAsset('<id>'))` para os assets `pilot_4A_*`, `pilot_4B_*` e `stable_*`; salvar a saída em `docs/audit/gee_assets_metadata.md` |
+-| Checksums do Drive | os dados brutos da sessão = os do Drive | Calcular SHA-256 dos CSVs no Drive (ou baixar e rodar `sha256sum`) e comparar com `data_series_manifest_sha256.txt` |
++| Checksums do Drive | os dados brutos da sessão = os do Drive | Calcular SHA-256 dos CSVs no Drive (ou baixar e rodar `sha256sum`) e comparar com `data/manifest_sha256.txt` |
+ | Acurácia do Fogo 5.1 em A | "nunca queimada" | Proposta (decisão de Mario): extrair o MCD64A1 (MODIS burned area, 500 m, 2001–2025) nos 1215 pontos A e nos pixels MODIS da amostra B; fração de A com queima detectada pelo MCD64A1; concordância de anos em B |
+ | Viés de sobrevivência de B | interpretação do efeito do fogo | Proposta (decisão de Mario): no GEE, pixels da classe 4 em 2000 que cumprem os critérios de fogo de B1a, mas não a estabilidade até 2025 → fração que mudou de classe depois do fogo, e para qual classe |
+-- 
+2.43.0
+

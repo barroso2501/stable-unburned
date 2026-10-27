@@ -32,8 +32,15 @@ SAÍDAS (outputs/)
   metrics_sensor_diff_v0.1.csv      diferenças entre sensores nos mesmos ponto-anos (2018/19–2024/25)
   metrics_interannual_v0.1.csv      variabilidade interanual do pico por ponto (MCD43A4)
 
+AVISOS (auditoria 2026-10-27)
+  - shoulder/shoulder_day: o critério capta ruído (30–69% dos ponto-anos); não usar como resultado.
+  - amplitude e integral dependem de base_pre: uma queda do piso (ex.: fogo) as aumenta sem mais verde.
+  - as janelas de 8 dias do MCD43A4 (05_series.js) começam em 1º de janeiro de cada ano; a grade
+    daqui começa em 1º/jul/2000 → fases diferentes, absorvidas pela mediana por janela e pela
+    interpolação (efeito não quantificado).
+
 COMO RODAR
-  python python/06_metricas.py   (séries em data/series/; ~2–5 min)
+  python python/06_metricas.py   (séries em data/series/; ~2 min)
 """
 
 import numpy as np

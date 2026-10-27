@@ -1,6 +1,6 @@
 # Diagnóstico do estado do projeto (Produto A)
 
-Rascunho de auditoria, 2026-10-27. **Ainda não está no repositório** e aguarda autorização.
+Auditoria de 2026-10-27. Estado **depois** do item 1 do plano (correções sem decisão científica); ver `correction_plan.md`.
 
 **Fontes consultadas:**
 - clone do GitHub `barroso2501/stable-unburned`, commit `8e9fc82` (2026-10-25 16:46 −03), 30 commits "Add files via upload", 103 arquivos;
@@ -66,9 +66,9 @@ Pergunta científica: **Q1** padrões espaciais · **Q2** desacoplamento lenhosa
 | B3b | QF | `B3b_chirps_4B.js` v0.2 | amostra B | 1984–2025 | 5 CSVs (sessão) | 1899 × 3024 (teste) | executado + íntegro | — | — |
 | **B3c** | QF | `B3c_gpw_4B.js` | amostra B | — | `gpw4B_height_v0.1.csv` | **nenhuma** | **implementado, não executado** | a documentação agrupa B3 como "a rodar" | P2-1 |
 | B3d | QF | `B3d_fogo_mensal_4B.js` v0.2 | Fogo 5.1 mensal e anual | 1985–2025 | `fire4B_monthly_v02.csv` (sessão) | mês no pixel = anual em 100% | executado + íntegro | — | — |
-| B4a | QF | `B4a_reavaliacao_fogo.py` | B3b, B3d, B2 | ano de fogo pelo ciclo de chuva; coerência por evento ≥ 0,9 | `fire4B_events`, `pilot_4B_sample_reval`, `…summary` (GH); `fire4B_rainyear` (sessão) | idêntica | **validado** | não recalcula as unidades de fogo com os eventos mensais | P1-3 |
-| B4b | QF | `B4b_metricas_4B.py` | B3a, B4a, 06 (A) | referência A = par ≤ 20 km ou mediana da faixa | `metrics4B_point_year` (sessão, 18 MB) | idêntica | **validado** | MOD13Q1 de B sem o filtro D21 (assimetria com A); magnitude depende do tipo de referência | P1-2, P2-3 |
-| B4c | QF | `B4c_trajetorias_fogo.py` | B4b | diferenças em diferenças; bootstrap por unidade | `fire_effect_*` (GH) | idêntica | **validado** | IC ignora a dependência espacial entre unidades vizinhas; amplitude e integral no ciclo do fogo são artefato | P1-2, P1-4 |
+| B4a | QF | `B4a_reavaliacao_fogo.py` v0.2 | B3b, B3d, B2 | ano de fogo pelo ciclo de chuva; coerência por evento ≥ 0,9; unidades por evento (mês ± 1, ≤ 5 km) | `fire4B_events`, `pilot_4B_sample_reval`, `…summary` v0.1 e v0.2 (GH); `fire4B_rainyear` (não versionado) | v0.1 idêntica na reprodução; v0.2 = v0.1 exceto `fire_unit` | **validado** | ~~unidades pelo fogo anual~~ → corrigido na v0.2 | P1-3 ✔ |
+| B4b | QF | `B4b_metricas_4B.py` v0.2 | B3a, B4a, 06 (A) | referência A = par ≤ 20 km ou mediana da faixa | `metrics4B_point_year` (sessão, 18 MB) | idêntica | **validado** | MOD13Q1 de B sem o filtro D21 (assimetria com A); magnitude depende do tipo de referência | P1-2, P2-3 |
+| B4c | QF | `B4c_trajetorias_fogo.py` v0.2 (referência) | B4b | diferenças em diferenças; bootstrap por unidade | `fire_effect_*` (GH) | idêntica | **validado** | IC ignora a dependência espacial entre unidades vizinhas; amplitude e integral no ciclo do fogo são artefato | P1-2, P1-4 |
 
 ## A inconsistência B3 × B4
 
@@ -77,7 +77,7 @@ Pergunta científica: **Q1** padrões espaciais · **Q2** desacoplamento lenhosa
     - `gee/README.md`: B3a, B3b e B3d "executado", B3c "a rodar";
     - `docs/execucoes.md`: rodadas de B3a, B3b e B3d e de B4a–B4c registradas.
 - **Diagnóstico:** **não há execução fora de ordem.** O B4 depende só de B3a, B3b e B3d, todos executados e íntegros. O B3c (GPW na amostra B) nunca rodou, e nenhuma etapa o consome. O erro é **documental**: a linha da especificação agrupa quatro scripts num único estado e não foi atualizada.
-- **Ação:** P2-1.
+- **Ação:** P2-1 ✔ (a especificação agora separa B3a, B3b, B3c e B3d).
 
 ## README × documentação técnica × evidências
 
@@ -87,10 +87,10 @@ Pergunta científica: **Q1** padrões espaciais · **Q2** desacoplamento lenhosa
 | `docs/README.md` | resumo de decisões: D04, D08, D10 | desatualizado |
 | `docs/piloto_especificacao.md` | etapas da parte 1 corretas; parte 2 com B3 "a rodar"; tabela de critérios de viabilidade com limiares em branco | ver acima |
 | `gee/README.md` | "Estado (2026-10-24)"; ordem de execução só da parte 1 | estados corretos, cabeçalho e ordem desatualizados |
-| `outputs/README.md` | marca 8 tabelas como "não versionado" | **4 delas estão no GH** (subiram antes da limpeza v0.16.1); as outras 4 não estão; o `.gitignore` **não está no GH** (o upload pela web não envia arquivos ocultos) |
+| `outputs/README.md` | marcava 8 tabelas como "não versionado" | 4 delas estão no GH (subiram antes da limpeza v0.16.1). **Corrigido:** agora marcadas como "versionado, legado"; `.gitignore` adicionado ao repositório (P2-2 ✔) |
 | `docs/execucoes.md` | 46 rodadas | coluna "Commit" sempre "—"; tempos "a registrar" em várias rodadas |
-| `data/README.md` | só cita as séries da etapa 05 | faltam GEDI, GPW, CHIRPS, toda a parte 2, um manifesto e os checksums |
-| KB `03_decisoes.md` | D01–D31 | **não espelhada no repositório**, o que contraria o princípio 1 desta auditoria |
+| `data/README.md` | só citava as séries da etapa 05 | **Corrigido:** inventário dos 113 arquivos e manifesto SHA-256 (`data/manifest_sha256.txt`); falta conferir com o Drive (P1-7) |
+| KB `03_decisoes.md` | D01–D31 | **Corrigido:** espelhada em `docs/audit/decision_log.md` com estado real (P1-8 ✔) |
 
 ## O que não foi possível verificar
 

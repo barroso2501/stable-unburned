@@ -1,6 +1,6 @@
 # Consistência científica (Produto B)
 
-Rascunho de auditoria, 2026-10-27.
+Auditoria de 2026-10-27, atualizada depois do item 1 do plano de correção.
 
 **Classes usadas neste documento:**
 - **Sustentado:** resultado reproduzido e robusto aos testes feitos.
@@ -8,7 +8,7 @@ Rascunho de auditoria, 2026-10-27.
 - **Não resolvido:** os dados atuais não decidem.
 - **Interpretação indevida a evitar:** o que **não** se pode dizer.
 
-Números e testes vêm das saídas reproduzidas nesta auditoria (`technical_validation.md`).
+Números e testes vêm das saídas reproduzidas nesta auditoria (`technical_validation.md`). Os resultados de fogo citados são os da **v0.2** do B4. Os da v0.1 diferem em até 1–3 dias ou 0,001 EVI nas células citadas.
 
 ## 0. Lógica do estudo, reconstruída
 
@@ -98,15 +98,15 @@ Números e testes vêm das saídas reproduzidas nesta auditoria (`technical_vali
 **Desenho:** diferenças em diferenças dentro do ponto, com A do mesmo ano como controle climático (par ≤ 20 km em 64–66% dos ponto-anos MODIS; nos demais, a mediana de A na faixa).
 
 **Pressupostos verificados nesta auditoria:**
-- **Tendências paralelas antes do fogo:** a inclinação de B − A nos ciclos pré-fogo é ≈ 0 (pico −0,0001/ciclo [−0,0005; 0,0002]; sos50 +0,08 d/ciclo [−0,02; +0,17]; 394 unidades). Sustenta o pressuposto **dentro da janela pré-fogo observada**.
+- **Tendências paralelas antes do fogo:** a inclinação de B − A nos ciclos pré-fogo é ≈ 0 (pico −0,0001/ciclo [−0,0005; 0,0002]; sos50 +0,09 d/ciclo [−0,02; +0,17]; 398 unidades). Sustenta o pressuposto **dentro da janela pré-fogo observada**.
 - **Antes do fogo, B ≈ A:** pico +0,011, demais métricas ≈ 0.
-- **Sensibilidade ao tipo de referência:** no ciclo do fogo, pico −0,074 com o par e −0,051 com a mediana da faixa; sos50 +31 d e +39 d. O sinal é robusto e a magnitude depende da referência.
-- **Fogos de 2010 × outros anos:** pico −0,058 × −0,069; sos50 +38 d × +31 d. O efeito não é produto do ano de 2010.
+- **Sensibilidade ao tipo de referência:** no ciclo do fogo, pico −0,074 com o par e −0,050 com a mediana da faixa; sos50 +31 d e +41 d. O sinal é robusto e a magnitude depende da referência.
+- **Fogos de 2010 × outros anos:** pico −0,056 × −0,069; sos50 +39 d × +31 d. O efeito não é produto do ano de 2010.
 
 **Sustentado (para o universo de B, com os vieses de B1):** no ciclo seguinte ao 1º fogo, a estação se desloca (sos50 +32 d, eos50 +22 d) e o pico cai (~−0,066). Em 2–3 ciclos, a maior parte das métricas volta à linha de base. O momento do fogo modula o efeito agudo.
 
 **Condicional ou não resolvido:**
-- **Independência:** as unidades de fogo vieram do histórico **anual**. Refeitas com os eventos mensais, passam de 419 para 491 unidades MODIS, e 313 pontos mudam de grupo. Unidades vizinhas no mesmo ano não são independentes (mesmo clima, mesma região), e o bootstrap por unidade ignora isso → os intervalos estão provavelmente estreitos demais.
+- **Independência:** na v0.1, as unidades de fogo vinham do histórico **anual**. Na v0.2 (2026-10-27) são refeitas por evento mensal (mesmos anos de fogo, meses a ≤ 1, ≤ 5 km): 419 → 423 unidades MODIS, sem mudança nas conclusões. Sem a tolerância de ±1 mês, o limite superior seria de 491. Continua não resolvido: unidades vizinhas no mesmo ano não são independentes (mesmo clima, mesma região), e o bootstrap por unidade ignora isso → os intervalos estão provavelmente estreitos demais (P1-2, decisão pendente).
 - **Momento × outros fatores:** "início das chuvas" e "fim da seca" distam ~1 mês, a resolução do produto mensal. O momento pode se correlacionar com intensidade do fogo e região. O efeito por momento é descritivo, não causal.
 - **Efeitos persistentes pequenos** (amplitude +0,005–0,012; piso −0,004–0,007): a amplitude é parcialmente artefato do piso, e a magnitude fica perto do ruído entre referências.
 - **Hipótese da macega:** **não testada**. O EVI não vê material morto. A volta à linha de base em 2–3 ciclos é do **verde**.

@@ -1,0 +1,187 @@
+From 590c27e24b0dca2d26f71c4b1b4f2a343ff9e8a8 Mon Sep 17 00:00:00 2001
+From: "Claude (auditoria)" <noreply@anthropic.com>
+Date: Tue, 27 Oct 2026 08:21:50 -0300
+Subject: [PATCH 04/10] =?UTF-8?q?docs(data):=20manifesto=20SHA-256=20e=20i?=
+ =?UTF-8?q?nvent=C3=A1rio=20dos=20dados=20brutos=20(P1-7)?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+113 CSVs (854 MB) exportados do GEE, fora do git; manifesto com os checksums
+usados na reprodução da auditoria e tabela de origem (script GEE) e uso
+(script Python) de cada grupo de arquivos.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UBLZzXELGKpn9v3AA9fGru
+---
+ data/README.md           |  38 ++++++++++++-
+ data/manifest_sha256.txt | 113 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 149 insertions(+), 2 deletions(-)
+ create mode 100644 data/manifest_sha256.txt
+
+diff --git a/data/README.md b/data/README.md
+index d33857d..8187a7a 100644
+--- a/data/README.md
++++ b/data/README.md
+@@ -1,3 +1,37 @@
+-# Séries brutas
++# Dados brutos (`data/series/`)
+ 
+-Os CSVs `series_*.csv` da etapa 05 (~70 MB só do HLS) ficam no Drive (`GEE_exports`), não no git. Para rodar a etapa 06, copie-os para esta pasta.
++Os CSVs exportados do GEE para o Google Drive (pasta `GEE_exports`) são a entrada de todos os scripts `python/`. **Não ficam no git** (são 895 MB). Para reproduzir, copie-os do Drive para `data/series/`.
++
++O Drive grava `v0.1` como `v01` e `v0.2` como `v02` no nome; os scripts aceitam as duas formas. Arquivos `*_TEST_*` (modo teste) não entram nas análises.
++
++## Integridade
++
++`manifest_sha256.txt` lista o SHA-256 dos 113 arquivos usados na reprodução da auditoria de 2026-10-27, que regenerou de forma idêntica todas as saídas versionadas. Para conferir uma cópia local:
++
++```
++cd data/series && sha256sum -c ../manifest_sha256.txt
++```
++
++Ainda **não conferido**: se os arquivos hoje no Drive têm os mesmos checksums (pendência P1-7).
++
++## Conteúdo
++
++| Padrão | Nº | MB | Gerado por | Amostra | Usado por |
++| --- | --- | --- | --- | --- | --- |
++| `series_MCD43A4_band*_v01.csv` | 5 | 98.5 | `gee/05_series.js` v0.1 | A | 06, 05_qc, 06b |
++| `series_MOD13Q1_band*_v01.csv` | 5 | 41.2 | `gee/05_series.js` v0.1 | A | 06, 05_qc, 06b |
++| `series_HLS_L30_band*_*_v01.csv` | 10 | 23.9 | `gee/05_series.js` v0.1 | A | 06, 05_qc |
++| `series_HLS_S30_band*_*_v01.csv` | 10 | 46.9 | `gee/05_series.js` v0.1 | A | 06, 05_qc |
++| `chirps_pentad_band*_v02.csv` | 5 | 127.0 | `gee/05b_chirps.js` v0.2 | A | 07, 07b, 09 |
++| `gedi_l2a_band*_v02.csv` | 5 | 2.2 | `gee/04_gedi.js` v0.2 | A | 08 |
++| `gedi_l2b_band*_v02.csv` | 5 | 2.7 | `gee/04_gedi.js` v0.2 | A | 08 |
++| `gpw_height_v01.csv` | 1 | 3.1 | `gee/04b_gpw_altura.js` v0.1 | A | 10 |
++| `pilot_4B_sample_v01.csv` | 1 | 0.4 | `gee/B2_amostra_4B.js` v0.1 | B | B2_qc_amostra |
++| `series4B_MCD43A4_band*_s*_v01.csv` | 10 | 78.9 | `gee/B3a_series_4B.js` v0.1 | B | B4b |
++| `series4B_MOD13Q1_band*_s*_v01.csv` | 10 | 33.7 | `gee/B3a_series_4B.js` v0.1 | B | B4b |
++| `series4B_HLS_L30_band*_s*_*_v01.csv` | 20 | 35.7 | `gee/B3a_series_4B.js` v0.1 | B | B4b |
++| `series4B_HLS_S30_band*_s*_*_v01.csv` | 20 | 72.4 | `gee/B3a_series_4B.js` v0.1 | B | B4b |
++| `chirps4B_pentad_band*_v02.csv` | 5 | 325.5 | `gee/B3b_chirps_4B.js` v0.2 | B | B4a |
++| `fire4B_monthly_v02.csv` | 1 | 2.6 | `gee/B3d_fogo_mensal_4B.js` v0.2 | B | B4a |
++
++Seis arquivos `series4B_*_band1_s2_*` têm só o cabeçalho: não há pontos na faixa 1 × estrato 2. É esperado.
+diff --git a/data/manifest_sha256.txt b/data/manifest_sha256.txt
+new file mode 100644
+index 0000000..64defa6
+--- /dev/null
++++ b/data/manifest_sha256.txt
+@@ -0,0 +1,113 @@
++cc3010adf6b730a246274b4ae439a18a902e1e315ce10abe4b450c911aa5a1e2  chirps4B_pentad_band1_v02.csv
++83a31e19b42c70116d924f80c7847d7ad4768230cb83b1a682a8f3a39e126b5c  chirps4B_pentad_band2_v02.csv
++5acc24109bc0a8dc62b04fb5711e75240bcc3b420d5eaf64308e96a62b94b49f  chirps4B_pentad_band3_v02.csv
++4698f1270322c7c2e02124e8c52c4f7d30065685885dcf21ca3394e4eb9ce5f0  chirps4B_pentad_band4_v02.csv
++c2099056d7abb1ac1d24288567d730c5cdc4f030e07da4567d2ecdfdf654d61f  chirps4B_pentad_band5_v02.csv
++08a2ffed0fc116c277734bc2b8048d7f0e59b3274ce9dce5a30a4e6e54b00d3d  chirps_pentad_band1_v02.csv
++72eea42c85b05b156229641840f0d826d4c52e8a2bd1925f7bbf9b5a13c121df  chirps_pentad_band2_v02.csv
++04c2be5e60caa2ab314ab4e505d1c3f54d99f4755b706ee8307d64ddf9d020e8  chirps_pentad_band3_v02.csv
++e1eefdbdfc5e129f6fabaa46f77559a084c9fb7c533ef917dd9138b227efb949  chirps_pentad_band4_v02.csv
++b6108421c8010f2c578f86c2042e9d252b4e7b7fbb20c95b81978ae74ef94e32  chirps_pentad_band5_v02.csv
++6d4c90ff7ab0286c5414748f3fe871b6bf9468d1781ae673bd10acff10987db8  fire4B_monthly_v02.csv
++b9b892083c70c976ba0c03d60527844032aa3e9ecb10beeb8858b200ef7ed12f  gedi_l2a_band1_v02.csv
++949f687abda14a6bf7d3f9805fd9f362049524b0763303e4880c9f6293eb84c8  gedi_l2a_band2_v02.csv
++6da2cb0a7e268ddca06cc93157f6c70980d8599258f5aac0a8ed692226a2505b  gedi_l2a_band3_v02.csv
++66a5fefd6986610cc02d0192a8e8f4d3e5ac3d3193d358ef59424923ef4ba5d5  gedi_l2a_band4_v02.csv
++e3e42bd0328c39a6ab60ab1fc2c2f2aae5e212c3ffc192214864fb4871247fe2  gedi_l2a_band5_v02.csv
++855a04645de3df442db53b273352acf51484afc2ef92f2c0a8aa899cf7a4dfe7  gedi_l2b_band1_v02.csv
++d85d3530be5d72e908a28c359a9eef43799dfafdd4181b75a6f6c07119cc5299  gedi_l2b_band2_v02.csv
++ad6bf4b79e6e70d47597182b6263efbcaf8ba94422d59dfc3516682080db1e4b  gedi_l2b_band3_v02.csv
++df84043f0f38274b904db79c1d92bcc0745272c5aa0a1640e96b75f58d66d810  gedi_l2b_band4_v02.csv
++de173020cd56b133d8512207f9089b617e6490be2eeb519decb3caa5857d32fd  gedi_l2b_band5_v02.csv
++eeb5163736cfad4d61246c69b5024f6e83a5490919902170a617d2100c0a13d6  gpw_height_v01.csv
++0cd474f7abe398eb4fdd7ac4d207fac9194f766b9e4f09fbc125404cc16be2d6  pilot_4B_sample_v01.csv
++aadf5f4c77f466f3ee1a5842852481ab2fbe29a19d6e11c15998e3ba2f6a7127  series4B_HLS_L30_band1_s1_2016_2020_v01.csv
++de8428701b3b3c71c45d375484a6edf0f8fdfca555eb171cc77dbc644851732e  series4B_HLS_L30_band1_s1_2021_2025_v01.csv
++2564d845cf36c188d3f8cf0b1ccc53426f14eda2e957a56efaccd4c2aa8441aa  series4B_HLS_L30_band1_s2_2016_2020_v01.csv
++2564d845cf36c188d3f8cf0b1ccc53426f14eda2e957a56efaccd4c2aa8441aa  series4B_HLS_L30_band1_s2_2021_2025_v01.csv
++c50e487a679548372da1d0bd64ac3d6129ed8d9e04396fded432b985520465af  series4B_HLS_L30_band2_s1_2016_2020_v01.csv
++9b9f0843829a5257819464a093106bf4ee700583fb09f503a262307c231e3468  series4B_HLS_L30_band2_s1_2021_2025_v01.csv
++002af9ae5c3bec7f8bfef3a77d5fd97509147f0232b2d945705cdbc6d547aeaa  series4B_HLS_L30_band2_s2_2016_2020_v01.csv
++087054418b7fc43ee8622c175504356f0176753b44ffaf249c5e514e883b2056  series4B_HLS_L30_band2_s2_2021_2025_v01.csv
++e0015c681e4f416252edb9aed54482d4b95a9ace3d6a2eca2cb4c93952b8e7f5  series4B_HLS_L30_band3_s1_2016_2020_v01.csv
++f938939f4bf53f9be3d229c1236acd4f195110b7ed63ba3b35de8ed2b9340c21  series4B_HLS_L30_band3_s1_2021_2025_v01.csv
++27ff6ed99b156a94e66ad7ffc4b9b0201b07c00b4ce79c768409da550ca0b57b  series4B_HLS_L30_band3_s2_2016_2020_v01.csv
++1b4c8d86898e2569fef7f07d62afbee2239107147217cdc3b91904820d2e12e4  series4B_HLS_L30_band3_s2_2021_2025_v01.csv
++7e1d8e50110f7a11692f9024ad41b63563707779b2b6773100225f8b1124f63d  series4B_HLS_L30_band4_s1_2016_2020_v01.csv
++831c5ff74621ac9b5d8157e2f160cacae559732b03ca23b19a6b3b00453097dd  series4B_HLS_L30_band4_s1_2021_2025_v01.csv
++89dfb352f3ad2eed3e82ce2f25b5fbffa2d90abc8cbce05074beefff1d4d517b  series4B_HLS_L30_band4_s2_2016_2020_v01.csv
++aef64774ae15b138b48acac17a238147db94d93f04fc152d22bb3da0c7342236  series4B_HLS_L30_band4_s2_2021_2025_v01.csv
++e826ab81140f0a4b9762a057bee0cf2821ca72cf7a452dd37ed86cf5279f7334  series4B_HLS_L30_band5_s1_2016_2020_v01.csv
++a4e4aa2df0dec8484d9a900edc4d745673cbef61450125e7b72e6738fce23925  series4B_HLS_L30_band5_s1_2021_2025_v01.csv
++389b2a6f0e2471580889b4035dd7a81e76163d341d271fa8732f6ee444b6a85d  series4B_HLS_L30_band5_s2_2016_2020_v01.csv
++af633525810563b746df7cc47dc7d6a8acf3ee5250fa2eb6bb137198775d0e67  series4B_HLS_L30_band5_s2_2021_2025_v01.csv
++791554e81452cc36b80a5118299285e36efa6429b07bcd2fb2371b999312f8b9  series4B_HLS_S30_band1_s1_2016_2020_v01.csv
++42644b387a135aa711279e331c33e95561d0e0388e61007ecb81d20962917535  series4B_HLS_S30_band1_s1_2021_2025_v01.csv
++2564d845cf36c188d3f8cf0b1ccc53426f14eda2e957a56efaccd4c2aa8441aa  series4B_HLS_S30_band1_s2_2016_2020_v01.csv
++2564d845cf36c188d3f8cf0b1ccc53426f14eda2e957a56efaccd4c2aa8441aa  series4B_HLS_S30_band1_s2_2021_2025_v01.csv
++24b69d07fd6393ef37fdf318aaa46888650e44274e7ff304d061fa020d31ce66  series4B_HLS_S30_band2_s1_2016_2020_v01.csv
++d13b1cc5e937e1b728f97229c65b08acebbd2794c44bf788ba75a27c07b6679e  series4B_HLS_S30_band2_s1_2021_2025_v01.csv
++00690e52610500fb480d40c735c08630f7846fccf2c6a8c7a14043c901ec1ea3  series4B_HLS_S30_band2_s2_2016_2020_v01.csv
++f4a19b76e372d9282285317233f3829f07286eb2daab2c0bf6ea94e43ee12c3e  series4B_HLS_S30_band2_s2_2021_2025_v01.csv
++97009a07081fb885dd1e4600f213982c3c01ba8ff69d5576596b0dd773696e08  series4B_HLS_S30_band3_s1_2016_2020_v01.csv
++f88f4c680fc81655058790c67d0e6b3200dcf8ab430d70f0552a28fac18e6fa2  series4B_HLS_S30_band3_s1_2021_2025_v01.csv
++779f289d46fab3f6ef8c426a9adb293240a8b7c6a90ffe1a177bb5e0a109389f  series4B_HLS_S30_band3_s2_2016_2020_v01.csv
++af6df6567cce428d002b43c1f8e0075ff071c3992f18a5e2b63d7ffd2a513f63  series4B_HLS_S30_band3_s2_2021_2025_v01.csv
++25bf9820460830cada90bd68e57bd240505052bf38fea6000d534f4071bac2f7  series4B_HLS_S30_band4_s1_2016_2020_v01.csv
++a77a6e82b78fe399fcbe527c5c8fbd619c5be5a9ebcde7ce9af9a13bb96be4d6  series4B_HLS_S30_band4_s1_2021_2025_v01.csv
++c751fdb8b822d93b93530c39447afd07f89b5b6858dcd3886de1be4d3625b48a  series4B_HLS_S30_band4_s2_2016_2020_v01.csv
++1e90cd2901390a411219d7b346b21b43a38c68bf7e855ecf8ecad2c6b4b838ad  series4B_HLS_S30_band4_s2_2021_2025_v01.csv
++370c727931cd092f89fabd6dbad9a7a4da9d916d0e37af5c2b0712f1fb200325  series4B_HLS_S30_band5_s1_2016_2020_v01.csv
++53f4486adf9b01467c77082fb0a538608c43cd638ed4de6d0d3e0f341a3be2f3  series4B_HLS_S30_band5_s1_2021_2025_v01.csv
++eb2de67c79bd8c13776c8ee5345ba60ff823b32aec77a35ab1631089e9f60e01  series4B_HLS_S30_band5_s2_2016_2020_v01.csv
++6d52ab5bf292b3ebdf1b5167e1c86ff084a2264c04ff7f28006616839e7d5fa6  series4B_HLS_S30_band5_s2_2021_2025_v01.csv
++1d75bbf84a5cd3614ba5fdd79168515ac872f90c84b7881204bce14b7381aa42  series4B_MCD43A4_band1_s1_v01.csv
++99fbf3f8538f3a1d324f718c712f3a03a9f0b1758c8f7f3d0b63f83bc4f19abd  series4B_MCD43A4_band1_s2_v01.csv
++a9b2bb357067b6aa09e0eaf914b1ae88a9221c2fb332e8c10b126b6f779af0a6  series4B_MCD43A4_band2_s1_v01.csv
++6f65fe04402032641e697d2b1752da22680feecd811b13903074ceddfc7b0257  series4B_MCD43A4_band2_s2_v01.csv
++b22e2de4f9e137b5f93e87cf22b5c86527a34d0a6b3684dc3fb0a49491624c7f  series4B_MCD43A4_band3_s1_v01.csv
++dfde2d94f9c4c455f608e4765983f6f2036a68cafec70eddd40be0ad769ea96a  series4B_MCD43A4_band3_s2_v01.csv
++55f3dd023858f21775355ae1b1fc9bc6f942786e43d347cc8e6a3ea875f11be3  series4B_MCD43A4_band4_s1_v01.csv
++b7978972047f8e97fdb5c02d470bca213120a08a7c83d0bc291e551b9c7f804d  series4B_MCD43A4_band4_s2_v01.csv
++ad5eb92965ccddfbea67a20f36fab1bd2d403ad1e98b8c797bb1b30127f35ee0  series4B_MCD43A4_band5_s1_v01.csv
++257911299c248fc7c0b022893011db056a13ff7612edac22d42c3dee7a4974cc  series4B_MCD43A4_band5_s2_v01.csv
++6b1e1d348ca36d23bc16e4b61db06243a9e774a6539aea6a305318ce47f2b8e8  series4B_MOD13Q1_band1_s1_v01.csv
++872ae3f5cab25d60db6c0752b5269163b0e1f372faca4c358820d0bb16f84b7e  series4B_MOD13Q1_band1_s2_v01.csv
++9bdeac36ed5a1304ac8373824ed805cf921b19842fe7a8066806cbf506da7751  series4B_MOD13Q1_band2_s1_v01.csv
++c91ead957ba72911fab408c1372bd483c22375a2df2336f06e14fbbbb09afd70  series4B_MOD13Q1_band2_s2_v01.csv
++5d34f2cce6bc8fcca5e29be17ced9a5853c52ab0a4b75bb0694102b5130890ae  series4B_MOD13Q1_band3_s1_v01.csv
++0a65416aa8fad2b19457bd18182d6a18385e1773f36a1e19783e69d2f5cd2c51  series4B_MOD13Q1_band3_s2_v01.csv
++4a3cb8ce2d0e29ae8cf94611f4338b3c9a7356c80306010e64a3aaac309fc66f  series4B_MOD13Q1_band4_s1_v01.csv
++c19ac2f456396d1a7f41a086de45269f681f9c80aa2ffeb7d5332b47437cdec2  series4B_MOD13Q1_band4_s2_v01.csv
++698ad11e57f84d4414762f3891e4ddca036db242c6ab01c1298e2872cba49bda  series4B_MOD13Q1_band5_s1_v01.csv
++9642d0e86508152049d3ec7d0d5446749a19bccbc820c47a189b5fdc150851ec  series4B_MOD13Q1_band5_s2_v01.csv
++93f3757020600671f40d2f5e52155c867397d686b08fb4d699ef77e0035dd931  series_HLS_L30_band1_2016_2020_v01.csv
++eac10d335f8cbf5dcb30aba332caa9d38488203f17e3b97b9eae3b416cd1d001  series_HLS_L30_band1_2021_2025_v01.csv
++0a5cd89dddeaa349ed50ab75a838830b012854bb86d8f76da3c0f6f5e56cc8ff  series_HLS_L30_band2_2016_2020_v01.csv
++31abab52043c032cf496c7557b6b59c5195ca44697972b8accb8b768fe140887  series_HLS_L30_band2_2021_2025_v01.csv
++ad7be737f0e9eca24dc0ba7128dd7e92e4275ff768c151b91a63261aec5295c4  series_HLS_L30_band3_2016_2020_v01.csv
++4b9a1a69346d88735bba4d04f6b95e2eb5f6729e6b8e6c76733c907470adbd42  series_HLS_L30_band3_2021_2025_v01.csv
++86ae64377b53650816ef8b6ca289888c1ebb3000466578b3356c446d5fbdf048  series_HLS_L30_band4_2016_2020_v01.csv
++b24a0346c6460feb9f93ad9671e90d2171662ea4e007674859adb4a713365a2c  series_HLS_L30_band4_2021_2025_v01.csv
++7bb3bd69de392abed6d7696a402ba204d41657bdf144437a83d08645a2b78372  series_HLS_L30_band5_2016_2020_v01.csv
++ef7cb10ad799e1afbbfe9a302a37c4c5a8764f72b8161cbd501eb86dde9dce5a  series_HLS_L30_band5_2021_2025_v01.csv
++11c0a6e57c33f344155b09dc009eaf352d1fe6bd3962ff11a0e1fb058db95b0f  series_HLS_S30_band1_2016_2020_v01.csv
++e2c7d4d41027260ba5c42d61f12c73130f7e80ebb3daeb27398bdedbd6043d02  series_HLS_S30_band1_2021_2025_v01.csv
++11dd4fba71d0ffd6ce7cd49be02bef2c028e6aaf12faec6d7f448af8cc60dc90  series_HLS_S30_band2_2016_2020_v01.csv
++4cbe2d51d067920fd3e5896d06325837c34338e01d73350495ee90958473ee15  series_HLS_S30_band2_2021_2025_v01.csv
++da96cf2b38db7f31eb744b6ff9e6a97eac45d8d5371c959ce98f6c74f5ed8b0e  series_HLS_S30_band3_2016_2020_v01.csv
++e18f43bd4fd92a2758154c0a81cb9eafa1df03b48e416651c9b9b6b92c6e4e2e  series_HLS_S30_band3_2021_2025_v01.csv
++8e19660843a9a4ffa2eaa8e84de9f823736f9e0f4645898f53e3388013c92479  series_HLS_S30_band4_2016_2020_v01.csv
++a2c69031c117643854ab7b0a4e2f51e18441a4e39f7bf2c4457a1817c86c766d  series_HLS_S30_band4_2021_2025_v01.csv
++fa0d8f8539158eefb390de825c1ce7f1ccde4ecedff02bf3505d0e475552255e  series_HLS_S30_band5_2016_2020_v01.csv
++0b54137069139dd45ab0c2c8d57be4de06b2c0dcf23e4b90e302489ea093929e  series_HLS_S30_band5_2021_2025_v01.csv
++358b076b535146d4dd3e41db66dde463b5335dd1d819f67ef79b432c66bce193  series_MCD43A4_band1_v01.csv
++e7712c23fa164e7624889b987731a6a69e97d8655983c1f48c14260b7bfbdd32  series_MCD43A4_band2_v01.csv
++6d55107287fdfc2663c0f44c335c58fbf89d2a6f63d38152669519a0841d2772  series_MCD43A4_band3_v01.csv
++021bb206d1b4b2e0374f07dc4e11a32acb7350a5a9100d0b29aea14f053b43bf  series_MCD43A4_band4_v01.csv
++1b0080e899c43f5fdd2eca867380e35170c5e4f576b19d23f0405d65670b3255  series_MCD43A4_band5_v01.csv
++5cc1f77919fdb2d7af402b0625a6dc2e277f2b87d0ae6fb2f9c1a4e9626cfb0c  series_MOD13Q1_band1_v01.csv
++2ff4c1309b0ad205b156703a16a0c61108615a4e5e32f97174277b3b1cf4da16  series_MOD13Q1_band2_v01.csv
++cbdcdade533bfa1c14287d293828ad7cb7a2eecbdc6ad98a1fae53851db71e4d  series_MOD13Q1_band3_v01.csv
++4e42b730066944603612c6d6efd1149fd00a7e84246a5b4cea3b140a4566083b  series_MOD13Q1_band4_v01.csv
++c8e93bf951232559a8c5377d99da6b9017b24b3fff9d22e7bb2a180c313999c9  series_MOD13Q1_band5_v01.csv
+-- 
+2.43.0
+

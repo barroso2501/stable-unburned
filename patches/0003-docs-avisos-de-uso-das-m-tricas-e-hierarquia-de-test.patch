@@ -1,0 +1,112 @@
+From 8f21c54234484cc17482f2909d9d6f58b92b3fab Mon Sep 17 00:00:00 2001
+From: "Claude (auditoria)" <noreply@anthropic.com>
+Date: Tue, 27 Oct 2026 08:21:32 -0300
+Subject: [PATCH 03/10] =?UTF-8?q?docs:=20avisos=20de=20uso=20das=20m=C3=A9?=
+ =?UTF-8?q?tricas=20e=20hierarquia=20de=20testes=20(P1-4,=20P1-5,=20P2-2,?=
+ =?UTF-8?q?=20P2-7,=20P2-9)?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+- outputs/README.md: avisos (ombro sem validade; amplitude/integral dependem
+  do piso; MOD13Q1 em B sem D21; usar B4 v0.2; IC do B4c otimista), tabela de
+  testes principais × exploratórios, estado real das tabelas grandes
+  (4 versionadas por legado), entradas v0.2.
+- 06_metricas.py: mesmos avisos na docstring e nota sobre a fase das janelas
+  MCD43A4. Sem alteração de código executável (saídas idênticas).
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UBLZzXELGKpn9v3AA9fGru
+---
+ outputs/README.md     | 38 +++++++++++++++++++++++++++++++++-----
+ python/06_metricas.py |  9 ++++++++-
+ 2 files changed, 41 insertions(+), 6 deletions(-)
+
+diff --git a/outputs/README.md b/outputs/README.md
+index 0138d46..0a09bba 100644
+--- a/outputs/README.md
++++ b/outputs/README.md
+@@ -2,7 +2,27 @@
+ 
+ Só arquivos pequenos (CSV de áreas, contagens, métricas resumidas). Rasters e séries grandes ficam no GEE ou no Drive.
+ 
+-Tabelas por ponto × ano maiores que 1 MB não vão para o GitHub (ver `.gitignore`); são regeneradas rodando os scripts `python/` em ordem (06 → 07 → 07b → 08 → 09 → 10) com as séries de `data/series/`.
++Tabelas por ponto × ano maiores que 1 MB não vão para o GitHub (ver `.gitignore`); são regeneradas rodando os scripts `python/` em ordem (05_qc → 06 → 07 → 07b → 06b → 08 → 09 → 10 → B2_qc → B4a → B4b → B4c) com as séries de `data/series/`. Quatro delas (`metrics_point_year`, `rain_onset_point_year`, `rain_greenup_lag`, `rain_robust_point_year`, todas v0.1) subiram antes dessa regra e continuam versionadas ("versionado, legado"). A auditoria de 2026-10-27 regenerou todas as saídas Python a partir do código e dos dados brutos e obteve arquivos idênticos (`docs/audit/technical_validation.md`).
++
++## Avisos de uso (auditoria 2026-10-27)
++
++- **`shoulder`, `shoulder_day`** (etapa 06): detectados em 30–69% dos ponto-anos em todos os sensores → o critério capta ruído. **Não usar** como resultado.
++- **`amplitude` e `integral`** são medidas a partir de `base_pre` (mínimo antes do pico). Qualquer queda do piso as aumenta sem mais verde. No ciclo do fogo (B4c, `event_time` = 0) elas sobem por esse artefato. Para intensidade, usar `peak_evi`.
++- **MOD13Q1 na amostra 4-B** é usado sem o filtro de pureza a 232 m (D21) aplicado em A. É só checagem.
++- **Unidades de fogo:** a v0.1 do B4 usa a unidade do B2 (fogo anual); a v0.2 usa eventos mensais (`fire_unit`) e guarda a antiga em `fire_unit_annual`. Usar a **v0.2**.
++- **IC do B4c:** o bootstrap por unidade não trata a dependência entre unidades vizinhas no mesmo ano. O IC deve ser lido como otimista (pendência P1-2 em `docs/audit/correction_plan.md`).
++
++## Testes principais × exploratórios
++
++Os testes **principais** foram formulados antes de olhar o resultado correspondente; o restante é **exploratório** e não deve ser citado isoladamente como achado.
++
++| Etapa | Principal | Exploratório |
++| --- | --- | --- |
++| 08 | estrutura × EVI: (a) piso da seca, (b) amplitude relativa, (c) verdor antecipado, com cobertura GEDI (`subset = all`, faixas 2–4 com postos na faixa) | demais combinações estrutura × métrica × subconjunto × faixa (432 linhas no total) |
++| 09 | Teste 1 (skill do limiar × data fixa, sos50, MCD43A4); Teste 2 (DP, skill e inclinação × cobertura, parcial na amplitude) | outros gatilhos, sos20, MOD13Q1, rh98 |
++| 10 | GPW × GEDI (rh50, rh98, cobertura); tendência GPW × tendência EVI | demais correlações |
++| B4c | efeito no ciclo 0 e +1 (pico, piso, sos50, eos50; MCD43A4, grupo "todos"); efeito por momento do 1º fogo | demais tempos de evento, métricas, grupos e sensores |
++
+ 
+ Convenção de nome: `<produto>_<versão ou RUN_TAG>.csv`. Cada saída deve ter uma linha correspondente em `docs/execucoes.md`.
+ 
+@@ -25,14 +45,14 @@ Convenção de nome: `<produto>_<versão ou RUN_TAG>.csv`. Cada saída deve ter
+ | `clim_evi_by_band_month_v0.1.csv` | 05 (QC) | EVI mediano por sensor × faixa × mês, 2018/19–2024/25 |
+ | `peak_month_dist_v0.1.csv` | 05 (QC) | distribuição do mês de pico (climatologia mensal) por sensor × faixa |
+ | `sensor_agreement_v0.1.csv` | 05 (QC) | concordância do mês de pico, correlação, nível e amplitude entre sensores |
+-| `metrics_point_year_v0.1.csv` (não versionado; gerar com a etapa 06) | 06 | métricas por sensor × ponto × ano hidrológico (dias contados a partir de 1º jul) |
++| `metrics_point_year_v0.1.csv` (versionado, legado) | 06 | métricas por sensor × ponto × ano hidrológico (dias contados a partir de 1º jul) |
+ | `metrics_summary_band_v0.1.csv` | 06 | quartis das métricas por sensor × faixa (anos válidos), % válidos, % com ombro |
+ | `metrics_sensor_diff_v0.1.csv` | 06 | diferenças entre sensores (vs MCD43A4) e sensibilidade ao aerossol no HLS |
+ | `metrics_interannual_v0.1.csv` | 06 | variabilidade interanual do pico por ponto (MCD43A4, ≥ 15 anos) |
+-| `rain_onset_point_year_v0.1.csv` (não versionado; gerar com a etapa 07) | 07 | início/fim da estação chuvosa (acumulação anômala), duração e totais por ponto × ano hidrológico |
+-| `rain_greenup_lag_v0.1.csv` (não versionado; gerar com a etapa 07) | 07 | métricas da etapa 06 + onset/demise + defasagens (dias) |
++| `rain_onset_point_year_v0.1.csv` (versionado, legado) | 07 | início/fim da estação chuvosa (acumulação anômala), duração e totais por ponto × ano hidrológico |
++| `rain_greenup_lag_v0.1.csv` (versionado, legado) | 07 | métricas da etapa 06 + onset/demise + defasagens (dias) |
+ | `rain_greenup_summary_v0.1.csv` | 07 | quartis das defasagens e % de sos20 antes do onset, por sensor × faixa |
+-| `rain_robust_point_year_v0.1.csv` (não versionado; gerar com a etapa 07b) | 07b | chuva acumulada até o sos20, onsets por primeiras chuvas (25/50 mm), indicadores de verdor antecipado |
++| `rain_robust_point_year_v0.1.csv` (versionado, legado) | 07b | chuva acumulada até o sos20, onsets por primeiras chuvas (25/50 mm), indicadores de verdor antecipado |
+ | `rain_robust_summary_v0.1.csv` | 07b | resumo dos testes T1–T3 por sensor × faixa |
+ | `rain_coupling_summary_v0.1.csv` | 07b | acoplamento interanual onset × sos20/sos50 dentro do ponto (r e inclinação) |
+ | `rain_early_greenup_v0.1.csv` | 07b (T5) | antecipação do sos20 > 16 d antes das primeiras 25 mm: frequência por sensor, concordância, pontos recorrentes, por faixa |
+@@ -67,3 +87,11 @@ Convenção de nome: `<produto>_<versão ou RUN_TAG>.csv`. Cada saída deve ter
+ | `fire_effect_event_v0.1.csv` | B4c | efeito do 1º fogo por sensor × métrica × grupo × tempo de evento (mediana entre unidades de fogo, IC 95%) |
+ | `fire_effect_preA_v0.1.csv` | B4c | B antes do 1º fogo − A, por sensor × métrica × faixa |
+ | `fire_effect_regime_v0.1.csv` | B4c | estrato 2, depois do 2º fogo: efeito por ciclos desde o último fogo |
++| `fire4B_events_v0.2.csv` | B4a v0.2 | idêntico à v0.1 (eventos de fogo por ponto) |
++| `pilot_4B_sample_reval_v0.2.csv` | B4a v0.2 | como a v0.1 + `fire_unit` por evento mensal e `fire_unit_annual` (a da v0.1) |
++| `pilot_4B_reval_summary_v0.2.csv` | B4a v0.2 | idêntico à v0.1 |
++| `fire4B_rainyear_v0.2.csv` (não versionado; gerar com B4a) | B4a v0.2 | idêntico à v0.1 |
++| `metrics4B_point_year_v0.2.csv` (não versionado; gerar com B4b) | B4b v0.2 | como a v0.1, com `fire_unit` por evento |
++| `fire_effect_event_v0.2.csv` | B4c v0.2 | efeito do 1º fogo com unidades por evento (**versão de referência**) |
++| `fire_effect_preA_v0.2.csv` | B4c v0.2 | B antes do 1º fogo − A, unidades por evento |
++| `fire_effect_regime_v0.2.csv` | B4c v0.2 | estrato 2 após o 2º fogo, unidades por evento |
+diff --git a/python/06_metricas.py b/python/06_metricas.py
+index 0c7ac57..129769f 100644
+--- a/python/06_metricas.py
++++ b/python/06_metricas.py
+@@ -32,8 +32,15 @@ SAÍDAS (outputs/)
+   metrics_sensor_diff_v0.1.csv      diferenças entre sensores nos mesmos ponto-anos (2018/19–2024/25)
+   metrics_interannual_v0.1.csv      variabilidade interanual do pico por ponto (MCD43A4)
+ 
++AVISOS (auditoria 2026-10-27)
++  - shoulder/shoulder_day: o critério capta ruído (30–69% dos ponto-anos); não usar como resultado.
++  - amplitude e integral dependem de base_pre: uma queda do piso (ex.: fogo) as aumenta sem mais verde.
++  - as janelas de 8 dias do MCD43A4 (05_series.js) começam em 1º de janeiro de cada ano; a grade
++    daqui começa em 1º/jul/2000 → fases diferentes, absorvidas pela mediana por janela e pela
++    interpolação (efeito não quantificado).
++
+ COMO RODAR
+-  python python/06_metricas.py   (séries em data/series/; ~2–5 min)
++  python python/06_metricas.py   (séries em data/series/; ~2 min)
+ """
+ 
+ import numpy as np
+-- 
+2.43.0
+

@@ -1,0 +1,31 @@
+From 3655f3c992afa32fd6572453c5efeba93b718579 Mon Sep 17 00:00:00 2001
+From: "Claude (auditoria)" <noreply@anthropic.com>
+Date: Tue, 27 Oct 2026 08:38:37 -0300
+Subject: [PATCH 10/10] =?UTF-8?q?docs(audit):=20P1-8=20encerrado=20(estado?=
+ =?UTF-8?q?s=20corrigidos=20tamb=C3=A9m=20na=20KB)?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UBLZzXELGKpn9v3AA9fGru
+---
+ docs/audit/correction_plan.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/docs/audit/correction_plan.md b/docs/audit/correction_plan.md
+index 97b65db..43c4ee5 100644
+--- a/docs/audit/correction_plan.md
++++ b/docs/audit/correction_plan.md
+@@ -21,7 +21,7 @@ Auditoria de 2026-10-27, atualizada depois do item 1 do plano de correção.
+ | P1-4 | **resolvido (doc)**: avisos sobre amplitude e integral; nenhuma métrica nova | `8f21c54`, `4462396` |
+ | P1-5 | **resolvido (doc)**: tabela de testes principais × exploratórios em `outputs/README.md` | `8f21c54` |
+ | P1-7 | **parcial**: manifesto SHA-256 e inventário versionados; faltam os checksums do Drive e os metadados dos assets (Mario) | `590c27e` |
+-| P1-8 | **resolvido**: `docs/audit/decision_log.md`; falta corrigir os estados D25, D27 e D28 **na KB** | `3ffeb51` |
++| P1-8 | **resolvido**: `docs/audit/decision_log.md`; estados de D25, D27 e D28 corrigidos também na KB | `3ffeb51` |
+ | P2-1 | **resolvido** | `54eedc2` |
+ | P2-2 | **resolvido**: `.gitignore` no repositório; política de tabelas grandes explícita | `79fff6e`, `8f21c54` |
+ | P2-3, P2-7, P2-8, P2-9, P2-11 | **resolvidos (doc)** | `4462396`, `8f21c54`, `54eedc2` |
+-- 
+2.43.0
+

@@ -1,0 +1,293 @@
+From c9696eee9367b722ead0a21a43096b3a51bfe27e Mon Sep 17 00:00:00 2001
+From: "Claude (auditoria)" <noreply@anthropic.com>
+Date: Tue, 27 Oct 2026 08:23:32 -0300
+Subject: [PATCH 06/10] =?UTF-8?q?test(audit):=20reprodu=C3=A7=C3=A3o=20com?=
+ =?UTF-8?q?pleta,=20testes=20de=20integridade=20e=20diagn=C3=B3sticos=20ve?=
+ =?UTF-8?q?rsionados?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+- reproduce.sh: regenera as saídas Python num diretório temporário e compara
+  célula a célula com as do repositório (2026-10-27: todas idênticas).
+- test_integrity.py: 28 verificações (ids, cobertura, duplicatas, histórico
+  de fogo × assinatura, unicidade); código de saída 1 em falha.
+- diagnostics_fire.py / diagnostics_threshold.py: diagnósticos de validade
+  (pré-tendência, referência A, 2010, unidades, geometria, limiar fora da
+  amostra). Caminhos parametrizados (--data, --outputs, --b4).
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UBLZzXELGKpn9v3AA9fGru
+---
+ tests/audit/README.md                | 11 +++++
+ tests/audit/compare_outputs.py       | 26 +++++++++++
+ tests/audit/diagnostics_fire.py      | 65 ++++++++++++++++++++++++++++
+ tests/audit/diagnostics_threshold.py | 34 +++++++++++++++
+ tests/audit/reproduce.sh             | 19 ++++++++
+ tests/audit/test_integrity.py        | 64 +++++++++++++++++++++++++++
+ 6 files changed, 219 insertions(+)
+ create mode 100644 tests/audit/README.md
+ create mode 100644 tests/audit/compare_outputs.py
+ create mode 100644 tests/audit/diagnostics_fire.py
+ create mode 100644 tests/audit/diagnostics_threshold.py
+ create mode 100644 tests/audit/reproduce.sh
+ create mode 100644 tests/audit/test_integrity.py
+
+diff --git a/tests/audit/README.md b/tests/audit/README.md
+new file mode 100644
+index 0000000..eff9023
+--- /dev/null
++++ b/tests/audit/README.md
+@@ -0,0 +1,11 @@
++# Testes da auditoria (2026-10-27)
++
++| Script | O que verifica | Como rodar |
++| --- | --- | --- |
++| `reproduce.sh` | regenera todas as saídas Python e compara célula a célula com as do repositório | `bash tests/audit/reproduce.sh data/series` |
++| `test_integrity.py` | ids, cobertura das séries, duplicatas, histórico de fogo × assinatura, unicidade das tabelas de métricas | `python tests/audit/test_integrity.py` (código de saída 1 se algum teste falhar) |
++| `diagnostics_fire.py` | pré-tendência B − A, sensibilidade ao tipo de referência A e ao ano de 2010, composição por tempo de evento, unidades com mês exato, geometria quadrado × pixel sinusoidal | `python tests/audit/diagnostics_fire.py` |
++| `diagnostics_threshold.py` | escolha do limiar de chuva fora da amostra (etapa 09) | `python tests/audit/diagnostics_threshold.py` |
++| `compare_outputs.py` | comparação de duas pastas de saídas | usado por `reproduce.sh` |
++
++Os testes de integridade e os diagnósticos precisam das tabelas não versionadas (`metrics_point_year`, `metrics4B_point_year`, `threshold_point_year`, `fire4B_*`); gere-as antes com `reproduce.sh` ou com os scripts `python/`, e aponte `--outputs` para a pasta onde estão. Resultados da execução de 2026-10-27: `docs/audit/technical_validation.md`.
+diff --git a/tests/audit/compare_outputs.py b/tests/audit/compare_outputs.py
+new file mode 100644
+index 0000000..fdfd43e
+--- /dev/null
++++ b/tests/audit/compare_outputs.py
+@@ -0,0 +1,26 @@
++"""Compara, célula a célula, as saídas regeneradas (1º arg.) com as de referência (2º e 3º args.)."""
++import sys, glob, os
++import numpy as np, pandas as pd
++new, ref_gh, ref_loc = sys.argv[1:4]
++rows=[]
++for f in sorted(glob.glob(os.path.join(new,'*.csv'))):
++    name=os.path.basename(f)
++    ref = os.path.join(ref_gh,name) if os.path.exists(os.path.join(ref_gh,name)) else (os.path.join(ref_loc,name) if os.path.exists(os.path.join(ref_loc,name)) else None)
++    src = 'gh' if ref and ref.startswith(ref_gh) else ('local' if ref else '-')
++    if not ref: rows.append((name,src,'sem referência','','')); continue
++    a=pd.read_csv(f); b=pd.read_csv(ref)
++    if list(a.columns)!=list(b.columns) or a.shape!=b.shape:
++        rows.append((name,src,'DIFERENTE estrutura',str(a.shape),str(b.shape))); continue
++    num=a.select_dtypes('number').columns
++    oth=[c for c in a.columns if c not in num]
++    eq_oth = all((a[c].fillna('NA').astype(str)==b[c].fillna('NA').astype(str)).all() for c in oth)
++    if len(num):
++        d=(a[num].astype(float)-b[num].astype(float)).abs()
++        nanmis=((a[num].isna())!=(b[num].isna())).sum().sum()
++        mx=np.nanmax(d.to_numpy()) if d.size else 0
++    else: mx,nanmis=0,0
++    status='idêntico' if (mx==0 and nanmis==0 and eq_oth) else ('≈ (dif. máx %.3g)'%mx if eq_oth and nanmis==0 and mx<1e-6 else 'DIFERENTE')
++    rows.append((name,src,status,f'max_abs={mx:.3g}; nan_mismatch={nanmis}; texto_igual={eq_oth}',str(a.shape)))
++out=pd.DataFrame(rows,columns=['arquivo','ref','estado','detalhe','shape'])
++pd.set_option('display.width',250); pd.set_option('display.max_colwidth',80); pd.set_option('display.max_rows',200)
++print(out.to_string(index=False))
+diff --git a/tests/audit/diagnostics_fire.py b/tests/audit/diagnostics_fire.py
+new file mode 100644
+index 0000000..928bbb8
+--- /dev/null
++++ b/tests/audit/diagnostics_fire.py
+@@ -0,0 +1,65 @@
++"""Diagnósticos de validade da parte 2 (pré-tendência, referência A, 2010, unidades, geometria). Não altera resultados."""
++import argparse
++from pathlib import Path
++ROOT = Path(__file__).resolve().parents[2]
++ap = argparse.ArgumentParser(description=__doc__)
++ap.add_argument("--data", default=str(ROOT / "data" / "series"), help="pasta com os CSVs brutos")
++ap.add_argument("--outputs", default=str(ROOT / "outputs"), help="pasta com as saídas Python")
++ap.add_argument("--b4", default="v0.2", help="versão das saídas B4 a testar")
++args = ap.parse_args()
++D = args.data.rstrip("/") + "/"
++O = args.outputs.rstrip("/") + "/"
++import numpy as np, pandas as pd
++rng=np.random.default_rng(42)
++m=pd.read_csv(O+f'metrics4B_point_year_{args.b4}.csv'); m=m[(m.valid==1)&(m.sensor=='MCD43A4')]
++fo=m[(m.event_time<0)|(m.n_prior<=1)].copy()
++def boot(u):
++    u=np.asarray(u); u=u[~np.isnan(u)]
++    bs=np.median(rng.choice(u,(1000,len(u))),axis=1); return np.median(u),*np.percentile(bs,[2.5,97.5]),len(u)
++print('== (a) tendência pré-fogo: inclinação de d_m em event_time<0 por ponto (≥3 ciclos), mediana entre unidades ==')
++for met in ['peak_evi','base_pre','sos50','amplitude']:
++    pre=fo[fo.event_time<0]; sl=[]
++    for (pid,u),g in pre.groupby(['point_id','fire_unit']):
++        g=g.dropna(subset=[f'd_{met}'])
++        if len(g)>=3: sl.append((u,np.polyfit(g.event_time,g[f'd_{met}'],1)[0]))
++    s=pd.DataFrame(sl,columns=['u','b']).groupby('u').b.mean()
++    print(met,'inclinação/ciclo: med %.4f IC [%.4f; %.4f] n_unid %d'%boot(s))
++print('== (b) efeito em t=0 por tipo de referência A ==')
++for met in ['peak_evi','sos50']:
++    pre=fo[fo.event_time<0].groupby('point_id')[f'd_{met}'].agg(['mean','count']); pre=pre[pre['count']>=2]['mean']
++    t0=fo[fo.event_time==0].join(pre.rename('base'),on='point_id').dropna(subset=['base'])
++    t0['eff']=t0[f'd_{met}']-t0.base
++    for rt,g in t0.groupby('ref_type'):
++        print(met,rt,'med %.3f IC [%.3f; %.3f] n_unid %d'%boot(g.groupby('fire_unit').eff.mean()))
++    t0['y2010']=np.where(t0.hy==2010,'1º fogo 2010','outros anos')
++    for k,g in t0.groupby('y2010'):
++        print(met,k,'med %.3f IC [%.3f; %.3f] n_unid %d'%boot(g.groupby('fire_unit').eff.mean()))
++print('== (c) composição por tempo de evento: ano do 1º fogo ==')
++x=fo[fo.event_time>=0].copy(); x['fy']=x.hy-x.event_time
++print(x.groupby(pd.cut(x.event_time,[-1,0,2,5,9,15,30])).fy.describe()[['count','min','50%','max']])
++print('== (d) unidades de fogo com MÊS EXATO (sem a tolerância de ±1 mês da B4a v0.2), ≤5 km — limite superior ==')
++ev=pd.read_csv(O+f'fire4B_events_{args.b4}.csv'); s=pd.read_csv(O+f'pilot_4B_sample_reval_{args.b4}.csv'); s=s[s.keep==1]
++ev=ev[ev.fire_year>2000]
++sig=ev.groupby('point_id').apply(lambda g: ';'.join(f'{r.fire_year}-{r.month}' for r in g.itertuples()),include_groups=False).rename('msig')
++s=s.join(sig,on='point_id')
++def hav(lo1,la1,lo2,la2):
++    lo1,la1,lo2,la2=map(np.radians,(lo1,la1,lo2,la2)); a=np.sin((la2-la1)/2)**2+np.cos(la1)*np.cos(la2)*np.sin((lo2-lo1)/2)**2; return 12742*np.arcsin(np.sqrt(a))
++def units(g):
++    lon,lat=g.lon.to_numpy(),g.lat.to_numpy(); n=len(g); lab=-np.ones(n,int); k=0
++    for i in range(n):
++        if lab[i]>=0: continue
++        st=[i]; lab[i]=k
++        while st:
++            j=st.pop(); nb=np.flatnonzero((lab<0)&(hav(lon[j],lat[j],lon,lat)<=5)); lab[nb]=k; st.extend(nb.tolist())
++        k+=1
++    return pd.Series([f'{g.name}_{x}' for x in lab],index=g.index)
++s['unit_m']=s.groupby(['sample_type','msig'],group_keys=False).apply(units)
++for t,g in s.groupby('sample_type'):
++    print(t,'unidades da B4a (fire_unit)',g.fire_unit.nunique(),'com mês exato',g.unit_m.nunique(),'| pontos cuja unidade mudou de composição:',
++          (g.groupby('fire_unit').unit_m.transform('nunique')>1).sum())
++print('== (e) cisalhamento do pixel sinusoidal × quadrado geográfico (pontos A) ==')
++a=pd.read_csv(O+'pilot_4A_sample_v0.1.csv')
++shift=231.6*np.abs(np.radians(a.lon)*np.sin(np.radians(a.lat)))   # deslocamento da borda no topo/base (m)
++frac=shift/463.3/2*2/2  # fração de área fora ≈ 2 triângulos por lado / área
++frac=(2*0.5*231.6*shift*2)/(463.3**2)
++print('desloc. de borda (m): mediana %.0f, p90 %.0f, máx %.0f | área do pixel fora do quadrado: mediana %.1f%%, máx %.1f%%'%(np.median(shift),np.percentile(shift,90),shift.max(),np.median(frac)*100,frac.max()*100))
+diff --git a/tests/audit/diagnostics_threshold.py b/tests/audit/diagnostics_threshold.py
+new file mode 100644
+index 0000000..1b0c823
+--- /dev/null
++++ b/tests/audit/diagnostics_threshold.py
+@@ -0,0 +1,34 @@
++"""Escolha do limiar de chuva fora da amostra (anos ímpares → avaliação nos pares), etapa 09."""
++import argparse
++from pathlib import Path
++ROOT = Path(__file__).resolve().parents[2]
++ap = argparse.ArgumentParser(description=__doc__)
++ap.add_argument("--data", default=str(ROOT / "data" / "series"), help="pasta com os CSVs brutos")
++ap.add_argument("--outputs", default=str(ROOT / "outputs"), help="pasta com as saídas Python")
++ap.add_argument("--b4", default="v0.2", help="versão das saídas B4 a testar")
++args = ap.parse_args()
++D = args.data.rstrip("/") + "/"
++O = args.outputs.rstrip("/") + "/"
++import numpy as np, pandas as pd
++th=pd.read_csv(O+'threshold_point_year_v0.1.csv'); met=pd.read_csv(O+'metrics_point_year_v0.1.csv')
++met=met[(met.sensor=='MCD43A4')&(met.valid==1)][['point_id','lat_band','hy','sos50']]
++j=met.merge(th,on=['point_id','lat_band','hy'])
++trig=[c for c in th.columns if c.startswith('T')]
++def skill(g,tr,yrs):
++    g=g[g.hy.isin(yrs)].dropna(subset=['sos50',tr])
++    if len(g)<5 or g.sos50.std()==0: return np.nan
++    s=g.sos50.to_numpy(); t=g[tr].to_numpy()
++    r0=np.sqrt(np.mean((s-s.mean())**2)); rx=np.sqrt(np.mean((s-(t+(s-t).mean()))**2)); return 1-rx/r0
++odd=[y for y in range(2000,2025) if y%2]; even=[y for y in range(2000,2025) if not y%2]
++rows=[]
++for band,gb in j.groupby('lat_band'):
++    sk={tr:{'odd':[], 'even':[]} for tr in trig}
++    for pid,g in gb.groupby('point_id'):
++        for tr in trig:
++            sk[tr]['odd'].append(skill(g,tr,odd)); sk[tr]['even'].append(skill(g,tr,even))
++    med={tr:(np.nanmedian(sk[tr]['odd']),np.nanmedian(sk[tr]['even'])) for tr in trig}
++    best_odd=max(trig,key=lambda t:med[t][0]); best_even=max(trig,key=lambda t:med[t][1])
++    rows.append(dict(lat_band=band,best_on_odd=best_odd,skill_even_of_best_odd=round(med[best_odd][1],3),
++                     best_on_even=best_even,skill_even_in_sample=round(med[best_even][1],3),
++                     skill_even_T75=round(med['T75'][1],3)))
++print(pd.DataFrame(rows).to_string(index=False))
+diff --git a/tests/audit/reproduce.sh b/tests/audit/reproduce.sh
+new file mode 100644
+index 0000000..bdb959f
+--- /dev/null
++++ b/tests/audit/reproduce.sh
+@@ -0,0 +1,19 @@
++#!/usr/bin/env bash
++# Reproduz todas as saídas Python a partir do código e dos dados brutos e compara com as versionadas.
++# Uso: bash tests/audit/reproduce.sh /caminho/para/data/series
++# Requer: Python 3.13 com env/requirements.txt. Tempo: ~15 min.
++set -euo pipefail
++ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
++DATA="${1:-$ROOT/data/series}"
++WORK="$(mktemp -d)"
++cp -r "$ROOT/python" "$ROOT/env" "$WORK/"
++mkdir -p "$WORK/outputs" "$WORK/data"
++ln -s "$DATA" "$WORK/data/series"
++cp "$ROOT/outputs/pilot_4A_sample_v0.1.csv" "$WORK/outputs/"   # saída do GEE (etapa 03), não do Python
++cd "$WORK"
++for s in 05_qc_series 06_metricas 07_chuva_verdor 07b_robustez_chuva_verdor 06b_sensibilidade_suavizacao \
++         08_estrutura_evi 09_limiar_fotoperiodo 10_gpw B2_qc_amostra B4a_reavaliacao_fogo B4b_metricas_4B B4c_trajetorias_fogo; do
++  echo ">> $s"; python3 "python/$s.py" > "$WORK/log_$s.txt" 2>&1
++done
++python3 "$ROOT/tests/audit/compare_outputs.py" "$WORK/outputs" "$ROOT/outputs" "$ROOT/outputs"
++echo "Saídas regeneradas em $WORK/outputs"
+diff --git a/tests/audit/test_integrity.py b/tests/audit/test_integrity.py
+new file mode 100644
+index 0000000..1d00bb9
+--- /dev/null
++++ b/tests/audit/test_integrity.py
+@@ -0,0 +1,64 @@
++"""Testes de integridade dos dados brutos e das saídas (auditoria 2026-10-27). Saída: tabela OK/FALHA."""
++import argparse
++from pathlib import Path
++ROOT = Path(__file__).resolve().parents[2]
++ap = argparse.ArgumentParser(description=__doc__)
++ap.add_argument("--data", default=str(ROOT / "data" / "series"), help="pasta com os CSVs brutos")
++ap.add_argument("--outputs", default=str(ROOT / "outputs"), help="pasta com as saídas Python")
++ap.add_argument("--b4", default="v0.2", help="versão das saídas B4 a testar")
++args = ap.parse_args()
++D = args.data.rstrip("/") + "/"
++O = args.outputs.rstrip("/") + "/"
++import glob, json, numpy as np, pandas as pd
++res=[]
++def ok(name,cond,detail): res.append((name,'OK' if cond else 'FALHA',detail))
++a=pd.read_csv(O+'pilot_4A_sample_v0.1.csv')
++ok('A: ids únicos',a.point_id.is_unique,f'{len(a)} pontos')
++ok('A: faixa = floor(-lat/5)+1',((-a.lat//5+1).astype(int)==a.lat_band).all(),'')
++ok('A: pureza 463 m ≥ 90',(a.purity_463m>=90).all(),f'min {a.purity_463m.min()}')
++ok('A: n por faixa',a.lat_band.value_counts().sort_index().tolist()==[300,300,300,300,15],str(a.lat_band.value_counts().sort_index().tolist()))
++ids=set(a.point_id)
++for prod in ['MCD43A4','MOD13Q1','HLS_L30','HLS_S30']:
++    fs=sorted(glob.glob(D+f'series_{prod}_*.csv')); s=pd.concat([pd.read_csv(f,usecols=['point_id','date']) for f in fs])
++    ok(f'A séries {prod}: pontos cobertos', set(s.point_id)==ids, f'{s.point_id.nunique()} pontos; ids fora da amostra: {len(set(s.point_id)-ids)}')
++    dup=s.duplicated().mean()
++    res.append((f'A séries {prod}: duplicatas ponto×data',f'{dup*100:.1f}%','HLS esperado (tiles sobrepostos); MODIS deve ser 0'))
++m=pd.concat([pd.read_csv(f,usecols=['DayOfYear','SummaryQA']) for f in glob.glob(D+'series_MOD13Q1_*.csv')])
++ok('MOD13Q1: DayOfYear válido nos QA≤1',(m[m.SummaryQA<=1].DayOfYear.between(1,366)).all(),f'fora: {(~m[m.SummaryQA<=1].DayOfYear.between(1,366)).sum()}')
++c=pd.concat([pd.read_csv(f,usecols=['point_id','date']) for f in glob.glob(D+'chirps_pentad_band*_v02.csv')])
++g=c.groupby('point_id').size(); ok('A CHIRPS: 1872 pêntadas/ponto e todos os pontos', (g==1872).all() and set(g.index)==ids, f'{len(g)} pontos')
++# GEDI dentro do quadrado (aprox. 231.6 m em graus)
++for k in ['l2a','l2b']:
++    gg=pd.concat([pd.read_csv(f) for f in glob.glob(D+f'gedi_{k}_band*.csv')]).merge(a[['point_id','lon','lat']],on='point_id',suffixes=('','_p'))
++    dlat=(gg.lat-gg.lat_p).abs()*111320; dlon=(gg.lon-gg.lon_p).abs()*111320*np.cos(np.radians(gg.lat_p))
++    ok(f'GEDI {k}: footprints dentro do quadrado (±232 m + 25 m)',((dlat<=260)&(dlon<=260)).all(),f'{len(gg)} footprints; máx dlat {dlat.max():.0f} m, dlon {dlon.max():.0f} m')
++# B
++b=pd.read_csv(O+'pilot_4B_sample_v0.1.csv')
++ok('B: ids únicos e sem colisão com A',b.point_id.is_unique and not (set(b.point_id)&ids),f'{len(b)}')
++bits=lambda s:[2001+i for i in range(25) if (int(s)>>i)&1]
++ok('B: assinatura ↔ n/1º/último fogo',b.apply(lambda r: len(bits(r.signature))==r.n_fires and min(bits(r.signature))==r.first_fire and max(bits(r.signature))==r.last_fire,axis=1).all(),'')
++f=pd.read_csv(D+'fire4B_monthly_v02.csv').merge(b[['point_id','signature']],on='point_id')
++mism=0
++for r in f.itertuples():
++    s=set(bits(r.signature))
++    for y in range(2001,2026):
++        if (getattr(r,f'a_{y}')==1)!=(y in s): mism+=1
++pre=sum((f[f'a_{y}']==1).sum() for y in range(1985,2001))
++ok('B: fogo anual no pixel (B3d) = assinatura (B1a)',mism==0,f'divergências ponto-ano: {mism}')
++ok('B: sem fogo anual 1985–2000 no pixel',pre==0,f'ponto-anos com fogo: {pre}')
++bids=set(b.point_id); mod=set(b[b.sample_type=='modis'].point_id)
++for prod,exp in [('MCD43A4',mod),('MOD13Q1',mod),('HLS_L30',bids),('HLS_S30',bids)]:
++    fs=sorted(glob.glob(D+f'series4B_{prod}_*.csv')); s=pd.concat([pd.read_csv(f,usecols=['point_id']) for f in fs])
++    ok(f'B séries {prod}: pontos esperados',set(s.point_id)==exp,f'{s.point_id.nunique()} de {len(exp)}; extras {len(set(s.point_id)-exp)}')
++c=pd.concat([pd.read_csv(f,usecols=['point_id']) for f in glob.glob(D+'chirps4B_pentad_band*_v02.csv')]); g=c.groupby('point_id').size()
++ok('B CHIRPS: 3024 pêntadas/ponto',(g==3024).all() and set(g.index)==bids,f'{len(g)}')
++mb=pd.read_csv(O+f'metrics4B_point_year_{args.b4}.csv')
++ok('metrics4B: uma linha por sensor×ponto×ciclo',not mb.duplicated(['sensor','point_id','hy']).any(),'')
++ok('metrics4B: só pontos mantidos na B4a',set(mb.point_id)<=set(pd.read_csv(O+f'pilot_4B_sample_reval_{args.b4}.csv').query('keep==1').point_id),'')
++ma=pd.read_csv(O+'metrics_point_year_v0.1.csv')
++ok('metrics A: uma linha por sensor×ponto×ciclo',not ma.duplicated(['sensor','point_id','hy']).any(),'')
++pd.set_option('display.width',250); pd.set_option('display.max_colwidth',120)
++print(pd.DataFrame(res,columns=['verificação','resultado','detalhe']).to_string(index=False))
++
++import sys as _s
++_s.exit(1 if any(r[1]=='FALHA' for r in res) else 0)
+-- 
+2.43.0
+

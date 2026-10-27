@@ -17,11 +17,19 @@ DESENHO (diferenças em diferenças, D23)
     - regime (estrato 2): efeito por ciclos desde o ÚLTIMO fogo, só depois do 2º fogo.
   Grupos: todos; estrato; momento do 1º fogo (seca_meio, seca_fim, umida = início das chuvas).
 
-ENTRADAS  outputs/metrics4B_point_year_v0.1.csv (B4b)
+ENTRADAS  outputs/metrics4B_point_year_<TAG>.csv (B4b)
 SAÍDAS (outputs/)
-  fire_effect_event_v0.1.csv     efeito por sensor × métrica × grupo × tempo de evento
-  fire_effect_preA_v0.1.csv      B antes do fogo − A, por sensor × métrica × faixa
-  fire_effect_regime_v0.1.csv    estrato 2: efeito por ciclos desde o último fogo (após o 2º fogo)
+  fire_effect_event_<TAG>.csv     efeito por sensor × métrica × grupo × tempo de evento
+  fire_effect_preA_<TAG>.csv      B antes do fogo − A, por sensor × métrica × faixa
+  fire_effect_regime_<TAG>.csv    estrato 2: efeito por ciclos desde o último fogo (após o 2º fogo)
+
+RESSALVAS (auditoria 2026-10-27)
+  - amplitude e integral no ciclo do fogo sobem por artefato do piso (P1-4); intensidade = peak_evi.
+  - o IC por bootstrap de unidades não considera a dependência entre unidades vizinhas no mesmo
+    ano (P1-2, pendente de decisão); a magnitude depende do tipo de referência A (par × faixa).
+
+HISTÓRICO
+  v0.1 (2026-10-25) unidades de fogo do B2 (anual).  v0.2 (2026-10-27) unidades por evento (B4a v0.2).
 """
 
 import numpy as np
@@ -29,7 +37,7 @@ import pandas as pd
 
 from common import OUT
 
-TAG = "v0.1"
+TAG = "v0.2"
 METRICS = ["base_pre", "peak_evi", "amplitude", "sos20", "sos50", "eos50", "integral"]
 MIN_PRE = {"MCD43A4": 2, "MOD13Q1": 2, "HLS": 1}
 T_MIN, T_MAX = -5, 15
@@ -48,7 +56,7 @@ def unit_stat(d, col):
 
 
 def main():
-    m = pd.read_csv(OUT / "metrics4B_point_year_v0.1.csv")
+    m = pd.read_csv(OUT / f"metrics4B_point_year_{TAG}.csv")
     m = m[m.valid == 1]
     rows_e, rows_p, rows_r = [], [], []
     for sen, g in m.groupby("sensor"):

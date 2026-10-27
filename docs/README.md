@@ -12,13 +12,19 @@ O "porquê" (fundamentação, decisões, literatura) fica na KB do projeto "Pico
 | `kb/03_decisoes.md` | registro de decisões |
 | `kb/04_benchmark.md` | literatura e produtos de referência |
 
-## Decisões implementadas no código (resumo)
+## Decisões
 
-| ID | Decisão | Onde |
-| --- | --- | --- |
-| D04 | núcleo 3×3 Landsat (ponto + 8 vizinhos com mesma classe e contexto) | `gee/01_zonal_4A_cerrado.js` §3 |
-| D08 | piloto = classe 4, contexto A, Cerrado | `gee/01_zonal_4A_cerrado.js` §1 |
-| D10 | fragmentação controlada por critério amostral (tamanho, borda) | `gee/01_zonal_4A_cerrado.js` §4–5 (quantifica para escolher limiares) |
+O registro completo (D01–D31), com origem, estado real e onde cada decisão está no código, fica em [`audit/decision_log.md`](audit/decision_log.md). É um espelho da KB, conferido na auditoria de 2026-10-27. Motivo, consequência e teste crítico de cada decisão continuam na KB (`kb/03_decisoes.md`). Em divergência sobre **o que foi executado**, vale este repositório.
+
+## Auditoria (2026-10-27)
+
+| Arquivo | Conteúdo |
+| --- | --- |
+| [`audit/state_assessment.md`](audit/state_assessment.md) | estado real de cada etapa (planejado, implementado, executado, validado) e matriz de rastreabilidade |
+| [`audit/scientific_consistency.md`](audit/scientific_consistency.md) | o que os resultados sustentam, o que é condicional e o que não se pode afirmar |
+| [`audit/technical_validation.md`](audit/technical_validation.md) | reprodução completa, testes e diagnósticos |
+| [`audit/correction_plan.md`](audit/correction_plan.md) | pendências P0/P1/P2, com estado |
+| [`audit/decision_log.md`](audit/decision_log.md) | decisões D01–D31 |
 
 ## Marcas de evidência
 

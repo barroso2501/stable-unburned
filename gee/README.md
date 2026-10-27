@@ -43,11 +43,11 @@ Ordem: `02a` e `02b` juntos → `02c` → `02d` → `02e` → `03` → `05` (a e
 | --- | --- | --- |
 | `B1a_populacao_4B.js` | asset da população 4-B: sem fogo 1985–2000; 1–5 fogos em 2001–2025 com ≥ 4 anos entre fogos; 1º fogo ≥ 2002; núcleo 3×3 com o mesmo histórico de fogo; borda ≥ 250 m; estratos 1 (um fogo) e 2 (2–5 fogos) | executado |
 | `B1b_area_4B.js` | área por faixa × estrato × nº de fogos × ano do 1º fogo (4 partes) | executado |
-| `B1c_coerencia_4B.js` | pureza e coerência do histórico de fogo no pixel MODIS 463 m (asset) | executado |
+| `B1c_coerencia_4B.js` | pureza e coerência do histórico de fogo no pixel MODIS 463 m (asset) | executado. A coerência aqui usa o fogo **anual**; foi substituída pela coerência por evento mensal da B4a (D30). O asset continua com a definição antiga e serve só ao sorteio da B2 |
 | `B1d_contagens_4B.js` | contagem de pixels MODIS candidatos por faixa × estrato × pureza × coerência, para fixar os limiares antes da amostra | executado |
 | `B2_amostra_4B.js` | amostra 4-B: MODIS (pureza e coerência ≥ 90%, grade par, até 300 por faixa × estrato) + HLS (150 por faixa × estrato em 5–20° S, grade de ~510 m na população de 30 m); histórico de fogo e ponto A mais próximo | executado |
 | `B3a_series_4B.js` | séries MOD13Q1 e MCD43A4 (pontos MODIS) e HLS L30/S30 (todos os pontos), por faixa × estrato; derivado de `05_series.js` | executado |
 | `B3b_chirps_4B.js` | CHIRPS por pêntada nos 1899 pontos, **desde 1984** (v0.2, D30); derivado de `05b_chirps.js` v0.2 | executado |
-| `B3c_gpw_4B.js` | altura GPW anual no quadrado do pixel MODIS (pixels da população 4-B); derivado de `04b_gpw_altura.js` | **a rodar** (teste primeiro) |
+| `B3c_gpw_4B.js` | altura GPW anual no quadrado do pixel MODIS (pixels da população 4-B); derivado de `04b_gpw_altura.js` | **implementado, não executado**; nenhuma etapa a usa |
 | `B3d_fogo_mensal_4B.js` | v0.2: mês do fogo no pixel do ponto e histograma dos meses no quadrado MODIS, por ano 1985–2025, e status anual (D30) | executado |
 

@@ -1,6 +1,6 @@
 # Registro de decisões (espelho da KB, para o GitHub)
 
-Rascunho de auditoria, 2026-10-27. Fonte: KB do projeto "Picos Produtividade", `kb/03_decisoes.md` (D01–D31), que traz o motivo, a consequência e o teste crítico de cada decisão. Aqui ficam só o essencial e o **estado real**, conferido nesta auditoria.
+Auditoria de 2026-10-27. Fonte: KB do projeto "Picos Produtividade", `kb/03_decisoes.md` (D01–D31), que traz o motivo, a consequência e o teste crítico de cada decisão. Aqui ficam só o essencial e o **estado real**, conferido nesta auditoria.
 
 A **origem** indica quem tomou ou propôs a decisão, segundo o registro na KB. "Mario" = proposta ou decisão explícita dele. "Análise" = proposta feita durante o trabalho e aceita por Mario. Nenhuma discussão exploratória foi promovida a decisão.
 
@@ -35,7 +35,7 @@ A **origem** indica quem tomou ou propôs a decisão, segundo o registro na KB. 
 | D27 | 2026-10-24 | Na parte 2, cada fogo de 2000–2025 é descrito por **duas dimensões**: o intervalo (efeito de médio e longo prazo) e o **momento na estação** (início, meio ou fim da seca, ou estação úmida) (proposta de Mario) | Mario | vigente; esquema de estação [P] | executado (esquema por ponto e ano, CHIRPS); "fim da seca" e "início das chuvas" separados (decisão de Mario, 2026-10-25) | B4a, B4c |
 | D28 | 2026-10-24 | Universo amostral da parte 2 (proposta de Mario): savana 4-B **sem fogo em 1985–2000** e, em **2001–2025**, com **até 5 fogos** e **intervalos entre fogos consecutivos > 3 anos** (≥ 4 anos pela Definição A) | Mario | vigente; refinamentos [P] | executado; refinamentos (estratos 1/2, 1º fogo ≥ 2002) aprovados por Mario | B1a, B4a |
 | D29 | 2026-10-25 | Amostra da parte 2, fixada antes do sorteio: (a) **MODIS**: pixels 463 m com pureza ≥ 90% e coerência ≥ 90%, grade par, até 300 por faixa × estrato, semente 42, pixel de 30 m sob o ponto na população e no mesmo estrato; (b) … | Análise (aceita por Mario) | vigente | executado | B2 |
-| D30 | 2026-10-25 | Na parte 2, fogo descrito pelo **produto mensal** e pelo **ano de fogo do ciclo de chuva** (do fim das chuvas de um ano ao fim das chuvas do seguinte, por ponto, CHIRPS), não pelo produto anual e pelo ano civil (proposta de Mario) | Mario | vigente | executado | B3b v0.2, B3d v0.2, B4a; unidades de fogo ainda anuais (P1-3) |
+| D30 | 2026-10-25 | Na parte 2, fogo descrito pelo **produto mensal** e pelo **ano de fogo do ciclo de chuva** (do fim das chuvas de um ano ao fim das chuvas do seguinte, por ponto, CHIRPS), não pelo produto anual e pelo ano civil (proposta de Mario) | Mario | vigente | executado; unidades de fogo por evento desde a B4a v0.2 (2026-10-27) | B3b v0.2, B3d v0.2, B4a |
 | D31 | 2026-10-25 | **Escopo da implementação final: só savana estável (classe 4) no Cerrado** (decisão de Mario); classes 3, 12 e 15 saem do projeto | Mario | vigente | vigente para a implementação final | — |
 
 ## Decisões e premissas registradas fora da tabela de decisões da KB

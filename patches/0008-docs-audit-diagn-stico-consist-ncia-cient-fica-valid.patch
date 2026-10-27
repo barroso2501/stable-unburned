@@ -1,0 +1,559 @@
+From b1c1eda5e3a620042f416a1ba2a58adb368183cf Mon Sep 17 00:00:00 2001
+From: "Claude (auditoria)" <noreply@anthropic.com>
+Date: Tue, 27 Oct 2026 08:38:12 -0300
+Subject: [PATCH 08/10] =?UTF-8?q?docs(audit):=20diagn=C3=B3stico,=20consis?=
+ =?UTF-8?q?t=C3=AAncia=20cient=C3=ADfica,=20valida=C3=A7=C3=A3o=20t=C3=A9c?=
+ =?UTF-8?q?nica=20e=20plano=20de=20corre=C3=A7=C3=A3o?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Produtos A–D da auditoria de 2026-10-27, atualizados com o item 1 do plano:
+- state_assessment.md: estado real por etapa e matriz de rastreabilidade;
+- scientific_consistency.md: achados sustentados, condicionais, não
+  resolvidos e interpretações indevidas a evitar;
+- technical_validation.md: reprodução completa (46 saídas idênticas,
+  repetida após as correções), 28 testes de integridade, diagnósticos;
+- correction_plan.md: P0/P1/P2 com estado atual e commits.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UBLZzXELGKpn9v3AA9fGru
+---
+ docs/audit/correction_plan.md        |  81 +++++++++++++++++++
+ docs/audit/data_series_sizes.txt     | 113 ++++++++++++++++++++++++++
+ docs/audit/scientific_consistency.md | 116 +++++++++++++++++++++++++++
+ docs/audit/state_assessment.md       |  99 +++++++++++++++++++++++
+ docs/audit/technical_validation.md   |  84 +++++++++++++++++++
+ 5 files changed, 493 insertions(+)
+ create mode 100644 docs/audit/correction_plan.md
+ create mode 100644 docs/audit/data_series_sizes.txt
+ create mode 100644 docs/audit/scientific_consistency.md
+ create mode 100644 docs/audit/state_assessment.md
+ create mode 100644 docs/audit/technical_validation.md
+
+diff --git a/docs/audit/correction_plan.md b/docs/audit/correction_plan.md
+new file mode 100644
+index 0000000..97b65db
+--- /dev/null
++++ b/docs/audit/correction_plan.md
+@@ -0,0 +1,81 @@
++# Plano de correção priorizado (Produto D)
++
++Auditoria de 2026-10-27, atualizada depois do item 1 do plano de correção.
++
++**Prioridades:**
++- **P0** bloqueante: impede reconstruir a análise ou compromete um resultado central.
++- **P1** importante: afeta a robustez da inferência ou a reprodutibilidade.
++- **P2** documental.
++
++**Natureza da correção:**
++- **doc** só documentação;
++- **código** ajuste de código sem reprocessamento substancial;
++- **reproc** recálculo;
++- **decisão** exige decisão científica de Mario antes de implementar.
++
++## Estado das pendências (atualizado em 2026-10-27, depois do item 1)
++
++| ID | Estado | Onde |
++| --- | --- | --- |
++| P1-3 | **resolvido**: unidades por evento na B4a v0.2; B4b e B4c v0.2 reprocessados; conclusões mantidas | commit `4462396` |
++| P1-4 | **resolvido (doc)**: avisos sobre amplitude e integral; nenhuma métrica nova | `8f21c54`, `4462396` |
++| P1-5 | **resolvido (doc)**: tabela de testes principais × exploratórios em `outputs/README.md` | `8f21c54` |
++| P1-7 | **parcial**: manifesto SHA-256 e inventário versionados; faltam os checksums do Drive e os metadados dos assets (Mario) | `590c27e` |
++| P1-8 | **resolvido**: `docs/audit/decision_log.md`; falta corrigir os estados D25, D27 e D28 **na KB** | `3ffeb51` |
++| P2-1 | **resolvido** | `54eedc2` |
++| P2-2 | **resolvido**: `.gitignore` no repositório; política de tabelas grandes explícita | `79fff6e`, `8f21c54` |
++| P2-3, P2-7, P2-8, P2-9, P2-11 | **resolvidos (doc)** | `4462396`, `8f21c54`, `54eedc2` |
++| testes | **versionados** em `tests/audit/` | `c9696ee` |
++| P0-1, P1-1, P1-2, P1-6, P1-9, P1-10, P2-4, P2-5, P2-6, P2-10 | **abertos** (dependem de Mario, de decisão científica ou ficam para o fim: README e sínteses) | — |
++
++## P0
++
++| ID | Problema | Evidência | Consequência | Correção | Arquivos | Natureza | Critério de encerramento |
++| --- | --- | --- | --- | --- | --- | --- | --- |
++| P0-1 | Script da etapa 00 (assets A e B estáveis) ausente | `gee/00_…` está marcado "A ADICIONAR" no README e no `gee/README.md`; não existe no GH | as populações A e B, base de todos os resultados, não podem ser reconstruídas nem auditadas (definição de estabilidade "strict", classes, período e asset de fogo usados) | Mario recupera o script original do Code Editor; versiono, documento os parâmetros e cruzo com `outputs/area_stable_…csv`; registro os metadados dos assets A e B | `gee/00_stable_unburned_lulc.js`, `docs/produto_areas_estaveis_fogo.md`, `docs/execucoes.md` | doc + código (**depende de Mario**) | script no GH; parâmetros documentados; área A + B por classe reproduzível a partir do script (conferência pelos metadados dos assets ou por reexecução da tabela de áreas) |
++
++## P1
++
++| ID | Problema | Evidência | Consequência | Correção | Arquivos | Natureza | Critério de encerramento |
++| --- | --- | --- | --- | --- | --- | --- | --- |
++| P1-1 | B selecionada por estabilidade da classe 4 **depois** do fogo (viés de sobrevivência); idem A | critério de B1a (D28) e do asset 00 | o efeito do fogo vale só para fogos que não mudaram a classe; a recuperação "em 2–3 ciclos" pode estar superestimada | (a) declarar o escopo em todos os textos de resultado (doc, inequívoco); (b) **opcional, decisão:** quantificar no GEE a fração de pixels que mudou de classe após fogos que cumprem os critérios | `scientific_consistency.md`, síntese da parte 2; eventual `gee/B1e_…js` | doc + **decisão** | (a) escopo declarado; (b) se aprovado, fração reportada por faixa |
++| P1-2 | Inferência do B4c: (i) IC ignora a dependência entre unidades vizinhas no mesmo ano; (ii) a magnitude depende do tipo de referência A | §4 da validação técnica: par × faixa (pico −0,074 × −0,050) | IC estreitos demais; magnitudes apresentadas como únicas | (i) bootstrap em blocos espaciais (0,5°) × ano do 1º fogo, como sensibilidade; (ii) reportar par e faixa lado a lado | `python/B4c_trajetorias_fogo.py` | reproc (leve) + **decisão** (escolha do bloco) | tabelas com os dois IC e as duas referências; texto de resultados atualizado |
++| P1-3 ✔ | Unidades de fogo vêm do histórico **anual** | com mês exato: 419 → 491 unidades MODIS; com mês ± 1 (regra adotada): 419 → 423 | pseudorreplicação mal delimitada; incoerente com D30 | recalcular `fire_unit` na B4a com ano de fogo + mês ± 1, ≤ 5 km (consequência direta de D30); manter a unidade antiga em outra coluna; refazer B4b/B4c | `python/B4a_reavaliacao_fogo.py`, `B4b`, `B4c`, saídas `v0.2` | código + reproc (~3 min) | unidades novas nas saídas `v0.2`; diferença v0.1 × v0.2 registrada; IC atualizados |
++| P1-4 | Amplitude e integral infladas no ciclo do fogo (medidas a partir do piso); "ombro" sem validade ainda exportado | `fire_effect_event` t = 0: amplitude +0,074 com pico −0,066 | leitura de "mais intensidade" após o fogo seria indevida | doc: marcar amplitude e integral como dependentes do piso e o ombro como "não usar"; **sem nova métrica** (uma integral absoluta seria análise nova: decisão) | `docs/…`, `outputs/README.md`, cabeçalho de `06_metricas.py` | doc (+ decisão para métrica nova) | avisos presentes; nenhuma conclusão apoiada em amplitude ou integral no ciclo do fogo |
++| P1-5 | 432 correlações (08) e muitas na 09 e 10, sem distinção entre principal e exploratória | `structure_evi_spearman` | risco de ler um ρ isolado como achado | registrar como testes principais só (a)–(c) da 08 e o Teste 1 e 2 da 09; o resto marcado como exploratório | docs, `outputs/README.md` | doc | hierarquia explícita nos documentos de resultados |
++| P1-6 | Agregação de GEDI, GPW e B3d no quadrado geográfico, não no pixel sinusoidal | §4: mediana 7%, máx. 18% da área fora | pequena incoerência entre a escala do EVI MODIS e a do GEDI/GPW e da coerência por evento | doc (limitação) **ou** corrigir a geometria nos scripts GEE e reexportar (decisão: custo de reprocessar 04, 04b, B3d) | `gee/04_gedi.js`, `04b`, `B3d`, docs | doc ou **decisão** + reproc GEE | limitação declarada, ou geometria corrigida com diferença v0.1 × v0.2 reportada |
++| P1-7 | Assets GEE e amostras sem versão nem snapshot de metadados; dados brutos só no Drive, sem manifesto | README: "versionamento de assets: ainda não"; `data/README.md` incompleto | reconstrução depende do Drive e de assets que podem ser sobrescritos | versionar o manifesto SHA-256 dos 113 CSVs; documentar todos os assets e o par asset ↔ CSV; registrar metadados dos assets (Mario roda um bloco `print`) | `data/README.md`, `data/manifest_sha256.txt`, `docs/audit/gee_assets_metadata.md` | doc (+ console de Mario) | manifesto no GH; checksums do Drive conferidos; metadados dos assets salvos |
++| P1-8 | Decisões científicas só na KB (D01–D31), fora do repositório; estados desatualizados na própria KB (D25, D27, D28) | `docs/README.md` cita D04, D08, D10; KB tem 31 decisões | o repositório não se explica sozinho (critério da auditoria) | `docs/audit/decision_log.md` espelhando D01–D31 com origem, estado (planejado / implementado / executado) e onde está no código; corrigir os estados na KB | `docs/audit/decision_log.md`, `docs/README.md`, KB | doc | todas as decisões rastreáveis no GH |
++| P1-9 | Listas de classes antrópicas (borda) não conferidas com a legenda da Col. 11 | pendência desde 01/02a | a borda ≥ 250 m pode estar mal definida | conferir a lista com a legenda oficial e documentar; se houver diferença, decisão sobre reprocessar | `gee/01`, `02a`, `B1a`, docs | doc (+ decisão se divergir) | lista conferida e registrada |
++| P1-10 | Acurácia do Fogo 5.1 para "nunca queimada" não avaliada | pendência desde D03 | A pode conter áreas queimadas não detectadas e diluir contrastes | **decisão:** checagem independente com MCD64A1 nos pontos A e B (validação de insumo, sem métrica nova de resultado) | novo `gee/V1_mcd64a1_pontos.js` + `python/V1_…` | **decisão** + GEE | fração de A com queima pelo MCD64A1 reportada; concordância em B |
++
++## P2
++
++| ID | Problema | Evidência | Correção | Arquivos | Encerramento |
++| --- | --- | --- | --- | --- | --- |
++| P2-1 | B3 marcado "a rodar" na especificação; B3c não executado | `docs/piloto_especificacao.md` L72 | separar B3a, B3b, B3c e B3d com o estado real; B3c "implementado, não executado; não usado" | especificação | tabela coerente com `gee/README.md` |
++| P2-2 | `outputs/README.md` × GH: 4 tabelas "não versionadas" estão no GH, 4 não estão; `.gitignore` não está no GH (upload pela web) | §diagnóstico | decidir uma política (sugestão: manter fora do git as > 1 MB, regeneráveis, e listar as que já estão no GH como "versionadas por legado"); subir o `.gitignore` | `outputs/README.md`, `.gitignore` | README = conteúdo real do GH |
++| P2-3 | MOD13Q1 de B sem o filtro de pureza 232 m (D21) aplicado em A | `B4b`: `apply_purity_filter=False` | documentar a assimetria; o MOD13Q1 é só checagem | docs, docstring da B4b | assimetria declarada |
++| P2-4 | Referências não conferidas (Liebmann & Marengo; LAI sazonal; acúmulo de combustível; brotação por fotoperíodo) | KB [P] | conferir antes de qualquer texto para publicação | docs | referências com DOI |
++| P2-5 | README, `docs/README.md` e `gee/README.md` desatualizados (status 2026-10-23, licença "a definir" com MIT presente, estrutura antiga, asset de fogo *accumulated*) | §diagnóstico | reescrever o README com o estado comprovado e a sequência de reprodução do zero | README, `docs/README.md`, `gee/README.md` | README coerente com a matriz |
++| P2-6 | `gee/02_populacao_mcd12q2.js` (obsoleto, com campo errado) continua no GH | CHANGELOG 0.4.0 | Mario apaga no GitHub (a interface web permite apagar) ou move para `gee/obsoleto/` com aviso | `gee/` | arquivo removido ou marcado |
++| P2-7 | Métrica "ombro" exportada sem aviso | `metrics_point_year` | aviso no `outputs/README.md` e na docstring da 06 (ver P1-4) | docs | aviso presente |
++| P2-8 | Assets B1c com coerência anual, superada pela B4a | D30 | nota na documentação | `gee/README.md` | nota presente |
++| P2-9 | Fases diferentes das janelas MCD43A4 (1º jan) e da grade da 06 (1º jul) | código | documentar; quantificação opcional | docstrings | documentado |
++| P2-10 | `docs/execucoes.md` sem commit e com tempos "a registrar"; síntese da parte 1 fora do GH; parte 2 sem síntese | `execucoes.md`, `sintese_piloto.md` | preencher com os hashes do GH; exportar a síntese para Markdown no GH; escrever a síntese da parte 2 dentro dos limites deste relatório | docs | registros completos; sínteses no GH |
++| P2-11 | Versão do Python não registrada | `env/` | registrar Python 3.13 e o comando de reprodução | `env/README.md` | registrado |
++
++## Dependências e sequência
++
++1. **Sem decisão, inequívocas:**
++    - P2-1, P2-2, P2-3, P2-5, P2-7, P2-8, P2-9, P2-11;
++    - P1-4 e P1-5 (só documentação);
++    - P1-7 (manifesto);
++    - P1-8 (decision log);
++    - P1-3 (unidades por evento, consequência direta de D30) → reprocessamento B4a → B4b → B4c, saídas `v0.2` preservando as `v0.1`;
++    - testes de auditoria em `tests/audit/`.
++2. **Com Mario, sem decisão científica:** P0-1 (script 00), P1-7 (metadados dos assets, checksums do Drive), P2-6 (apagar o arquivo obsoleto).
++3. **Com decisão científica:** P1-1b (quantificar a sobrevivência), P1-2 (bloco espacial × ano), P1-6 (corrigir a geometria ou declarar a limitação), P1-9 (se a lista divergir), P1-10 (MCD64A1).
++4. **Por último:** README e sínteses (P2-5, P2-10), depois que 1–3 estabilizarem.
++
++Nenhuma correção exige reprocessar a parte 1. Os reprocessamentos previstos são locais e curtos: B4a–B4c, ~3 min. Os opcionais no GEE dependem de decisão.
+diff --git a/docs/audit/data_series_sizes.txt b/docs/audit/data_series_sizes.txt
+new file mode 100644
+index 0000000..83c9092
+--- /dev/null
++++ b/docs/audit/data_series_sizes.txt
+@@ -0,0 +1,113 @@
++1485090 chirps4B_pentad_band1_v02.csv
++73588271 chirps4B_pentad_band2_v02.csv
++153772461 chirps4B_pentad_band3_v02.csv
++95614450 chirps4B_pentad_band4_v02.csv
++1041836 chirps4B_pentad_band5_v02.csv
++31012599 chirps_pentad_band1_v02.csv
++31199152 chirps_pentad_band2_v02.csv
++31334146 chirps_pentad_band3_v02.csv
++31840759 chirps_pentad_band4_v02.csv
++1585381 chirps_pentad_band5_v02.csv
++2627975 fire4B_monthly_v02.csv
++468946 gedi_l2a_band1_v02.csv
++587897 gedi_l2a_band2_v02.csv
++592554 gedi_l2a_band3_v02.csv
++493002 gedi_l2a_band4_v02.csv
++29352 gedi_l2a_band5_v02.csv
++581105 gedi_l2b_band1_v02.csv
++676480 gedi_l2b_band2_v02.csv
++718445 gedi_l2b_band3_v02.csv
++639512 gedi_l2b_band4_v02.csv
++34749 gedi_l2b_band5_v02.csv
++3127674 gpw_height_v01.csv
++355575 pilot_4B_sample_v01.csv
++158987 series4B_HLS_L30_band1_s1_2016_2020_v01.csv
++236602 series4B_HLS_L30_band1_s1_2021_2025_v01.csv
++67 series4B_HLS_L30_band1_s2_2016_2020_v01.csv
++67 series4B_HLS_L30_band1_s2_2021_2025_v01.csv
++1887613 series4B_HLS_L30_band2_s1_2016_2020_v01.csv
++3045409 series4B_HLS_L30_band2_s1_2021_2025_v01.csv
++1305257 series4B_HLS_L30_band2_s2_2016_2020_v01.csv
++2093310 series4B_HLS_L30_band2_s2_2021_2025_v01.csv
++2992057 series4B_HLS_L30_band3_s1_2016_2020_v01.csv
++5541623 series4B_HLS_L30_band3_s1_2021_2025_v01.csv
++2707215 series4B_HLS_L30_band3_s2_2016_2020_v01.csv
++4950536 series4B_HLS_L30_band3_s2_2021_2025_v01.csv
++2278869 series4B_HLS_L30_band4_s1_2016_2020_v01.csv
++4220383 series4B_HLS_L30_band4_s1_2021_2025_v01.csv
++1500083 series4B_HLS_L30_band4_s2_2016_2020_v01.csv
++2641795 series4B_HLS_L30_band4_s2_2021_2025_v01.csv
++42037 series4B_HLS_L30_band5_s1_2016_2020_v01.csv
++68787 series4B_HLS_L30_band5_s1_2021_2025_v01.csv
++4869 series4B_HLS_L30_band5_s2_2016_2020_v01.csv
++7924 series4B_HLS_L30_band5_s2_2021_2025_v01.csv
++249510 series4B_HLS_S30_band1_s1_2016_2020_v01.csv
++357789 series4B_HLS_S30_band1_s1_2021_2025_v01.csv
++67 series4B_HLS_S30_band1_s2_2016_2020_v01.csv
++67 series4B_HLS_S30_band1_s2_2021_2025_v01.csv
++3623056 series4B_HLS_S30_band2_s1_2016_2020_v01.csv
++5475687 series4B_HLS_S30_band2_s1_2021_2025_v01.csv
++2591622 series4B_HLS_S30_band2_s2_2016_2020_v01.csv
++3925835 series4B_HLS_S30_band2_s2_2021_2025_v01.csv
++6975645 series4B_HLS_S30_band3_s1_2016_2020_v01.csv
++11026933 series4B_HLS_S30_band3_s1_2021_2025_v01.csv
++5730715 series4B_HLS_S30_band3_s2_2016_2020_v01.csv
++8959890 series4B_HLS_S30_band3_s2_2021_2025_v01.csv
++5734404 series4B_HLS_S30_band4_s1_2016_2020_v01.csv
++8669602 series4B_HLS_S30_band4_s1_2021_2025_v01.csv
++3438796 series4B_HLS_S30_band4_s2_2016_2020_v01.csv
++5383336 series4B_HLS_S30_band4_s2_2021_2025_v01.csv
++96742 series4B_HLS_S30_band5_s1_2016_2020_v01.csv
++138689 series4B_HLS_S30_band5_s1_2021_2025_v01.csv
++10631 series4B_HLS_S30_band5_s2_2016_2020_v01.csv
++15979 series4B_HLS_S30_band5_s2_2021_2025_v01.csv
++726228 series4B_MCD43A4_band1_s1_v01.csv
++74 series4B_MCD43A4_band1_s2_v01.csv
++7830469 series4B_MCD43A4_band2_s1_v01.csv
++2942282 series4B_MCD43A4_band2_s2_v01.csv
++23642952 series4B_MCD43A4_band3_s1_v01.csv
++22327043 series4B_MCD43A4_band3_s2_v01.csv
++15815860 series4B_MCD43A4_band4_s1_v01.csv
++5123106 series4B_MCD43A4_band4_s2_v01.csv
++432183 series4B_MCD43A4_band5_s1_v01.csv
++86141 series4B_MCD43A4_band5_s2_v01.csv
++292948 series4B_MOD13Q1_band1_s1_v01.csv
++72 series4B_MOD13Q1_band1_s2_v01.csv
++3217361 series4B_MOD13Q1_band2_s1_v01.csv
++1180567 series4B_MOD13Q1_band2_s2_v01.csv
++10119266 series4B_MOD13Q1_band3_s1_v01.csv
++10118095 series4B_MOD13Q1_band3_s2_v01.csv
++6372639 series4B_MOD13Q1_band4_s1_v01.csv
++2231006 series4B_MOD13Q1_band4_s2_v01.csv
++171716 series4B_MOD13Q1_band5_s1_v01.csv
++34403 series4B_MOD13Q1_band5_s2_v01.csv
++2196861 series_HLS_L30_band1_2016_2020_v01.csv
++3786630 series_HLS_L30_band1_2021_2025_v01.csv
++2310169 series_HLS_L30_band2_2016_2020_v01.csv
++3763866 series_HLS_L30_band2_2021_2025_v01.csv
++1959351 series_HLS_L30_band3_2016_2020_v01.csv
++3787250 series_HLS_L30_band3_2021_2025_v01.csv
++1957125 series_HLS_L30_band4_2016_2020_v01.csv
++3740826 series_HLS_L30_band4_2021_2025_v01.csv
++146986 series_HLS_L30_band5_2016_2020_v01.csv
++253785 series_HLS_L30_band5_2021_2025_v01.csv
++3940305 series_HLS_S30_band1_2016_2020_v01.csv
++6011579 series_HLS_S30_band1_2021_2025_v01.csv
++4273363 series_HLS_S30_band2_2016_2020_v01.csv
++6356939 series_HLS_S30_band2_2021_2025_v01.csv
++4950238 series_HLS_S30_band3_2016_2020_v01.csv
++7891978 series_HLS_S30_band3_2021_2025_v01.csv
++5079809 series_HLS_S30_band4_2016_2020_v01.csv
++7695645 series_HLS_S30_band4_2021_2025_v01.csv
++274735 series_HLS_S30_band5_2016_2020_v01.csv
++425896 series_HLS_S30_band5_2021_2025_v01.csv
++23105842 series_MCD43A4_band1_v01.csv
++24316782 series_MCD43A4_band2_v01.csv
++24217099 series_MCD43A4_band3_v01.csv
++25612637 series_MCD43A4_band4_v01.csv
++1295190 series_MCD43A4_band5_v01.csv
++10064179 series_MOD13Q1_band1_v01.csv
++10119696 series_MOD13Q1_band2_v01.csv
++10160874 series_MOD13Q1_band3_v01.csv
++10297640 series_MOD13Q1_band4_v01.csv
++515054 series_MOD13Q1_band5_v01.csv
+diff --git a/docs/audit/scientific_consistency.md b/docs/audit/scientific_consistency.md
+new file mode 100644
+index 0000000..b5cdf3a
+--- /dev/null
++++ b/docs/audit/scientific_consistency.md
+@@ -0,0 +1,116 @@
++# Consistência científica (Produto B)
++
++Auditoria de 2026-10-27, atualizada depois do item 1 do plano de correção.
++
++**Classes usadas neste documento:**
++- **Sustentado:** resultado reproduzido e robusto aos testes feitos.
++- **Condicional:** vale sob pressupostos explícitos.
++- **Não resolvido:** os dados atuais não decidem.
++- **Interpretação indevida a evitar:** o que **não** se pode dizer.
++
++Números e testes vêm das saídas reproduzidas nesta auditoria (`technical_validation.md`). Os resultados de fogo citados são os da **v0.2** do B4. Os da v0.1 diferem em até 1–3 dias ou 0,001 EVI nas células citadas.
++
++## 0. Lógica do estudo, reconstruída
++
++| Elemento | Parte 1 (A: nunca queimada) | Parte 2 (B: queimada, regime espaçado) |
++| --- | --- | --- |
++| Perguntas | Q1 padrões espaciais do ciclo; Q2 desacoplamento lenhosas × gramíneas; Q3 sensores | QF: o fogo desloca o ciclo no tempo ou muda sua intensidade? Isso depende do momento do fogo e da repetição? |
++| Hipóteses | H-Q2a: mais dossel → piso mais alto na seca e amplitude relativa menor; H-Q2b: verdor por limiar de chuva (gramíneas) × por fotoperíodo (lenhosas) | H1 deslocamento; H2 intensidade decai com o tempo desde o fogo (macega); H3 o piso cai e depois se recupera |
++| População | 4-A: classe 4 estável 1985–2025, sem fogo detectado, Cerrado, núcleo 3×3, borda ≥ 250 m | 4-B: idem estável; sem fogo 1985–2000; 1–5 fogos espaçados ≥ 4 anos em 2001–2025 |
++| Unidade | pixel MODIS 463 m puro (≥ 90%); HLS no centro dele | idem + coerência do evento; amostra HLS sem exigência de pureza |
++| Variáveis explicativas | faixa de latitude; chuva (CHIRPS); estrutura (GEDI, GPW) | tempo desde o fogo; momento do fogo; nº de fogos; ano |
++| Respostas | sos20/50, eos50, pico, piso, amplitude, integral | as mesmas, como diferença B − A no ano, descontada a linha de base |
++| Inferência | descritiva por faixa; Spearman com bootstrap espacial; skill dentro do ponto | diferenças em diferenças dentro do ponto; bootstrap por unidade de fogo |
++
++## B1. Populações
++
++**Sustentado:**
++- As populações são operacionalmente reprodutíveis a partir dos assets.
++- Os critérios de B conferem no pixel: assinatura = fogo anual em 100%, nenhum fogo em 1985–2000.
++
++**Distinções que a documentação precisa fixar:**
++1. **Estabilidade de classe ≠ estabilidade ecológica.** "Estável" = mesmo rótulo do MapBiomas em 41 anos. A estrutura pode ter mudado dentro da classe 4: adensamento, perda de estrato, mudança de composição. A fronteira 4 × 3 e 4 × 12 é do classificador.
++2. **Sem fogo detectado ≠ sem fogo.** A acurácia do Fogo 5.1 nesta população **não foi avaliada**. A omissão de queimas pequenas ou rasteiras, ou sob nuvem, transforma parte de A em "B não detectado" e dilui contrastes A × B. O manuscrito `cerrado-fire-interval` (Col. 4) faz a mesma ressalva.
++
++**Vieses de seleção identificados:**
++- **Condicionamento a um resultado posterior ao fogo (B):** B exige classe 4 estável **até 2025**, ou seja, depois do fogo. Fogos que levaram a mudança de classe (para 3, 12 ou antrópica) estão excluídos por construção. A recuperação "em 2–3 ciclos" vale **para os fogos que não alteraram a classe**; não é a resposta média da savana ao fogo. Vale também para A: exclui o que adensou a ponto de virar 3.
++- **Espaciais:**
++    - borda ≥ 250 m e pureza ≥ 90% favorecem manchas grandes e interiores;
++    - em B, a pureza MODIS seleciona fogos grandes e homogêneos (~10% da área da população é candidata);
++    - a representatividade em relação a toda a savana estável do Cerrado não foi quantificada (por exemplo, a fração em áreas protegidas).
++- **Temporais:**
++    - o 1º fogo de B concentra-se em 2007, 2010 e 2012;
++    - os tempos de evento ≥ 10 vêm só de fogos de 2002–2014.
++- **Faixas 0–5° S e 20–25° S:** a primeira mistura o limite IBGE com outras formações (hipótese dos cocais, não testada); a segunda tem n = 15. Ambas estão corretamente marcadas como exploratórias.
++
++**Interpretação indevida a evitar:** "A representa a savana sem fogo"; "B representa a savana sob regime natural de fogo". B descreve **reintrodução do fogo após ≥ 16 anos sem fogo detectado, em savana que permaneceu na classe 4**.
++
++## B2. Fenologia e sazonalidade
++
++**Sustentado:**
++- **Ciclo:** a savana 4-A é praticamente unimodal (MCD12Q2 por ano hidrológico: 2 ciclos em 0,1–0,6%).
++- **Gradiente:** o início do verdor varia em latitude (sos50 de ~16/out a ~19/jan).
++- **Métrica temporal robusta:** o início do verdor concorda entre sensores (diferença mediana 0–2 d). A data do pico não concorda (MAD 24–32 d) e foi corretamente rebaixada.
++
++**Adequação dos procedimentos:**
++- **Ano hidrológico jul–jun:** adequado para 5–25° S. Em 0–5° S o eos50 cai perto da borda de junho (p75 ≈ 4/jun) e o eos20 pode ser truncado; a regra de borda só se aplica ao pico. Mais um motivo para manter a faixa como exploratória.
++- **Circularidade:** tratada para o pico (desvio circular). As métricas sos/eos ficam longe da borda, exceto na faixa 1.
++- **Lacunas:** interpolação ≤ 64 d e ano inválido com lacuna maior. Razoável. O HLS antes de 2018/19 foi excluído com evidência.
++- **Diferenças entre sensores:** a amplitude e a assimetria do HLS divergem do MODIS, sem explicação.
++
++**Limites:**
++- **Amplitude e integral** são medidas a partir do piso (mínimo antes do pico). Qualquer processo que derrube o piso, como o fogo, infla as duas sem mais verde. Para intensidade, o pico é a métrica direta.
++- **Ombro:** detectado em 30–69% dos ponto-anos, ou seja, ruído. Continua nas saídas sem marca de "não usar".
++- **Sazonal × interanual × estrutural:** só o ciclo anual é separado. Tendências interanuais aparecem só no GPW (etapa 10) e não foram analisadas para o EVI. Nada no desenho distingue mudança estrutural de variação climática interanual.
++
++## B3. Chuva e verdor
++
++**Sustentado:**
++- O dia em que a chuva acumulada atinge 50–100 mm prevê o sos50 melhor que uma data fixa e que o início das chuvas pela acumulação anômala (faixas 5–20° S).
++- **Verificação nova, fora da amostra:** escolhendo o limiar com os anos ímpares e avaliando nos pares, o skill fica entre 0,11 e 0,16 nas faixas 0–20° S. O limiar escolhido coincide ou fica vizinho (T50–T150). O resultado não é artefato da seleção, embora a magnitude dentro da amostra seja otimista (faixa 15–20° S: 0,21 dentro × 0,135 fora).
++
++**Condicional:**
++- "Verdor antes da chuva" desaparece quase todo ao se usar as primeiras chuvas e a imprecisão de data dos produtos. Os ~4–6% restantes dependem da precisão do CHIRPS para chuvas leves, que não foi testada.
++- O controle do verdor pela data em 20–25° S tem n = 15.
++
++**Associação ≠ mecanismo:**
++- O limiar de chuva acumulada é **compatível** com recarga da camada superficial do solo (premissa de Mario), mas não a demonstra. Umidade do solo não foi medida.
++- O método de início e fim das chuvas (acumulação anômala) tem a referência ainda não conferida.
++- A relação foi modelada como gatilho com inclinação 1 ou livre. Não linearidades (saturação, dependência do solo) não foram exploradas.
++
++## B4. Estrutura (GEDI, GPW)
++
++**Sustentado:**
++- Entre pontos, mais estrutura acompanha mais pico (ρ = 0,44), não um piso mais alto na seca (ρ = 0,02).
++- O GPW concorda moderadamente com o GEDI (ρ = 0,28–0,37) e carrega sinal de verdor.
++
++**Limites que restringem a inferência:**
++- Os footprints GEDI são 75–85% da estação seca, ~10 por ponto (erro que atenua correlações), e cobrem 2019–2025, contra um EVI que é mediana de 2000–2024.
++- Cobertura e PAI são redundantes.
++- O GPW é modelo alimentado por Landsat: não é medida independente do verdor.
++- **Geometria:** o quadrado geográfico usado para agregar GEDI e GPW difere do pixel sinusoidal MODIS (mediana de 7% da área fora, máx. 18%).
++- **Comparações múltiplas:** a etapa 08 produz 432 correlações. Só as hipóteses (a)–(c) eram principais; o restante é exploratório e precisa estar marcado assim.
++
++**Interpretação indevida a evitar:** tratar a correlação estrutura × amplitude como medida da contribuição fenológica do estrato lenhoso. Os dados **não** decompõem o sinal por estrato. Há duas leituras concorrentes que o desenho não separa: produtividade do sítio e macega.
++
++## B5. A × B e trajetórias de fogo
++
++**Desenho:** diferenças em diferenças dentro do ponto, com A do mesmo ano como controle climático (par ≤ 20 km em 64–66% dos ponto-anos MODIS; nos demais, a mediana de A na faixa).
++
++**Pressupostos verificados nesta auditoria:**
++- **Tendências paralelas antes do fogo:** a inclinação de B − A nos ciclos pré-fogo é ≈ 0 (pico −0,0001/ciclo [−0,0005; 0,0002]; sos50 +0,09 d/ciclo [−0,02; +0,17]; 398 unidades). Sustenta o pressuposto **dentro da janela pré-fogo observada**.
++- **Antes do fogo, B ≈ A:** pico +0,011, demais métricas ≈ 0.
++- **Sensibilidade ao tipo de referência:** no ciclo do fogo, pico −0,074 com o par e −0,050 com a mediana da faixa; sos50 +31 d e +41 d. O sinal é robusto e a magnitude depende da referência.
++- **Fogos de 2010 × outros anos:** pico −0,056 × −0,069; sos50 +39 d × +31 d. O efeito não é produto do ano de 2010.
++
++**Sustentado (para o universo de B, com os vieses de B1):** no ciclo seguinte ao 1º fogo, a estação se desloca (sos50 +32 d, eos50 +22 d) e o pico cai (~−0,066). Em 2–3 ciclos, a maior parte das métricas volta à linha de base. O momento do fogo modula o efeito agudo.
++
++**Condicional ou não resolvido:**
++- **Independência:** na v0.1, as unidades de fogo vinham do histórico **anual**. Na v0.2 (2026-10-27) são refeitas por evento mensal (mesmos anos de fogo, meses a ≤ 1, ≤ 5 km): 419 → 423 unidades MODIS, sem mudança nas conclusões. Sem a tolerância de ±1 mês, o limite superior seria de 491. Continua não resolvido: unidades vizinhas no mesmo ano não são independentes (mesmo clima, mesma região), e o bootstrap por unidade ignora isso → os intervalos estão provavelmente estreitos demais (P1-2, decisão pendente).
++- **Momento × outros fatores:** "início das chuvas" e "fim da seca" distam ~1 mês, a resolução do produto mensal. O momento pode se correlacionar com intensidade do fogo e região. O efeito por momento é descritivo, não causal.
++- **Efeitos persistentes pequenos** (amplitude +0,005–0,012; piso −0,004–0,007): a amplitude é parcialmente artefato do piso, e a magnitude fica perto do ruído entre referências.
++- **Hipótese da macega:** **não testada**. O EVI não vê material morto. A volta à linha de base em 2–3 ciclos é do **verde**.
++
++**Interpretação indevida a evitar:**
++- "Efeito causal do fogo sobre a savana" sem os qualificadores: fogos detectados, em savana que permaneceu na classe 4, após ≥ 16 anos sem fogo detectado, MODIS 463 m.
++- "A exclusão do fogo não altera a savana": o EVI não mede a estrutura herbácea nem o material morto, e B pré-fogo ≈ A só mostra que os dois estados excluídos são parecidos entre si.
+diff --git a/docs/audit/state_assessment.md b/docs/audit/state_assessment.md
+new file mode 100644
+index 0000000..29eee9d
+--- /dev/null
++++ b/docs/audit/state_assessment.md
+@@ -0,0 +1,99 @@
++# Diagnóstico do estado do projeto (Produto A)
++
++Auditoria de 2026-10-27. Estado **depois** do item 1 do plano (correções sem decisão científica); ver `correction_plan.md`.
++
++**Fontes consultadas:**
++- clone do GitHub `barroso2501/stable-unburned`, commit `8e9fc82` (2026-10-25 16:46 −03), 30 commits "Add files via upload", 103 arquivos;
++- cópia de trabalho da sessão;
++- séries brutas da sessão (113 CSVs, 854 MB, SHA-256 em `technical_validation.md`);
++- KB do projeto "Picos Produtividade" (`kb/03_decisoes.md`, D01–D31);
++- histórico desta conversa.
++
++## Legenda de estado
++
++| Estado | Critério usado nesta auditoria |
++| --- | --- |
++| **planejado** | descrito em documento; sem código |
++| **implementado** | código existe no GitHub; sem evidência de execução |
++| **executado** | há saída do script (arquivo no GitHub ou na sessão) ou registro de console em `docs/execucoes.md` |
++| **validado** | saída **reproduzida** nesta auditoria a partir do código do GitHub e dos dados brutos, com integridade verificada (testes em `technical_validation.md`); para etapas GEE, que aqui não podem ser reexecutadas, "validado" exige checagem cruzada independente da saída |
++
++Executar sem erro **não** conta como validação científica. "Validado" aqui significa **validado computacionalmente**: reproduz e é íntegro. A validade científica é tratada em `scientific_consistency.md`.
++
++## Resumo
++
++| Bloco | Etapas | Estado real |
++| --- | --- | --- |
++| Produto de entrada (A e B estáveis) | 00 | **executado, sem código no repositório** (P0) |
++| Parte 1 — GEE | 01, 02a–02e, 03, 04, 04b, 05, 05b | executado. Saídas tabulares no GitHub; os assets só podem ser verificados no GEE |
++| Parte 1 — Python | 05_qc, 06, 06b, 07, 07b, 08, 09, 10 | **validado computacionalmente**: reprodução idêntica, bit a bit, de todas as saídas |
++| Parte 2 — GEE | B1a–B1d, B2, B3a, B3b, B3d | executado |
++| Parte 2 — GEE | B3c (GPW em B) | **implementado, não executado** |
++| Parte 2 — Python | B2_qc, B4a, B4b, B4c | **validado computacionalmente**: reprodução idêntica |
++| Síntese | parte 1 (Claude Docs + ponteiro em `docs/`) | existe fora do repositório; parte 2 sem síntese |
++
++## Matriz de rastreabilidade
++
++Pergunta científica: **Q1** padrões espaciais · **Q2** desacoplamento lenhosas × gramíneas · **Q3** sensores · **QF** resposta ao fogo (parte 2). "GH" = presente no GitHub.
++
++| Etapa | Pergunta | Script | Dados / assets | Parâmetros-chave | Saídas | Evidência | Estado | Problemas | Ação |
++| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
++| 00 | base | `gee/00_stable_unburned_lulc.js` (**ausente**) | LULC Col. 11; Fogo 5.1 (qual asset? o README cita o *accumulated*) | `STABILITY_MODE='strict'`, classes [3,4,11,12,15], 1985–2025 | assets `stable_col11_fire5_1_strict_{never_burned,burned}`; `outputs/area_stable_…csv` | CSV no GH; os assets existem (usados por 01, 02a, B1a) | executado, **irreprodutível** | definição de "estável" e de "queimado" não está no repositório; período do fogo (até 2024 ou 2025?) não registrado | **P0-1** |
++| 01 | Q1 (desenho) | `01_zonal_4A_cerrado.js` v0.2 | asset A, LULC 2025, biomas IBGE | blocos 1°, 4 partes | `zonal_4A_cerrado_v0.2_{tiles,summary}.csv` (GH) | 232 blocos; 4-A = 11,43 Mha | executado | lista `ANTHROPIC` não conferida com a legenda da Col. 11 | P1-9 |
++| 02a | todas | `02a_populacao.js` v0.2 | asset A, LULC 2025 | núcleo 3×3, borda ≥ 250 m, faixas de 5° | asset `pilot_4A_cerrado_core_edge250` | usado por 02c, 03, 04, 04b | executado | idem lista antrópica; borda medida na paisagem de 2025 | P1-9 |
++| 02 (antigo) | — | `02_populacao_mcd12q2.js` | — | campo `Bioma` (errado) | assets e CSVs vazios | o CHANGELOG 0.4.0 diz "removido", mas **o arquivo continua no GH** | obsoleto | risco de reuso de um script com erro conhecido | P2-6 |
++| 02b | Q1 (contexto) | `02b_area_4AB.js` v0.3 | assets A, B | 4 partes | `area_4AB_…v0.3_{tiles,summary}.csv` (GH) | A = 11,43 Mha, igual à etapa 01 (checagem cruzada) | executado + checagem cruzada | — | — |
++| 02c | todas | `02c_pureza.js` | asset 02a | reduceResolution média → grades MCD12Q2 / MOD13Q1 | 2 assets de pureza | `purity_463m` e `purity_232m` em `pilot_4A_sample` (GH) | executado | — | — |
++| 02d/02e | Q1 | `02d_…`, `02e_…` | pureza, MCD12Q2 | pureza ≥ 90; ano civil / hidrológico | CSVs de ciclos (GH) | GH | executado | QA_Overall_1 = 0 em tudo (não discrimina) | — |
++| 03 | todas | `03_amostra.js` | 02a, 02c | pureza ≥ 90%, grade par, 300/faixa, semente 42 | asset `pilot_4A_sample_v0_1`; `pilot_4A_sample_v0.1.csv` (GH) | 1215 pontos, ids únicos, faixas corretas (teste) | executado + íntegro | o sorteio depende do asset salvo (não basta a semente para reproduzir) | P1-7 |
++| 04 | Q2 | `04_gedi.js` v0.2 | GEDI L2A/L2B mensais (por órbita), 02a | qualidade = 1, degrade = 0, sensibilidade ≥ 0,95, dentro da população | 10 CSVs `gedi_*` (sessão, fora do GH) | 14.084 + 13.200 footprints, todos dentro do quadrado (teste) | executado + íntegro | quadrado geográfico ≠ pixel sinusoidal (mediana 7% da área fora, máx. 18%) | P1-6 |
++| 04b | Q2 | `04b_gpw_altura.js` | GPW v1, 02a | média, mediana, p10, p90 no quadrado | `gpw_height_v01.csv` (sessão) | 1215 × 26 anos | executado | idem geometria | P1-6 |
++| 05 | Q1–Q3 | `05_series.js` | MOD13Q1, MCD43A4 (8 dias), HLS L30/S30 | 30 tarefas | 30 CSVs `series_*` (sessão, Drive) | cobertura de 1215 pontos em todos os produtos; MODIS sem duplicatas (teste) | executado + íntegro | janelas MCD43A4 começam em 1º jan; a grade da 06 começa em 1º jul (fase diferente) | P2-9 |
++| 05b | Q2 | `05b_chirps.js` v0.2 | CHIRPS pêntadas | 2000–2025 | 5 CSVs `chirps_pentad_*` (sessão) | 1215 × 1872 (teste) | executado + íntegro | — | — |
++| 05_qc | Q3 | `05_qc_series.py` | séries 05 | D19–D22 | `qc_*`, `clim_*`, `peak_month_dist`, `sensor_agreement` | reprodução idêntica | **validado** | — | — |
++| 06 | Q1, Q3 | `06_metricas.py` | séries 05 | SG 7/2, lacuna ≤ 64 d, pico fora da borda de 15 d | `metrics_*` | reprodução idêntica (76.535 linhas) | **validado** | métrica de "ombro" ainda é exportada, embora não seja confiável; amplitude e integral são medidas a partir do piso | P1-4, P2-7 |
++| 06b | Q2 | `06b_…py` | séries + 07b | SG 3/5/7 | `smoothing_sensitivity_*` | idêntica | **validado** | — | — |
++| 07 | Q2 | `07_chuva_verdor.py` | CHIRPS + 06 | acumulação anômala, R̄ 2000/01–2024/25 | `rain_*` (3) | idêntica | **validado** | referência do método (Liebmann & Marengo) não conferida | P2-4 |
++| 07b | Q2 | `07b_…py` | CHIRPS + 07 | 25/50 mm, tolerância 16 d, 5 km | `rain_robust_*`, `rain_coupling_*`, `rain_early_greenup_*` | idêntica | **validado** | — | — |
++| 08 | Q2 | `08_estrutura_evi.py` | GEDI + 06 + 07 | MIN_FP = 3; bootstrap em blocos de 0,5° | `gedi_*`, `structure_evi_*` | idêntica | **validado** | 432 correlações sem hierarquia entre teste principal e exploratório | P1-5 |
++| 09 | Q2 | `09_limiar_fotoperiodo.py` | CHIRPS + 06 + 08 | limiares 25–300 mm; ≥ 10 anos | `threshold_*`, `stability_structure` | idêntica; **2 das 4 saídas não estão no GH** | **validado** | limiar escolhido dentro da amostra (verificado fora da amostra: robusto) | P2-2 |
++| 10 | Q2 | `10_gpw.py` | GPW + 08 + 09 | Theil–Sen, Kendall | `gpw_*` (6) | idêntica | **validado** | depende de `threshold_skill_point` (não está no GH) | P2-2 |
++| B1a | QF | `B1a_populacao_4B.js` v0.1.1 | asset B, Fogo 5.1 anual | sem fogo 1985–2000; 1–5 fogos; ≥ 4 anos; 1º fogo ≥ 2002; núcleo com mesma assinatura | asset `pilot_4B_cerrado_core_edge250` | assinatura de 1899 pontos = fogo anual no pixel (teste) | executado + checagem cruzada | **seleção condicionada à estabilidade da classe 4 até 2025, depois do fogo** | P1-1 |
++| B1b | QF | `B1b_area_4B.js` | B1a | 4 partes | `area_4B_pop_v0.1_{tiles,summary}.csv` (GH) | 1,46 Mha | executado | — | — |
++| B1c/B1d | QF | `B1c_…`, `B1d_…` | B1a | coerência pelo fogo **anual** | asset; `pilot_4B_candidates…csv` (GH) | GH | executado; **coerência substituída pela B4a** | definição antiga (anual) segue nos assets | P2-8 |
++| B2 | QF | `B2_amostra_4B.js` + `B2_qc_amostra.py` | B1a, B1c, amostra A | D29 | asset `pilot_4B_sample_v0_1`; CSV (sessão); `pilot_4B_sample{,_qc}_v0.1.csv` (GH) | 1899 pontos; ids únicos; parte Python idêntica | executado (GEE) + **validado** (Python) | `dist_A_m` do GEE vazio (corrigido em Python, documentado); unidades de fogo pelo fogo **anual** | P1-3 |
++| B3a | QF | `B3a_series_4B.js` | amostra B | 60 tarefas | 60 CSVs (sessão; 6 vazios esperados) | 999 pontos MODIS / 1899 HLS cobertos (teste) | executado + íntegro | — | — |
++| B3b | QF | `B3b_chirps_4B.js` v0.2 | amostra B | 1984–2025 | 5 CSVs (sessão) | 1899 × 3024 (teste) | executado + íntegro | — | — |
++| **B3c** | QF | `B3c_gpw_4B.js` | amostra B | — | `gpw4B_height_v0.1.csv` | **nenhuma** | **implementado, não executado** | a documentação agrupa B3 como "a rodar" | P2-1 |
++| B3d | QF | `B3d_fogo_mensal_4B.js` v0.2 | Fogo 5.1 mensal e anual | 1985–2025 | `fire4B_monthly_v02.csv` (sessão) | mês no pixel = anual em 100% | executado + íntegro | — | — |
++| B4a | QF | `B4a_reavaliacao_fogo.py` v0.2 | B3b, B3d, B2 | ano de fogo pelo ciclo de chuva; coerência por evento ≥ 0,9; unidades por evento (mês ± 1, ≤ 5 km) | `fire4B_events`, `pilot_4B_sample_reval`, `…summary` v0.1 e v0.2 (GH); `fire4B_rainyear` (não versionado) | v0.1 idêntica na reprodução; v0.2 = v0.1 exceto `fire_unit` | **validado** | ~~unidades pelo fogo anual~~ → corrigido na v0.2 | P1-3 ✔ |
++| B4b | QF | `B4b_metricas_4B.py` v0.2 | B3a, B4a, 06 (A) | referência A = par ≤ 20 km ou mediana da faixa | `metrics4B_point_year` (sessão, 18 MB) | idêntica | **validado** | MOD13Q1 de B sem o filtro D21 (assimetria com A); magnitude depende do tipo de referência | P1-2, P2-3 |
++| B4c | QF | `B4c_trajetorias_fogo.py` v0.2 (referência) | B4b | diferenças em diferenças; bootstrap por unidade | `fire_effect_*` (GH) | idêntica | **validado** | IC ignora a dependência espacial entre unidades vizinhas; amplitude e integral no ciclo do fogo são artefato | P1-2, P1-4 |
++
++## A inconsistência B3 × B4
++
++- **Evidência:**
++    - `docs/piloto_especificacao.md`, linha 72: `| B3 | B3a, B3b, B3c, B3d | … | a rodar |`;
++    - `gee/README.md`: B3a, B3b e B3d "executado", B3c "a rodar";
++    - `docs/execucoes.md`: rodadas de B3a, B3b e B3d e de B4a–B4c registradas.
++- **Diagnóstico:** **não há execução fora de ordem.** O B4 depende só de B3a, B3b e B3d, todos executados e íntegros. O B3c (GPW na amostra B) nunca rodou, e nenhuma etapa o consome. O erro é **documental**: a linha da especificação agrupa quatro scripts num único estado e não foi atualizada.
++- **Ação:** P2-1 ✔ (a especificação agora separa B3a, B3b, B3c e B3d).
++
++## README × documentação técnica × evidências
++
++| Documento | O que diz | O que as evidências mostram |
++| --- | --- | --- |
++| `README.md` | "Status (2026-10-23): … Piloto especificado, não executado"; decisões D01–D11; "Licença: A definir"; a estrutura lista só 00 e 01; o asset de fogo citado é o *accumulated* | piloto executado (partes 1 e 2); decisões até D31 (só na KB); `LICENSE` MIT existe no GH; 40 scripts; a parte 2 usa os assets anual e mensal |
++| `docs/README.md` | resumo de decisões: D04, D08, D10 | desatualizado |
++| `docs/piloto_especificacao.md` | etapas da parte 1 corretas; parte 2 com B3 "a rodar"; tabela de critérios de viabilidade com limiares em branco | ver acima |
++| `gee/README.md` | "Estado (2026-10-24)"; ordem de execução só da parte 1 | estados corretos, cabeçalho e ordem desatualizados |
++| `outputs/README.md` | marcava 8 tabelas como "não versionado" | 4 delas estão no GH (subiram antes da limpeza v0.16.1). **Corrigido:** agora marcadas como "versionado, legado"; `.gitignore` adicionado ao repositório (P2-2 ✔) |
++| `docs/execucoes.md` | 46 rodadas | coluna "Commit" sempre "—"; tempos "a registrar" em várias rodadas |
++| `data/README.md` | só citava as séries da etapa 05 | **Corrigido:** inventário dos 113 arquivos e manifesto SHA-256 (`data/manifest_sha256.txt`); falta conferir com o Drive (P1-7) |
++| KB `03_decisoes.md` | D01–D31 | **Corrigido:** espelhada em `docs/audit/decision_log.md` com estado real (P1-8 ✔) |
++
++## O que não foi possível verificar
++
++- **GEE:** existência, propriedades e data de criação dos assets; reexecução das etapas 00–05b e B1–B3. Seriam necessárias leitura das propriedades dos assets e reexportação.
++- **Drive:** se os CSVs da sessão são os mesmos do Drive. Os SHA-256 da sessão estão registrados; falta compará-los com os do Drive.
++- **Notebooks e protocolo do `cerrado-fire-interval`:** não acessíveis nesta sessão. Só usado como referência de formato.
+diff --git a/docs/audit/technical_validation.md b/docs/audit/technical_validation.md
+new file mode 100644
+index 0000000..45f32b2
+--- /dev/null
++++ b/docs/audit/technical_validation.md
+@@ -0,0 +1,84 @@
++# Validação técnica e reprodutibilidade (Produto C)
++
++Auditoria de 2026-10-27, atualizada depois do item 1 do plano de correção.
++
++## 1. Ambiente da verificação
++
++| Item | Valor |
++| --- | --- |
++| Código | clone do GitHub `barroso2501/stable-unburned`, commit `8e9fc82`, sem modificações |
++| Python | 3.13.17 |
++| Bibliotecas | pandas 3.0.5, numpy 2.5.3, scipy 1.18.1 (= `env/requirements.txt`; a versão do Python não está registrada no repositório) |
++| Dados brutos | 113 CSVs, 854 MB, os da sessão de trabalho (exportados do GEE por Mario); manifesto SHA-256 em `data_series_manifest_sha256.txt`, tamanhos em `data_series_sizes.txt` |
++| Procedimento | cópia limpa do repositório; `outputs/` esvaziado, exceto `pilot_4A_sample_v0.1.csv` (saída do GEE, não do Python); `data/series` apontando para os dados brutos; todos os scripts Python rodados em ordem; saídas comparadas célula a célula com as do GitHub ou, quando ausentes do GitHub, com as da sessão |
++
++## 2. Reexecução completa do Python
++
++Ordem e tempos: `05_qc_series` 5 s · `06_metricas` 121 s · `07` 15 s · `07b` 26 s · `06b` 217 s · `08` 186 s · `09` 51 s · `10` 26 s · `B2_qc_amostra` 1 s · `B4a` 78 s · `B4b` 96 s · `B4c` 12 s. Total ≈ 14 min; todos terminaram com código 0.
++
++**Resultado:** as 46 saídas geradas são **idênticas** às de referência. São 41 comparadas com o GitHub e 5 com a sessão (`fire4B_rainyear`, `metrics4B_point_year`, `threshold_point_year`, `threshold_skill_point` e `pilot_4A_sample`, esta só copiada). Mesma estrutura, diferença numérica máxima 0, mesmo padrão de valores ausentes, texto igual. A semente do bootstrap (42) garante o determinismo.
++
++**Repetição depois das correções (2026-10-27):** `bash tests/audit/reproduce.sh` com o código já corrigido (B4 v0.2) gerou 46 saídas, todas idênticas às versionadas, inclusive as v0.2.
++
++**Limite:** isto valida que **o código do GitHub, aplicado a estes dados brutos, gera estas saídas**. Não valida que os dados brutos sejam os do Drive (falta conferir checksums) nem as etapas do GEE.
++
++## 3. Testes de integridade
++
++Todos com resultado OK.
++
++| Teste | Resultado |
++| --- | --- |
++| A: ids únicos, faixa = ⌊−lat/5⌋+1, pureza 463 m ≥ 90, n por faixa 300/300/300/300/15 | OK |
++| A: séries MCD43A4, MOD13Q1, HLS L30, HLS S30 cobrem exatamente os 1215 pontos, sem ids estranhos | OK |
++| A: duplicatas ponto × data | MODIS 0%; HLS 26–29% (tiles sobrepostos, tratados por mediana) |
++| MOD13Q1: `DayOfYear` válido em todas as observações com QA ≤ 1 | OK |
++| A: CHIRPS com 1872 pêntadas por ponto, todos os pontos | OK |
++| GEDI L2A/L2B: footprints dentro de ±232 m do ponto (o quadrado de agregação) | OK (máx. 232 m) |
++| B: ids únicos, sem colisão com A | OK (1899) |
++| B: assinatura ↔ nº, 1º e último fogo | OK |
++| B: fogo anual no pixel (B3d) = assinatura da população (B1a), 2001–2025 | OK (0 divergências) |
++| B: nenhum fogo anual em 1985–2000 no pixel | OK |
++| B: MCD43A4 e MOD13Q1 cobrem os 999 pontos MODIS; HLS cobre os 1899 | OK |
++| B: CHIRPS com 3024 pêntadas por ponto | OK |
++| metrics A e metrics4B: uma linha por sensor × ponto × ciclo | OK |
++| metrics4B: só pontos mantidos na B4a | OK |
++
++## 4. Diagnósticos de validade (sem alterar resultados)
++
++| Diagnóstico | Resultado | Implicação |
++| --- | --- | --- |
++| Tendência pré-fogo de B − A (inclinação por ponto, ≥ 3 ciclos; 398 unidades) | pico −0,0001/ciclo [−0,0005; 0,0002]; piso −0,0002; sos50 +0,09 d/ciclo [−0,02; 0,17]; amplitude +0,0003 [0,0000; 0,0006] | tendências paralelas plausíveis na janela pré-fogo |
++| Efeito no ciclo do fogo, por tipo de referência A | pico −0,074 (par) × −0,050 (faixa); sos50 +31 d × +41 d | sinal robusto; a magnitude depende da referência → reportar as duas |
++| Efeito no ciclo do fogo: 1º fogo em 2010 × demais anos | pico −0,056 × −0,069; sos50 +39 × +31 d | não é efeito exclusivo de 2010 |
++| Unidades de fogo por evento (ano de fogo + mês, ≤ 5 km) | **com mês exato:** MODIS 419 → 491 (limite superior); **com mês ± 1 (regra adotada na B4a v0.2):** 419 → 423, HLS 832 → 836 | corrigido na v0.2 (P1-3); efeito pequeno nas unidades e nos IC: 52 de 2198 células mudam de significância, casos limítrofes |
++| Limiar de chuva escolhido fora da amostra (anos ímpares → avaliação nos pares) | skill fora da amostra 0,11–0,16 nas faixas 0–20° S; dentro da amostra, 15–20° S 0,21 × 0,135 fora | o resultado do gatilho por chuva se mantém; a magnitude dentro da amostra é otimista |
++| Quadrado geográfico × pixel sinusoidal MODIS (pontos A) | deslocamento de borda: mediana 33 m, p90 52 m, máx. 82 m; área do pixel fora do quadrado: mediana 7,1%, máx. 17,8% | GEDI, GPW e coerência por evento (B3d) agregam numa janela ~7% diferente do pixel MODIS → limitação a declarar ou geometria a corrigir |
++| Composição por tempo de evento | ciclos ≥ 10: 1º fogo entre 2002 e 2014; ciclos ≥ 16: só 2002–2008 | a trajetória longa mistura efeito do tempo com efeito de coorte |
++
++Os scripts estão versionados em `tests/audit/`: `test_integrity.py`, `diagnostics_fire.py`, `diagnostics_threshold.py`, `compare_outputs.py` e `reproduce.sh`.
++
++## 5. Verificações estáticas do código
++
++| Item | Achado |
++| --- | --- |
++| Resolução e projeção | 30 m na grade do asset A ou B (EPSG:4326, transform do asset); pureza por `reduceResolution(mean)` → grade MCD12Q2/MOD13Q1 (sinusoidal), correto. Agregação de GEDI, GPW e B3d no **quadrado geográfico**, não no pixel sinusoidal (ver §4) |
++| IDs | A `P<faixa>_<system:index>`; B `B<classe>_<idx>` (MODIS), `H<classe>_<idx>` (HLS). Únicos e consistentes entre etapas (§3) |
++| Junções | `ee.Join.saveBest` grava a distância na feição anexada → `dist_A_m` vazio no B2; recalculado em `B2_qc_amostra.py` (documentado) |
++| Filtros e máscaras | coerência da B1c usa a assinatura **anual**; substituída pela coerência por evento da B4a, mas o asset da B1c continua com a definição antiga |
++| Tempo | MCD43A4 resumido em janelas de 8 dias a partir de 1º de janeiro (a 46ª janela invade o ano seguinte); a 06 usa uma grade de 8 dias a partir de 1º/jul/2000 → fases diferentes, absorvidas pela mediana por janela e pela interpolação. Efeito pequeno, não quantificado |
++| Valores ausentes | CSVs vazios (só cabeçalho) tornam colunas texto ao concatenar; a B4b converte (corrigido), outros scripts não (não afetou, pois não leem arquivos vazios) |
++| Unidades | MOD13Q1 EVI × 1e-4; HLS reflectância já em 0–1; GPW × 0,1 m; GEDI rh em m (L2A), cover 0–1 |
++| Pseudorreplicação | A: pontos ≥ 926 m, mas 468 com vizinho < 2 km → bootstrap por blocos de 0,5° nas correlações (08, 09, 10); resumos por faixa sem correção (descritivos). B: unidades de fogo (ver §4); dependência entre unidades vizinhas não tratada |
++| Sementes | GEE: `stratifiedSample(seed 42)` — a reprodução exata depende também do asset da população e do `tileScale`; a amostra está preservada como CSV (lon/lat) no GitHub. Python: `default_rng(42)` |
++| Versionamento | assets GEE sem versão (o GEE não versiona); a proveniência fica nas propriedades; `RUN_TAG` nos nomes de arquivo; coluna "Commit" de `docs/execucoes.md` vazia |
++| Testes | nenhum teste no repositório |
++
++## 6. Verificações que dependem do GEE ou do Drive
++
++| Verificação | Por que importa | Procedimento |
++| --- | --- | --- |
++| Script 00 e definição dos assets A e B | base de tudo | Recuperar o script original no Code Editor (histórico do repositório GEE do usuário) e versionar como `gee/00_stable_unburned_lulc.js`; registrar `ee.data.getAsset()` dos dois assets (data de criação, propriedades) |
++| Propriedades dos assets derivados | proveniência | No Code Editor: `print(ee.data.getAsset('<id>'))` para os assets `pilot_4A_*`, `pilot_4B_*` e `stable_*`; salvar a saída em `docs/audit/gee_assets_metadata.md` |
++| Checksums do Drive | os dados brutos da sessão = os do Drive | Calcular SHA-256 dos CSVs no Drive (ou baixar e rodar `sha256sum`) e comparar com `data_series_manifest_sha256.txt` |
++| Acurácia do Fogo 5.1 em A | "nunca queimada" | Proposta (decisão de Mario): extrair o MCD64A1 (MODIS burned area, 500 m, 2001–2025) nos 1215 pontos A e nos pixels MODIS da amostra B; fração de A com queima detectada pelo MCD64A1; concordância de anos em B |
++| Viés de sobrevivência de B | interpretação do efeito do fogo | Proposta (decisão de Mario): no GEE, pixels da classe 4 em 2000 que cumprem os critérios de fogo de B1a, mas não a estabilidade até 2025 → fração que mudou de classe depois do fogo, e para qual classe |
+-- 
+2.43.0
+

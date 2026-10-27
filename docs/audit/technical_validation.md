@@ -1,6 +1,6 @@
 # Validação técnica e reprodutibilidade (Produto C)
 
-Rascunho de auditoria, 2026-10-27.
+Auditoria de 2026-10-27, atualizada depois do item 1 do plano de correção.
 
 ## 1. Ambiente da verificação
 
@@ -9,7 +9,7 @@ Rascunho de auditoria, 2026-10-27.
 | Código | clone do GitHub `barroso2501/stable-unburned`, commit `8e9fc82`, sem modificações |
 | Python | 3.13.17 |
 | Bibliotecas | pandas 3.0.5, numpy 2.5.3, scipy 1.18.1 (= `env/requirements.txt`; a versão do Python não está registrada no repositório) |
-| Dados brutos | 113 CSVs, 854 MB, os da sessão de trabalho (exportados do GEE por Mario); manifesto SHA-256 em `data_series_manifest_sha256.txt`, tamanhos em `data_series_sizes.txt` |
+| Dados brutos | 113 CSVs, 854 MB, os da sessão de trabalho (exportados do GEE por Mario); manifesto SHA-256 em `data/manifest_sha256.txt`, tamanhos em `docs/audit/data_series_sizes.txt` |
 | Procedimento | cópia limpa do repositório; `outputs/` esvaziado, exceto `pilot_4A_sample_v0.1.csv` (saída do GEE, não do Python); `data/series` apontando para os dados brutos; todos os scripts Python rodados em ordem; saídas comparadas célula a célula com as do GitHub ou, quando ausentes do GitHub, com as da sessão |
 
 ## 2. Reexecução completa do Python
@@ -17,6 +17,8 @@ Rascunho de auditoria, 2026-10-27.
 Ordem e tempos: `05_qc_series` 5 s · `06_metricas` 121 s · `07` 15 s · `07b` 26 s · `06b` 217 s · `08` 186 s · `09` 51 s · `10` 26 s · `B2_qc_amostra` 1 s · `B4a` 78 s · `B4b` 96 s · `B4c` 12 s. Total ≈ 14 min; todos terminaram com código 0.
 
 **Resultado:** as 46 saídas geradas são **idênticas** às de referência. São 41 comparadas com o GitHub e 5 com a sessão (`fire4B_rainyear`, `metrics4B_point_year`, `threshold_point_year`, `threshold_skill_point` e `pilot_4A_sample`, esta só copiada). Mesma estrutura, diferença numérica máxima 0, mesmo padrão de valores ausentes, texto igual. A semente do bootstrap (42) garante o determinismo.
+
+**Repetição depois das correções (2026-10-27):** `bash tests/audit/reproduce.sh` com o código já corrigido (B4 v0.2) gerou 46 saídas, todas idênticas às versionadas, inclusive as v0.2.
 
 **Limite:** isto valida que **o código do GitHub, aplicado a estes dados brutos, gera estas saídas**. Não valida que os dados brutos sejam os do Drive (falta conferir checksums) nem as etapas do GEE.
 
@@ -45,15 +47,15 @@ Todos com resultado OK.
 
 | Diagnóstico | Resultado | Implicação |
 | --- | --- | --- |
-| Tendência pré-fogo de B − A (inclinação por ponto, ≥ 3 ciclos; 394 unidades) | pico −0,0001/ciclo [−0,0005; 0,0002]; piso −0,0001; sos50 +0,08 d/ciclo [−0,02; 0,17]; amplitude +0,0003 [0,0000; 0,0007] | tendências paralelas plausíveis na janela pré-fogo |
-| Efeito no ciclo do fogo, por tipo de referência A | pico −0,074 (par) × −0,051 (faixa); sos50 +31 d × +39 d | sinal robusto; a magnitude depende da referência → reportar as duas |
-| Efeito no ciclo do fogo: 1º fogo em 2010 × demais anos | pico −0,058 × −0,069; sos50 +38 × +31 d | não é efeito exclusivo de 2010 |
-| Unidades de fogo refeitas com os eventos mensais (ano de fogo + mês, ≤ 5 km) | MODIS 419 → 491 unidades, 313 pontos mudam de grupo; HLS 832 → 854 | as unidades atuais (fogo anual) agrupam eventos distintos; recalcular e refazer o B4c |
+| Tendência pré-fogo de B − A (inclinação por ponto, ≥ 3 ciclos; 398 unidades) | pico −0,0001/ciclo [−0,0005; 0,0002]; piso −0,0002; sos50 +0,09 d/ciclo [−0,02; 0,17]; amplitude +0,0003 [0,0000; 0,0006] | tendências paralelas plausíveis na janela pré-fogo |
+| Efeito no ciclo do fogo, por tipo de referência A | pico −0,074 (par) × −0,050 (faixa); sos50 +31 d × +41 d | sinal robusto; a magnitude depende da referência → reportar as duas |
+| Efeito no ciclo do fogo: 1º fogo em 2010 × demais anos | pico −0,056 × −0,069; sos50 +39 × +31 d | não é efeito exclusivo de 2010 |
+| Unidades de fogo por evento (ano de fogo + mês, ≤ 5 km) | **com mês exato:** MODIS 419 → 491 (limite superior); **com mês ± 1 (regra adotada na B4a v0.2):** 419 → 423, HLS 832 → 836 | corrigido na v0.2 (P1-3); efeito pequeno nas unidades e nos IC: 52 de 2198 células mudam de significância, casos limítrofes |
 | Limiar de chuva escolhido fora da amostra (anos ímpares → avaliação nos pares) | skill fora da amostra 0,11–0,16 nas faixas 0–20° S; dentro da amostra, 15–20° S 0,21 × 0,135 fora | o resultado do gatilho por chuva se mantém; a magnitude dentro da amostra é otimista |
 | Quadrado geográfico × pixel sinusoidal MODIS (pontos A) | deslocamento de borda: mediana 33 m, p90 52 m, máx. 82 m; área do pixel fora do quadrado: mediana 7,1%, máx. 17,8% | GEDI, GPW e coerência por evento (B3d) agregam numa janela ~7% diferente do pixel MODIS → limitação a declarar ou geometria a corrigir |
 | Composição por tempo de evento | ciclos ≥ 10: 1º fogo entre 2002 e 2014; ciclos ≥ 16: só 2002–2008 | a trajetória longa mistura efeito do tempo com efeito de coorte |
 
-Os scripts dos diagnósticos (`checks1.py`, `checks2.py`, `checks3.py`, `cmp_outputs.py`) estão na área de auditoria da sessão. Proposta: versionar em `tests/audit/` (ver o plano de correção).
+Os scripts estão versionados em `tests/audit/`: `test_integrity.py`, `diagnostics_fire.py`, `diagnostics_threshold.py`, `compare_outputs.py` e `reproduce.sh`.
 
 ## 5. Verificações estáticas do código
 
@@ -77,6 +79,6 @@ Os scripts dos diagnósticos (`checks1.py`, `checks2.py`, `checks3.py`, `cmp_out
 | --- | --- | --- |
 | Script 00 e definição dos assets A e B | base de tudo | Recuperar o script original no Code Editor (histórico do repositório GEE do usuário) e versionar como `gee/00_stable_unburned_lulc.js`; registrar `ee.data.getAsset()` dos dois assets (data de criação, propriedades) |
 | Propriedades dos assets derivados | proveniência | No Code Editor: `print(ee.data.getAsset('<id>'))` para os assets `pilot_4A_*`, `pilot_4B_*` e `stable_*`; salvar a saída em `docs/audit/gee_assets_metadata.md` |
-| Checksums do Drive | os dados brutos da sessão = os do Drive | Calcular SHA-256 dos CSVs no Drive (ou baixar e rodar `sha256sum`) e comparar com `data_series_manifest_sha256.txt` |
+| Checksums do Drive | os dados brutos da sessão = os do Drive | Calcular SHA-256 dos CSVs no Drive (ou baixar e rodar `sha256sum`) e comparar com `data/manifest_sha256.txt` |
 | Acurácia do Fogo 5.1 em A | "nunca queimada" | Proposta (decisão de Mario): extrair o MCD64A1 (MODIS burned area, 500 m, 2001–2025) nos 1215 pontos A e nos pixels MODIS da amostra B; fração de A com queima detectada pelo MCD64A1; concordância de anos em B |
 | Viés de sobrevivência de B | interpretação do efeito do fogo | Proposta (decisão de Mario): no GEE, pixels da classe 4 em 2000 que cumprem os critérios de fogo de B1a, mas não a estabilidade até 2025 → fração que mudou de classe depois do fogo, e para qual classe |

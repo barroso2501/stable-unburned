@@ -18,10 +18,19 @@ O QUE FAZ
      e calcula d_<métrica> = B − A_ref.
 
 ENTRADAS
-  data/series/series4B_*.csv (B3a); outputs/pilot_4B_sample_reval_v0.1.csv, fire4B_events_v0.1.csv (B4a);
+  data/series/series4B_*.csv (B3a); outputs/pilot_4B_sample_reval_v0.2.csv, fire4B_events_v0.2.csv (B4a v0.2);
   outputs/metrics_point_year_v0.1.csv (A, etapa 06)
 SAÍDAS (outputs/)
-  metrics4B_point_year_v0.1.csv   métricas + contexto de fogo + referência A + diferenças (não versionado se > 1 MB)
+  metrics4B_point_year_<TAG>.csv  métricas + contexto de fogo + referência A + diferenças (não versionado: > 1 MB)
+
+RESSALVAS (auditoria 2026-10-27)
+  - MOD13Q1 em B sem o filtro de pureza a 232 m (D21), aplicado em A: assimetria declarada (P2-3);
+    o MOD13Q1 é só checagem.
+  - amplitude e integral são medidas a partir do piso (base_pre): no ciclo do fogo o piso despenca
+    e as duas sobem sem mais verde (P1-4). Para intensidade, usar peak_evi.
+
+HISTÓRICO
+  v0.1 (2026-10-25) entradas B4a v0.1.  v0.2 (2026-10-27) entradas B4a v0.2 (unidades de fogo por evento).
 """
 
 import importlib.util
@@ -36,7 +45,7 @@ _spec = importlib.util.spec_from_file_location("e06", Path(__file__).with_name("
 e06 = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(e06)
 
-TAG = "v0.1"
+TAG = "v0.2"
 PAIR_KM = 20.0
 METRICS = ["base_pre", "peak_evi", "amplitude", "sos20", "sos50", "eos50", "integral", "rise_days", "fall_days"]
 
@@ -51,7 +60,7 @@ def read_num(pattern):
 
 
 def main():
-    s = pd.read_csv(OUT / "pilot_4B_sample_reval_v0.1.csv")
+    s = pd.read_csv(OUT / f"pilot_4B_sample_reval_{TAG}.csv")
     s = s[s.keep == 1]
     keep = set(s.point_id)
     modis_ids = set(s.loc[s.sample_type == "modis", "point_id"])
@@ -66,7 +75,7 @@ def main():
     met = pd.concat([e06.metrics_for_sensor(v, k) for k, v in series.items()], ignore_index=True)
 
     # ---- contexto de fogo por ciclo ----
-    ev = pd.read_csv(OUT / "fire4B_events_v0.1.csv")
+    ev = pd.read_csv(OUT / f"fire4B_events_{TAG}.csv")
     ev = ev[(ev.fire_year > 2000) & ev.point_id.isin(keep)].sort_values(["point_id", "fire_year"])
     fires = {pid: g[["fire_year", "moment"]].drop_duplicates("fire_year").to_numpy() for pid, g in ev.groupby("point_id")}
 

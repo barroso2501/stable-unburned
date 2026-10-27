@@ -69,8 +69,11 @@ Decisões D23–D28 (KB). Pergunta: sob fogo espaçado após exclusão, as métr
 | B1c | `gee/B1c_coerencia_4B.js` | asset `pilot_4B_purity_coherence_mcd500` | executada |
 | B1d | `gee/B1d_contagens_4B.js` | `pilot_4B_candidates_mcd500_v0.1.csv` | executada |
 | B2 | `gee/B2_amostra_4B.js` + `python/B2_qc_amostra.py` | asset e CSV `pilot_4B_sample_v0.1` (MODIS + HLS); pareamento com A e unidades de fogo recalculados em Python | executada |
-| B3 | `gee/B3a_series_4B.js`, `B3b_chirps_4B.js`, `B3c_gpw_4B.js`, `B3d_fogo_mensal_4B.js` | séries, chuva, altura GPW e mês do fogo por ponto | a rodar |
-| B4a | `python/B4a_reavaliacao_fogo.py` | amostra reavaliada com ano de fogo e eventos mensais (D30) | executada |
-| B4b | `python/B4b_metricas_4B.py` | métricas 4-B + contexto de fogo + referência A | executada |
-| B4c | `python/B4c_trajetorias_fogo.py` | efeito do fogo por tempo de evento (diferenças em diferenças, por unidade de fogo) | executada |
+| B3a | `gee/B3a_series_4B.js` | séries MOD13Q1, MCD43A4 (pontos MODIS) e HLS (todos) | executada |
+| B3b | `gee/B3b_chirps_4B.js` v0.2 | CHIRPS 1984–2025 | executada |
+| B3c | `gee/B3c_gpw_4B.js` | altura GPW na amostra B | **implementada, não executada**; nenhuma etapa a usa |
+| B3d | `gee/B3d_fogo_mensal_4B.js` v0.2 | mês do fogo por ponto e ano | executada |
+| B4a | `python/B4a_reavaliacao_fogo.py` | amostra reavaliada com ano de fogo e eventos mensais (D30); v0.2 com unidades de fogo por evento | executada (v0.1, v0.2) |
+| B4b | `python/B4b_metricas_4B.py` | métricas 4-B + contexto de fogo + referência A | executada (v0.1, v0.2) |
+| B4c | `python/B4c_trajetorias_fogo.py` | efeito do fogo por tempo de evento (diferenças em diferenças, por unidade de fogo) | executada (v0.1, v0.2 = referência) |
 

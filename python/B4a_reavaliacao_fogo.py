@@ -31,15 +31,26 @@ COERÊNCIA POR EVENTO (só pontos MODIS; limiar 90% de D29)
   Ano sem fogo no ponto: exige f ≤ 0,10. Ano com fogo no ponto: exige f ≥ 0,90 E que ≥ 90%
   do que queimou esteja num só evento (mesmo mês ± 1).
 
+UNIDADES DE FOGO (v0.2, auditoria 2026-10-27, item P1-3)
+  Pontos do mesmo tipo de amostra ligados (ligação simples) quando estão a ≤ LINK_KM e têm os
+  MESMOS anos de fogo (2001–2025) com meses que diferem no máximo MONTH_TOL em cada ano.
+  Na v0.1 a unidade vinha do B2 (mesma assinatura ANUAL, ≤ 5 km), incoerente com D30: o anual
+  junta eventos de meses diferentes. A unidade antiga é mantida na coluna fire_unit_annual.
+
 ENTRADAS
   data/series/fire4B_monthly_v0*2.csv (B3d), chirps4B_pentad_band*_v0*2.csv (B3b),
   outputs/pilot_4B_sample_v0.1.csv (B2 + pareamento)
-SAÍDAS (outputs/)
-  fire4B_events_v0.1.csv        um evento por linha: ponto, data, ano de fogo, momento, fração no quadrado
-  fire4B_rainyear_v0.1.csv      ciclo de chuva por ponto × ano (onset/demise como datas, 1984–2024)
-  pilot_4B_sample_reval_v0.1.csv  amostra com histórico refeito, estrato novo, coerência por evento,
-                                  keep (1/0) e motivo da exclusão
-  pilot_4B_reval_summary_v0.1.csv  quantos pontos mantêm, mudam de estrato ou saem, por tipo × classe
+SAÍDAS (outputs/; <TAG> = v0.2; as saídas v0.1 continuam no repositório)
+  fire4B_events_<TAG>.csv        um evento por linha: ponto, data, ano de fogo, momento, fração no quadrado
+  fire4B_rainyear_<TAG>.csv      ciclo de chuva por ponto × ano (onset/demise como datas, 1984–2025)
+  pilot_4B_sample_reval_<TAG>.csv  amostra com histórico refeito, estrato novo, coerência por evento,
+                                   keep (1/0), motivo da exclusão, fire_unit (eventos) e fire_unit_annual (B2)
+  pilot_4B_reval_summary_<TAG>.csv  quantos pontos mantêm, mudam de estrato ou saem, por tipo × classe
+
+HISTÓRICO
+  v0.1 (2026-10-25) unidades de fogo do B2 (fogo anual).
+  v0.2 (2026-10-27) unidades de fogo por evento mensal; demais regras inalteradas
+                    (as colunas de histórico e coerência são idênticas às da v0.1).
 """
 
 import glob
@@ -56,12 +67,14 @@ _spec = importlib.util.spec_from_file_location("e07", Path(__file__).with_name("
 e07 = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(e07)
 
-TAG = "v0.1"
+TAG = "v0.2"
 RAIN_YEARS = range(1984, 2025)       # ciclos de chuva com dado completo (CHIRPS desde 1984)
 CLIM_YEARS = range(2000, 2025)       # R̄ igual à etapa 07
 BASE_LAST, FIRST_MIN, LAST_FY = 2000, 2002, 2025
 MAX_FIRES, MIN_INTERVAL = 5, 4
 COH_MIN = 0.90
+LINK_KM = 5.0        # unidades de fogo: distância máxima de ligação (igual ao B2)
+MONTH_TOL = 1        # unidades de fogo: diferença máxima de mês em cada ano de fogo
 
 
 def rain_cycles(c):
@@ -112,6 +125,40 @@ def assign(date, cyc):
     # depois do último fim de chuva conhecido (2025): ano civil, momento pela mediana do ponto
     y = date.year
     return y, "sem_ciclo"
+
+
+def haversine_km(lon1, lat1, lon2, lat2):
+    lon1, lat1, lon2, lat2 = map(np.radians, (lon1, lat1, lon2, lat2))
+    a = np.sin((lat2 - lat1) / 2) ** 2 + np.cos(lat1) * np.cos(lat2) * np.sin((lon2 - lon1) / 2) ** 2
+    return 6371.0 * 2 * np.arcsin(np.sqrt(a))
+
+
+def event_units(o, ev):
+    """Unidades de fogo por evento: mesmos anos de fogo, meses a ≤ MONTH_TOL, ≤ LINK_KM (ligação simples)."""
+    e = ev[(ev.fire_year > BASE_LAST) & (ev.fire_year <= LAST_FY)].sort_values(["point_id", "date"])
+    hist = {pid: dict(zip(g.fire_year, g.month)) for pid, g in e.groupby("point_id")}
+    unit = pd.Series("", index=o.index)
+    o = o.assign(_fys=[";".join(map(str, sorted(hist.get(p, {})))) for p in o.point_id])
+    for (t, fys), g in o.groupby(["sample_type", "_fys"]):
+        idx = g.index.to_numpy()
+        lon, lat = g.lon.to_numpy(), g.lat.to_numpy()
+        months = np.array([[hist.get(p, {}).get(int(y), 0) for y in fys.split(";")] if fys else [] for p in g.point_id])
+        lab = -np.ones(len(g), int)
+        k = 0
+        for i in range(len(g)):
+            if lab[i] >= 0:
+                continue
+            stack, lab[i] = [i], k
+            while stack:
+                j = stack.pop()
+                close = haversine_km(lon[j], lat[j], lon, lat) <= LINK_KM
+                same = np.all(np.abs(months - months[j]) <= MONTH_TOL, axis=1) if months.size else np.ones(len(g), bool)
+                nb = np.flatnonzero((lab < 0) & close & same)
+                lab[nb] = k
+                stack.extend(nb.tolist())
+            k += 1
+        unit.loc[idx] = [f"{t[0]}{fys.replace(';', '-') or 'sem'}_{x}" for x in lab]
+    return unit
 
 
 def main():
@@ -205,6 +252,8 @@ def main():
                     "coherence_event": coh,
                     "keep": int(not reasons), "reason": ";".join(reasons)})
     o = pd.DataFrame(out)
+    o = o.rename(columns={"fire_unit": "fire_unit_annual"})
+    o["fire_unit"] = event_units(o, ev)
     o["stratum_changed"] = ((o.keep == 1) & (o.stratum_fy != o.stratum)).astype(int)
     o.to_csv(OUT / f"pilot_4B_sample_reval_{TAG}.csv", index=False)
     ev.merge(s[["point_id", "sample_type", "lat_band", "stratum"]], on="point_id").to_csv(
