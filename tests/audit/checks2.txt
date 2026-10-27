@@ -1,0 +1,28 @@
+== (a) tendência pré-fogo: inclinação de d_m em event_time<0 por ponto (≥3 ciclos), mediana entre unidades ==
+peak_evi inclinação/ciclo: med -0.0001 IC [-0.0005; 0.0002] n_unid 394
+base_pre inclinação/ciclo: med -0.0001 IC [-0.0004; 0.0001] n_unid 394
+sos50 inclinação/ciclo: med 0.0815 IC [-0.0240; 0.1748] n_unid 394
+amplitude inclinação/ciclo: med 0.0003 IC [-0.0000; 0.0007] n_unid 394
+== (b) efeito em t=0 por tipo de referência A ==
+peak_evi faixa med -0.051 IC [-0.063; -0.034] n_unid 117
+peak_evi par med -0.074 IC [-0.083; -0.066] n_unid 250
+peak_evi 1º fogo 2010 med -0.058 IC [-0.069; -0.035] n_unid 65
+peak_evi outros anos med -0.069 IC [-0.080; -0.062] n_unid 298
+sos50 faixa med 39.493 IC [31.733; 48.435] n_unid 117
+sos50 par med 30.708 IC [23.636; 34.250] n_unid 250
+sos50 1º fogo 2010 med 38.300 IC [34.914; 48.142] n_unid 65
+sos50 outros anos med 30.750 IC [26.104; 34.000] n_unid 298
+== (c) composição por tempo de evento: ano do 1º fogo ==
+             count     min     50%     max
+event_time                                
+(-1, 0]      708.0  2002.0  2010.0  2024.0
+(0, 2]      1624.0  2002.0  2010.0  2023.0
+(2, 5]      2071.0  2002.0  2010.0  2021.0
+(5, 9]      2303.0  2002.0  2010.0  2018.0
+(9, 15]     2050.0  2002.0  2010.0  2014.0
+(15, 30]     484.0  2002.0  2005.0  2008.0
+== (d) unidades de fogo refeitas com eventos mensais (ano de fogo + mês ±1, ≤5 km) ==
+hls unidades antigas 832 novas 854 | pontos cuja unidade mudou de composição: 66
+modis unidades antigas 419 novas 491 | pontos cuja unidade mudou de composição: 313
+== (e) cisalhamento do pixel sinusoidal × quadrado geográfico (pontos A) ==
+desloc. de borda (m): mediana 33, p90 52, máx 82 | área do pixel fora do quadrado: mediana 7.1%, máx 17.8%

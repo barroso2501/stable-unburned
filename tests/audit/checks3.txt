@@ -1,0 +1,6 @@
+ lat_band best_on_odd  skill_even_of_best_odd best_on_even  skill_even_in_sample  skill_even_T75
+        1        T150                   0.162         T150                 0.162           0.044
+        2         T50                   0.113         T150                 0.124           0.118
+        3         T75                   0.131          T75                 0.131           0.131
+        4         T75                   0.135         T100                 0.210           0.135
+        5        T300                  -0.210         T300                -0.210          -0.899

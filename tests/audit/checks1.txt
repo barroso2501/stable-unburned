@@ -1,0 +1,29 @@
+                                            verificação resultado                                            detalhe
+                                          A: ids únicos        OK                                        1215 pontos
+                             A: faixa = floor(-lat/5)+1        OK                                                   
+                                   A: pureza 463 m ≥ 90        OK                                             min 90
+                                         A: n por faixa        OK                           [300, 300, 300, 300, 15]
+                      A séries MCD43A4: pontos cobertos        OK                1215 pontos; ids fora da amostra: 0
+                A séries MCD43A4: duplicatas ponto×data      0.0% HLS esperado (tiles sobrepostos); MODIS deve ser 0
+                      A séries MOD13Q1: pontos cobertos        OK                1215 pontos; ids fora da amostra: 0
+                A séries MOD13Q1: duplicatas ponto×data      0.0% HLS esperado (tiles sobrepostos); MODIS deve ser 0
+                      A séries HLS_L30: pontos cobertos        OK                1215 pontos; ids fora da amostra: 0
+                A séries HLS_L30: duplicatas ponto×data     28.7% HLS esperado (tiles sobrepostos); MODIS deve ser 0
+                      A séries HLS_S30: pontos cobertos        OK                1215 pontos; ids fora da amostra: 0
+                A séries HLS_S30: duplicatas ponto×data     26.4% HLS esperado (tiles sobrepostos); MODIS deve ser 0
+                     MOD13Q1: DayOfYear válido nos QA≤1        OK                                            fora: 0
+        A CHIRPS: 1872 pêntadas/ponto e todos os pontos        OK                                        1215 pontos
+GEDI l2a: footprints dentro do quadrado (±232 m + 25 m)        OK       13200 footprints; máx dlat 232 m, dlon 232 m
+GEDI l2b: footprints dentro do quadrado (±232 m + 25 m)        OK       14084 footprints; máx dlat 232 m, dlon 232 m
+                      B: ids únicos e sem colisão com A        OK                                               1899
+                       B: assinatura ↔ n/1º/último fogo        OK                                                   
+        B: fogo anual no pixel (B3d) = assinatura (B1a)        OK                          divergências ponto-ano: 0
+                   B: sem fogo anual 1985–2000 no pixel        OK                             ponto-anos com fogo: 0
+                     B séries MCD43A4: pontos esperados        OK                               999 de 999; extras 0
+                     B séries MOD13Q1: pontos esperados        OK                               999 de 999; extras 0
+                     B séries HLS_L30: pontos esperados        OK                             1899 de 1899; extras 0
+                     B séries HLS_S30: pontos esperados        OK                             1899 de 1899; extras 0
+                          B CHIRPS: 3024 pêntadas/ponto        OK                                               1899
+            metrics4B: uma linha por sensor×ponto×ciclo        OK                                                   
+                   metrics4B: só pontos mantidos na B4a        OK                                                   
+            metrics A: uma linha por sensor×ponto×ciclo        OK                                                   
